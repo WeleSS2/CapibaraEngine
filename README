@@ -1,0 +1,5 @@
+Basically it's like library with nice wrappers for a lot of things.
+So we it's not and "engine" itself with gui e.t.c
+main.cpp is only for tests, we will compile it and test did everything work correctly only. But we will not build a game itself, we need only to make a tests to check did everything is working correctly!
+Games will be builded using "core" library where will be implemented our engine
+We will use google tests as they are rather popular itself
