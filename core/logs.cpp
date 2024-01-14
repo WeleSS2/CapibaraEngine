@@ -7,7 +7,13 @@
 
 Logs::Logs()
 {
+    
+}
 
+Logs::Logs(std::string subPath)
+    : currentPath{subPath}
+{
+    
 }
 
 const int Logs::SaveLog(type logType, 
@@ -93,7 +99,7 @@ const int Logs::SaveLog(type logType,
     return 0;
 }
 
-const int Logs::SetPath(std::string path)
+const void Logs::SetPath(std::string path)
 {
     currentPath = path;
 }

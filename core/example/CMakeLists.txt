@@ -1,6 +1,8 @@
-add_library(EXAMPLELIB
+set(EXAMPLESET
     example.cpp
 )
+
+add_library(EXAMPLELIB ${EXAMPLESET})
 
 target_link_libraries(EXAMPLELIB PRIVATE SDL2)
 

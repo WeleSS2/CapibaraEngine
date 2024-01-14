@@ -1,6 +1,5 @@
 set (MAINENGINE
-    loopMain.cpp
-    loopAsync.cpp
+    logs.cpp
 )
 
 set(COMPILED_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/../compiled)

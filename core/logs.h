@@ -19,17 +19,17 @@ class Logs{
 public:
 
     // Save log to a file in default path location
-    static const int SaveLog(type logType, 
+    const int SaveLog(type logType, 
                        const std::filesystem::path& file,
                        const char* function,
                        int line,
                        std::string log...);
-
     Logs();
+    Logs(std::string subPath);
 
     // Set subfolder for logs
-    static const int SetPath(std::string path);
+    const void SetPath(std::string path);
 
 private:
-    static std::string currentPath;
+    std::string currentPath;
 };
