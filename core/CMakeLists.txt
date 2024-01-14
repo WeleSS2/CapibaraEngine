@@ -23,3 +23,5 @@ set_target_properties(capiEngine PROPERTIES
 install (TARGETS capiEngine
     DESTINATION ${COMPILED_LIBS}/bin
 )
+
+add_subdirectory(example)
