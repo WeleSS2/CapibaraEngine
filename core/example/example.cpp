@@ -1,5 +1,6 @@
-#include "exmaple.h"
+#include "example.h"
 #include "../logs.h"
+#include "sdl.h"
 
 #ifdef INFO
 #define INFOLOG(format, ...) Log(INFO, format, ...)
