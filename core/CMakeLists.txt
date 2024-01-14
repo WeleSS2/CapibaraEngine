@@ -7,7 +7,7 @@ set(COMPILED_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/../compiled)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
-add_library(capiEngine SHARED ${MAINENGINE})
+add_library(capiEngine SHARED ${MAINENGINE} ${EXAMPLESET})
 
 target_link_libraries(capiEngine PRIVATE SDL2)
 

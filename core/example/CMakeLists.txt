@@ -1,0 +1,3 @@
+set (EXAMPLESET
+    example.cpp
+)
