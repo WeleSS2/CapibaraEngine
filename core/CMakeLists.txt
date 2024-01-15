@@ -1,14 +1,21 @@
-set (MAINENGINE
-    logs.cpp
+add_subdirectory(log)
+add_subdirectory(example)
+
+set(CAPIENGINE
+    engine.cpp
 )
 
 set(COMPILED_LIBS ${CMAKE_CURRENT_SOURCE_DIR}/../compiled)
 
 include_directories(${CMAKE_SOURCE_DIR})
 
-add_library(capiEngine SHARED ${MAINENGINE} ${EXAMPLESET})
+add_library(capiEngine SHARED ${CAPIENGINE})
 
-target_link_libraries(capiEngine PRIVATE SDL2)
+target_link_libraries(capiEngine PRIVATE 
+    SDL2 
+    CE_LOGSLIB 
+    EXAMPLELIB
+)
 
 set_target_properties(capiEngine PROPERTIES 
     LIBRARY_OUTPUT_DIRECTORY ${COMPILED_LIBS}
@@ -22,5 +29,3 @@ set_target_properties(capiEngine PROPERTIES
 install (TARGETS capiEngine
     DESTINATION ${COMPILED_LIBS}/bin
 )
-
-add_subdirectory(example)

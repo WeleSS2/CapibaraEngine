@@ -1,5 +1,5 @@
 #include "example.h"
-#include "../logs.h"
+#include "logs.h"
 #include "sdl.h"
 
 #ifdef INFO
