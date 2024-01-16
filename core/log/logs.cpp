@@ -5,13 +5,9 @@
 #include <stdio.h>
 #include <cstdlib>
 
-Logs::Logs()
-{
-    
-}
+#define DEBUGLOG
 
-Logs::Logs(std::string subPath)
-    : currentPath{subPath}
+Logs::Logs()
 {
     
 }
@@ -22,17 +18,21 @@ const int Logs::SaveLog(type logType,
                   int line,
                   std::string log...)
 {
+    #ifdef DEBUGLOG
+    std::cout << "Input \n";
+    #endif
+
     std::string logInfo;
 
     switch (logType)
     {
-        case INFO:
+        case eINFO:
             logInfo = "INFO";
             break;
-        case WARNING:
+        case eWARNING:
             logInfo = "WARNING";
             break;
-        case ERROR:
+        case eERROR:
             logInfo = "ERROR";
             break;
     };
@@ -53,10 +53,14 @@ const int Logs::SaveLog(type logType,
         return 0;
     }
 
-    std::string defPath = std::string(APPDATA_DIR()) + "/CapibaraStudio/Logs" + currentPath;
+    std::string defPath = std::string(APPDATA_DIR()) + "/CapibaraStudio/Logs";
 #else
-    std::string defPath = "/var/log/CapibaraStudio/Logs" + currentPath;
+    std::string defPath = "/var/log/CapibaraStudio/Logs";
 #endif
+
+    #ifdef DEBUGLOG
+    std::cout << "Test path: " << defPath << "\n";
+    #endif
 
     if(!sf::exists(sf::path(defPath)))
     {
@@ -79,6 +83,21 @@ const int Logs::SaveLog(type logType,
 
     if(out.is_open())
     {
+        #ifdef DEBUGLOG
+        std::cout << logInfo
+            << " | "
+            << "File: "
+            << file
+            << " | "
+            << "Function: "
+            << function
+            << " | "
+            << "Line: "
+            << line
+            << " | "
+            << buffer
+            << std::endl;
+        #endif
         out << logInfo
             << " | "
             << "File: "
@@ -97,9 +116,4 @@ const int Logs::SaveLog(type logType,
     out.close();
 
     return 0;
-}
-
-const void Logs::SetPath(std::string path)
-{
-    currentPath = path;
 }

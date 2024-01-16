@@ -1,33 +1,34 @@
 #include "example.h"
 #include "logs.h"
-#include "sdl.h"
 
-#ifdef INFO
-#define INFOLOG(format, ...) Log(INFO, format, ...)
-#else
+#define INFO
+
+#ifndef INFO
+#undef INFOLOG
 #define INFOLOG(format, ...) (void())
 #endif
 
-#ifdef WARN
-#define WARNLOG(format, ...) Log(WARNING, format, ...)
-#else
+#ifndef WARN
+#undef WARNLOG
 #define WARNLOG(format, ...) (void())
 #endif
 
-#ifdef ERROR
-#define ERRORLOG(format, ...) Log(ERROR, format, ...)
-#else
+#ifndef ERROR
+#undef ERRORLOG
 #define ERRORLOG(format, ...) (void())
 #endif
 
 
 int didEqual(int a, int b)
 {
-    INFOLOG("->");
-    if (a == b)
-    {
-        return 1;
-    }
-    else
+    std::cout << "Huh AAAA\n";
+
+    INFOLOG("Test\n");
+
         return 0;
+}
+
+std::string working()
+{
+    return "Assad";
 }

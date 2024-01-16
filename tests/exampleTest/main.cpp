@@ -3,5 +3,5 @@
 
 int main()
 {
-    std::cout << "Working here " << didEqual(10, 10) << "\n";
+    std::cout << "Working here ASD " << didEqual(10, 10) << "  " << working() << " \n";
 }

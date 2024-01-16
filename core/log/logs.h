@@ -7,29 +7,28 @@
 #define APPDATA_DIR() ""
 #endif
 
-#define Log(inType, format, ...) Logs::SaveLog(inType, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+#define INFOLOG(format, ...) Logs::SaveLog(eINFO, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+
+#define WARNLOG(format, ...) Logs::SaveLog(eWARNING, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+
+#define ERRORLOG(format, ...) Logs::SaveLog(eERROR, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
 
 enum type{
-    INFO,
-    WARNING,
-    ERROR
+    eINFO,
+    eWARNING,
+    eERROR
 };
 
 class Logs{
 public:
 
     // Save log to a file in default path location
-    const int SaveLog(type logType, 
+    static const int SaveLog(type logType, 
                        const std::filesystem::path& file,
                        const char* function,
                        int line,
                        std::string log...);
     Logs();
-    Logs(std::string subPath);
-
-    // Set subfolder for logs
-    const void SetPath(std::string path);
-
 private:
     std::string currentPath;
 };

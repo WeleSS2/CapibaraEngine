@@ -4,7 +4,7 @@ set(EXAMPLESET
 
 add_library(EXAMPLELIB ${EXAMPLESET})
 
-target_link_libraries(EXAMPLELIB PRIVATE 
+target_link_libraries(EXAMPLELIB PRIVATE
     SDL2
     CE_LOGSLIB
 )
