@@ -1,5 +1,6 @@
 #include "example.h"
 #include "logs.h"
+#include "SDL.h"
 
 #define INFO
 
@@ -25,7 +26,7 @@ int didEqual(int a, int b)
 
     INFOLOG("Test\n");
 
-        return 0;
+    return 0;
 }
 
 std::string working()

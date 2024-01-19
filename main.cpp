@@ -48,7 +48,7 @@ int main(int argc, char **argv)
     SDL_RenderPresent(renderer);
 
     // Wait for a few seconds
-    SDL_Delay(2000);
+    SDL_Delay(20000);
 
     // Destroy window and renderer
     SDL_DestroyRenderer(renderer);

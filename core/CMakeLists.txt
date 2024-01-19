@@ -1,7 +1,9 @@
 add_subdirectory(log)
+add_subdirectory(threadpool)
 add_subdirectory(example)
 
 set(CAPIENGINE
+    engine.h
     engine.cpp
 )
 
@@ -11,8 +13,8 @@ add_library(capiEngine SHARED ${CAPIENGINE})
 
 target_link_libraries(capiEngine PRIVATE 
     SDL2 
-    CE_LOGSLIB 
-    EXAMPLELIB
+    CE_LOGSLIB
+    BSTP_LIB 
 )
 
 set_target_properties(capiEngine PROPERTIES 

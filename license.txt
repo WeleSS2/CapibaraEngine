@@ -1,0 +1,7 @@
+This engine is publiced under components licenses.
+If anyone will use this in the future he need to adopt to these licenses.
+
+As builded from components and with own work please be aware about origins of this software.
+
+1. SDL2 zlib license
+2. BSTP MIT license
