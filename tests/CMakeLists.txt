@@ -1,1 +1,6 @@
-add_subdirectory(exampleTest)
+file(GLOB_RECURSE SUBDIRS "*/CMakeLists.txt")
+
+foreach(subdir IN LISTS SUBDIRS)
+    get_filename_component(subdir_name ${subdir} DIRECTORY)
+    add_subdirectory(${subdir_name})
+endforeach()

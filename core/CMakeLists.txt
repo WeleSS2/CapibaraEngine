@@ -1,7 +1,9 @@
-add_subdirectory(log)
-add_subdirectory(designpatterns)
-add_subdirectory(threadpool)
-add_subdirectory(example)
+file(GLOB_RECURSE SUBDIRS "*/CMakeLists.txt")
+
+foreach(subdir IN LISTS SUBDIRS)
+    get_filename_component(subdir_name ${subdir} DIRECTORY)
+    add_subdirectory(${subdir_name})
+endforeach()
 
 set(CAPIENGINE
     engine.cpp
