@@ -1,5 +1,5 @@
 #include "example.hpp"
-#include "logs.h"
+#include "logs.hpp"
 #include "SDL.h"
 
 #define INFO

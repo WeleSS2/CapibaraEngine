@@ -17,12 +17,12 @@ add_executable(Testing
 )
 
 target_link_libraries(Testing PRIVATE 
-    SDL2all
+    CE_main
 )
 
 set(OUTPUT
     Testing
-    SDL2all
+    CE_main
 )
 
 set_target_properties(${OUTPUT} PROPERTIES

@@ -1,4 +1,4 @@
-#include "logs.h"
+#include "logs.hpp"
 
 #include <fstream>
 #include <cstdarg>
