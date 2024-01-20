@@ -1,5 +1,5 @@
 add_subdirectory(log)
-add_subdirectory(designpatt)
+add_subdirectory(designpatterns)
 add_subdirectory(threadpool)
 add_subdirectory(example)
 
