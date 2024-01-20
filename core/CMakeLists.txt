@@ -10,9 +10,9 @@ set(CAPIENGINE
 
 include_directories(${CMAKE_SOURCE_DIR})
 
-add_library(CE_main INTERFACE ${CAPIENGINE})
+add_library(CE_main SHARED ${CAPIENGINE})
 
-target_link_libraries(CE_main INTERFACE 
+target_link_libraries(CE_main PUBLIC 
     SDL2all 
     CE_logslib
     CE_patterns

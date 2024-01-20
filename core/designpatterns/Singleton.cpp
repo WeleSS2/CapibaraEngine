@@ -1,40 +1,19 @@
-#pragma once
-#include <iostream>
-#include <mutex>
+#include "Singleton.hpp"
 
-namespace CEngine {
-    namespace DPatterns {
-        
-        template <typename T>
-        class Singleton
-        {
-        public:
-            static T* getInstance()
-            {
-                std::call_once(onceFlag_, []()
-                { 
-                    instance_ = new T(); 
-                } 
-                );
+template <typename T>
+static T* CEngine::DPatterns::Singleton<T>::getInstance()
+{
+    std::call_once(onceFlag_, []()
+    { 
+        instance_ = new T(); 
+    } 
+    );
+    
+    return instance_;
+};
 
-                return instance_;
-            }
+template <typename T>
+T* CEngine::DPatterns::Singleton<T>::instance_ = nullptr;
 
-        protected:
-            Singleton() {}
-
-        private:
-            static T* instance_;
-            static std::once_flag onceFlag_;
-
-            Singleton(const Singleton&) = delete;
-            Singleton& operator=(const Singleton&) = delete;
-        };
-
-        template <typename T>
-        T* Singleton<T>::instance_ = nullptr;
-
-        template <typename T>
-        std::once_flag Singleton<T>::onceFlag_;
-    }
-}
+template <typename T>
+std::once_flag CEngine::DPatterns::Singleton<T>::onceFlag_;

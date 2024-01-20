@@ -10,8 +10,13 @@
 #include "SDL.h" // Not sure about that
 #endif
 
+#include "Singleton.hpp"
+#include "logs.hpp"
+
 int main(int argc, char *argv[])
 {
+    ERRORLOG("ERRORLOG!!!");
+    
     SDL_Rect aaa;
     
     std::cout << "Hello team!" << std::endl;
