@@ -16,11 +16,13 @@ add_executable(Testing
     main.cpp
 )
 
-target_link_libraries(Testing PRIVATE SDL2)
+target_link_libraries(Testing PRIVATE 
+    SDL2all
+)
 
 set(OUTPUT
     Testing
-    SDL2
+    SDL2all
 )
 
 set_target_properties(${OUTPUT} PROPERTIES

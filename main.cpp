@@ -3,15 +3,14 @@
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
 #include "SDL.h"
+#include "SDL_main.h"
 #elif __APPLE__
 #include <SDL2/SDL.h>
 #elif __unix__
 #include "SDL.h" // Not sure about that
 #endif
 
-#undef main
-
-int main(int argc, char **argv)
+int main(int argc, char *argv[])
 {
     SDL_Rect aaa;
     
