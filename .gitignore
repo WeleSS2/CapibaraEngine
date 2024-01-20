@@ -1,3 +1,4 @@
 build/*
 out/*
+include/SDL/*
 settings.json

@@ -4,9 +4,9 @@ set(EXAMPLESET
 
 add_library(EXAMPLELIB ${EXAMPLESET})
 
-target_link_libraries(EXAMPLELIB PRIVATE
-    SDL2
-    CE_LOGSLIB
+target_link_libraries(EXAMPLELIB PUBLIC
+    SDL2all
+    CE_logslib
 )
 
 target_include_directories(EXAMPLELIB PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

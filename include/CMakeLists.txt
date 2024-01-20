@@ -30,3 +30,10 @@ if(NOT SDL2_POPULATED)
     add_subdirectory(${sdl2_SOURCE_DIR} ${sdl2_BINARY_DIR})
     FetchContent_MakeAvailable(SDL2)
 endif()
+
+add_library(SDL2all INTERFACE)
+
+target_link_libraries(SDL2all INTERFACE
+    SDL2
+    SDL2main
+)

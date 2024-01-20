@@ -3,24 +3,22 @@ add_subdirectory(threadpool)
 add_subdirectory(example)
 
 set(CAPIENGINE
-    engine.h
     engine.cpp
+    engine.hpp
 )
 
 include_directories(${CMAKE_SOURCE_DIR})
 
-add_library(capiEngine SHARED ${CAPIENGINE})
+add_library(capiEngine INTERFACE ${CAPIENGINE})
 
-target_link_libraries(capiEngine PRIVATE 
-    SDL2 
-    CE_LOGSLIB
-    BSTP_LIB 
+target_link_libraries(capiEngine INTERFACE 
+    SDL2all 
+    CE_logslib
+    EXAMPLELIB
 )
 
 set_target_properties(capiEngine PROPERTIES 
-    LIBRARY_OUTPUT_DIRECTORY ${COMPILED_LIBS}
-    RUNTIME_OUTPUT_DIRECTORY ${COMPILED_LIBS}
-    OUTPUT_NAME capiEngine
+    RUNTIME_OUTPUT_DIRECTORY ${MAIN_OUTPUT_DIRECTORY}
 )
 
 install (TARGETS capiEngine
