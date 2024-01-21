@@ -18,22 +18,34 @@
 
 include(FetchContent)
 
-FetchContent_Declare(SDL2
+FetchContent_Declare(SDL
     GIT_REPOSITORY https://github.com/libsdl-org/SDL
     GIT_TAG        release-2.28.5
 )
 
-FetchContent_GetProperties(SDL2)
+FetchContent_Declare(SDL_ttf
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf
+    GIT_TAG        release-2.22.0
+)
 
-if(NOT SDL2_POPULATED)
-    FetchContent_Populate(SDL2)
-    add_subdirectory(${sdl2_SOURCE_DIR} ${sdl2_BINARY_DIR})
-    FetchContent_MakeAvailable(SDL2)
-endif()
+FetchContent_Declare(SDL_image
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image
+    GIT_TAG        release-2.8.2
+)
 
-add_library(SDL2all INTERFACE)
+FetchContent_Declare(SDL_mixer
+    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
+    GIT_TAG        release-2.8.0
+)
 
-target_link_libraries(SDL2all INTERFACE
+FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
+
+add_library(SDLall INTERFACE)
+
+target_link_libraries(SDLall INTERFACE
     SDL2
     SDL2main
+    SDL2_image
+    SDL2_mixer
+    SDL2_ttf
 )

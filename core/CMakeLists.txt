@@ -15,7 +15,7 @@ include_directories(${CMAKE_SOURCE_DIR})
 add_library(CE_main SHARED ${CAPIENGINE})
 
 target_link_libraries(CE_main PUBLIC 
-    SDL2all 
+    SDLall 
     CE_logslib
     CE_patterns
     EXAMPLELIB

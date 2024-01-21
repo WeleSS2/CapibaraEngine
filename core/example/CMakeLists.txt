@@ -5,7 +5,7 @@ set(EXAMPLESET
 add_library(EXAMPLELIB ${EXAMPLESET})
 
 target_link_libraries(EXAMPLELIB PUBLIC
-    SDL2all
+    SDLall
     CE_logslib
 )
 

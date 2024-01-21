@@ -4,7 +4,6 @@
 namespace CEngine {
     class Engine : public CEngine::DPatterns::Singleton<Engine> {
     public:
-        Engine() {};
         Engine(SDL_Renderer* _renderer, SDL_Window* _window)
         : renderer_{_renderer}, window_{_window} {};
 
