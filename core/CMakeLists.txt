@@ -16,8 +16,9 @@ add_library(CE_main SHARED ${CAPIENGINE})
 
 target_link_libraries(CE_main PUBLIC 
     SDLall 
-    CE_logslib
-    CE_patterns
+    CE_logsLIB
+    CE_patternsLIB
+    CE_renderLIB
     EXAMPLELIB
 )
 

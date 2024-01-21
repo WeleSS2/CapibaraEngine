@@ -1,5 +1,11 @@
+#include <memory.h>
+#include <vector>
+
 #include "SDL.h"
+
 #include "Singleton.hpp"
+#include "Multistructs.hpp"
+#include "renderObject.hpp"
 
 namespace CEngine {
     class Engine : public CEngine::DPatterns::Singleton<Engine> {
@@ -23,8 +29,17 @@ namespace CEngine {
         };
 
     private:
+
+        void startMainLoop();
+
+        void rerender();
+
         SDL_Renderer* renderer_ = NULL;
 
         SDL_Window* window_ = NULL;
+
+        std::vector<std::unique_ptr<RenderObject>> freeObjects_;
+
+
     };
 }

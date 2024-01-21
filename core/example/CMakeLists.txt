@@ -6,7 +6,7 @@ add_library(EXAMPLELIB ${EXAMPLESET})
 
 target_link_libraries(EXAMPLELIB PUBLIC
     SDLall
-    CE_logslib
+    CE_logsLIB
 )
 
 target_include_directories(EXAMPLELIB PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
