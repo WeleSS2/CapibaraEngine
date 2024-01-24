@@ -1,6 +1,7 @@
 set(CE_render
     renderObject.cpp
     scene.cpp
+    renderManager.cpp
 )
 
 add_library(CE_renderLIB ${CE_render})
