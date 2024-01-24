@@ -19,6 +19,6 @@ namespace CEngine {
 
         void rerender();
 
-        std::make_unique<RenderManager> renderManager_;
+        RenderManager renderManager_;
     };
 }

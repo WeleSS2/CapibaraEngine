@@ -12,8 +12,6 @@ namespace CEngine {
         RenderManager(SDL_Renderer* _renderer, SDL_Window* _window)
         : renderer_{_renderer}, window_{_window} {};
 
-        const void render() override {};
-
         SDL_Renderer* getRenderer()
         {
             return renderer_;
