@@ -38,9 +38,25 @@ FetchContent_Declare(SDL_mixer
     GIT_TAG        release-2.8.0
 )
 
+#FetchContent_Declare(spdlog
+#    GIT_REPOSITORY https://github.com/gabime/spdlog
+#    GIT_TAG        v1.13.0
+#)
+#
+#FetchContent_Declare(Nova_Physics
+#    GIT_REPOSITORY https://github.com/kadir014/nova-physics
+#    GIT_TAG        0.7.0
+#)
+
 FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
+#FetchContent_MakeAvailable(spdlog)
+#FetchContent_MakeAvailable(Nova_Physics)
 
 add_library(SDLall INTERFACE)
+
+#add_library(SPDLogs INTERFACE)
+#
+#add_library(NOVAPhys INTERFACE)
 
 target_link_libraries(SDLall INTERFACE
     SDL2
@@ -49,3 +65,15 @@ target_link_libraries(SDLall INTERFACE
     SDL2_mixer
     SDL2_ttf
 )
+
+set_target_properties(SDLall PROPERTIES
+    RUNTIME_OUTPUT_DIRECTORY ${MAIN_OUTPUT_DIRECTORY}
+)
+
+#target_link_libraries(SPDLogs INTERFACE
+#    spdlog
+#)
+#
+#target_link_libraries(NOVAPhys INTERFACE
+#    Nova_Physics
+#)

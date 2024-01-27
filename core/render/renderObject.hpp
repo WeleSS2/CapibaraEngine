@@ -6,7 +6,7 @@ namespace CEngine {
     class RenderObject
     {
     protected:
-        RenderObject(V3u16 _id) : id_{_id} {};
+        RenderObject(V3u16 _id) : id_{_id} { };
         RenderObject() = delete;
 
         virtual const void render() = 0;
