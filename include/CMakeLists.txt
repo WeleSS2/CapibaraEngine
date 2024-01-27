@@ -66,10 +66,6 @@ target_link_libraries(SDLall INTERFACE
     SDL2_ttf
 )
 
-set_target_properties(SDLall PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${MAIN_OUTPUT_DIRECTORY}
-)
-
 #target_link_libraries(SPDLogs INTERFACE
 #    spdlog
 #)
@@ -77,3 +73,8 @@ set_target_properties(SDLall PROPERTIES
 #target_link_libraries(NOVAPhys INTERFACE
 #    Nova_Physics
 #)
+
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_image-build/Debug/SDL2_imaged.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_mixer-build/Debug/SDL2_mixerd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_ttf-build/Debug/SDL2_ttfd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl-build/Debug/SDL2d.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
