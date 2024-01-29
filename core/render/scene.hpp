@@ -3,8 +3,9 @@
 #include "renderObject.hpp"
 #include <vector>
 #include <memory>
+
 namespace CEngine {
-    class Scene : public RenderObject 
+    class Scene : public RenderObject
     {
     protected:
         Scene(V3u16 _id) : RenderObject{_id} {};

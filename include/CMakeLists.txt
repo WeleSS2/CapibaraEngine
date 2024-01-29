@@ -38,10 +38,10 @@ FetchContent_Declare(SDL_mixer
     GIT_TAG        release-2.8.0
 )
 
-#FetchContent_Declare(spdlog
-#    GIT_REPOSITORY https://github.com/gabime/spdlog
-#    GIT_TAG        v1.13.0
-#)
+FetchContent_Declare(spdlog
+    GIT_REPOSITORY https://github.com/gabime/spdlog
+    GIT_TAG        v1.13.0
+)
 #
 #FetchContent_Declare(Nova_Physics
 #    GIT_REPOSITORY https://github.com/kadir014/nova-physics
@@ -49,12 +49,12 @@ FetchContent_Declare(SDL_mixer
 #)
 
 FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
-#FetchContent_MakeAvailable(spdlog)
+FetchContent_MakeAvailable(spdlog)
 #FetchContent_MakeAvailable(Nova_Physics)
 
 add_library(SDLall INTERFACE)
 
-#add_library(SPDLogs INTERFACE)
+add_library(SPDLogs INTERFACE)
 #
 #add_library(NOVAPhys INTERFACE)
 
@@ -66,9 +66,9 @@ target_link_libraries(SDLall INTERFACE
     SDL2_ttf
 )
 
-#target_link_libraries(SPDLogs INTERFACE
-#    spdlog
-#)
+target_link_libraries(SPDLogs INTERFACE
+    spdlog
+)
 #
 #target_link_libraries(NOVAPhys INTERFACE
 #    Nova_Physics
@@ -78,3 +78,4 @@ file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_image-build/Debug/SDL2_
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_mixer-build/Debug/SDL2_mixerd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_ttf-build/Debug/SDL2_ttfd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl-build/Debug/SDL2d.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
+file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/spdlog-build/Debug/spdlogd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)

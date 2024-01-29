@@ -1,18 +1,17 @@
 #pragma once
 
-#include "multistructs.hpp"
+#include "object.hpp"
 
 namespace CEngine {
-    class RenderObject
+    class RenderObject : public Object
     {
-    protected:
-        RenderObject(V3u16 _id) : id_{_id} { };
+    public:
+        RenderObject(V3u16 _id) : Object{_id} { };
+        
         RenderObject() = delete;
-
+        
+    protected:
         virtual const void render() = 0;
 
-        virtual const V3u16 *getID() { return &id_; };
-    private:
-        V3u16 id_{0, 0, 0};
     };
 }

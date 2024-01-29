@@ -7,11 +7,13 @@ add_library(EXAMPLELIBs STATIC ${EXAMPLESET})
 
 target_link_libraries(EXAMPLELIB PUBLIC
     SDLall
+    SPDLogs
     CE_logsLIB
 )
 
 target_link_libraries(EXAMPLELIBs PUBLIC
     SDLall
+    SPDLogs
     CE_logsLIB
 )
 

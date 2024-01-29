@@ -10,12 +10,14 @@ add_library(CE_renderLIBs STATIC ${CE_render})
 target_link_libraries(CE_renderLIB PUBLIC
     SDLall
     CE_logsLIB
+    CE_entityBLIB
     CE_patternsLIB
 )
 
 target_link_libraries(CE_renderLIBs PUBLIC
     SDLall
     CE_logsLIB
+    CE_entityBLIB
     CE_patternsLIB
 )
 
