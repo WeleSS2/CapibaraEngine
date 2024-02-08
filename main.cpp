@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
     
     SDL_Rect aaa;
     
+    //Pozdrawiam Jacoba :*
     std::cout << "Hello team!" << std::endl;
     printf("Do not limit youself, seek for all possible solutions! \n");
     
