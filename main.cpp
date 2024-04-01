@@ -10,6 +10,8 @@
 #include "SDL.h" // Not sure about that
 #endif
 
+#define raylib
+
 #include "Singleton.hpp"
 #include "logs.hpp"
 #include "filler.hpp"
@@ -25,6 +27,45 @@ int main(int argc, char *argv[])
 {
     test();
 
+    #ifdef raylib
+    // Initialize window
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+    InitWindow(screenWidth, screenHeight, "Move Rectangle with WASD");
+
+    // Set up rectangle properties
+    Rectangle rec = { screenWidth / 2 - 50, screenHeight / 2 - 50, 100, 100 };
+    Color recColor = BLACK;
+
+    SetTargetFPS(60); // Set the desired frame rate
+
+    // Main game loop
+    while (!WindowShouldClose()) // Detect window close button or ESC key
+    {
+        // Update
+        if (IsKeyDown(KEY_W))
+            rec.y -= 5;
+        if (IsKeyDown(KEY_S))
+            rec.y += 5;
+        if (IsKeyDown(KEY_A))
+            rec.x -= 5;
+        if (IsKeyDown(KEY_D))
+            rec.x += 5;
+
+        // Draw
+        BeginDrawing();
+        ClearBackground(RAYWHITE);
+
+        DrawRectangleRec(rec, recColor);
+
+        EndDrawing();
+    }
+
+    // De-Initialization
+    CloseWindow(); // Close window and OpenGL context
+    
+    #else
+    
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Event event;
@@ -90,6 +131,8 @@ int main(int argc, char *argv[])
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+    
+    #endif
 
     return 0;
 }
