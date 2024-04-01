@@ -13,6 +13,7 @@
 #include "Singleton.hpp"
 #include "logs.hpp"
 #include "filler.hpp"
+#include "raylib.h"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;

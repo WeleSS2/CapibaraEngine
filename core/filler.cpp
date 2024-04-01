@@ -1,7 +1,6 @@
 #include "filler.hpp"
 #include "flecs.h"
 
-
 void test()
 {
     flecs::world testWorld;

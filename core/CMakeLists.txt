@@ -17,11 +17,13 @@ target_include_directories(CE_main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(CE_mains PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(CE_main PUBLIC 
+    Raylib
     Flecs
     CE_renderLIB
 )
 
 target_link_libraries(CE_mains PUBLIC
+    Raylib
     Flecs
     CE_renderLIB
 )
