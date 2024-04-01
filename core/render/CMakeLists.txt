@@ -1,5 +1,5 @@
 set(CE_render
-    filler.cpp
+    render.cpp
 )
 
 add_library(CE_renderLIB SHARED ${CE_render})

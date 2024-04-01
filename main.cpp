@@ -12,6 +12,7 @@
 
 #include "Singleton.hpp"
 #include "logs.hpp"
+#include "filler.hpp"
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -21,6 +22,8 @@ const int MOVE_AMOUNT = 10;
 
 int main(int argc, char *argv[])
 {
+    test();
+
     SDL_Window* window = nullptr;
     SDL_Renderer* renderer = nullptr;
     SDL_Event event;

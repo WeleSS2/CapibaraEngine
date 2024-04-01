@@ -42,6 +42,11 @@ FetchContent_Declare(spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog
     GIT_TAG        v1.13.0
 )
+
+FetchContent_Declare(flecs
+    GIT_REPOSITORY https://github.com/SanderMertens/flecs
+    GIT_TAG        v3.2.11
+)
 #
 #FetchContent_Declare(Nova_Physics
 #    GIT_REPOSITORY https://github.com/kadir014/nova-physics
@@ -50,11 +55,14 @@ FetchContent_Declare(spdlog
 
 FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
 FetchContent_MakeAvailable(spdlog)
+FetchContent_MakeAvailable(flecs)
 #FetchContent_MakeAvailable(Nova_Physics)
 
 add_library(SDLall INTERFACE)
 
 add_library(SPDLogs INTERFACE)
+
+add_library(Flecs INTERFACE)
 #
 #add_library(NOVAPhys INTERFACE)
 
@@ -68,6 +76,10 @@ target_link_libraries(SDLall INTERFACE
 
 target_link_libraries(SPDLogs INTERFACE
     spdlog
+)
+
+target_link_libraries(Flecs INTERFACE
+    flecs::flecs_static
 )
 #
 #target_link_libraries(NOVAPhys INTERFACE
