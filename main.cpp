@@ -54,23 +54,27 @@ int main(int argc, char *argv[])
             if (event.type == SDL_QUIT) {
                 quit = true;
             }
-            else if (event.type == SDL_KEYDOWN) {
-                switch (event.key.keysym.sym) {
-                    case SDLK_w:
-                        rect.y -= MOVE_AMOUNT;
-                        break;
-                    case SDLK_s:
-                        rect.y += MOVE_AMOUNT;
-                        break;
-                    case SDLK_a:
-                        rect.x -= MOVE_AMOUNT;
-                        break;
-                    case SDLK_d:
-                        rect.x += MOVE_AMOUNT;
-                        break;
-                    default:
-                        break;
-                }
+
+            const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
+
+            if( currentKeyStates[ SDL_SCANCODE_W ] )
+            {
+                rect.y -= MOVE_AMOUNT;
+            }
+            
+            if( currentKeyStates[ SDL_SCANCODE_S ] )
+            {
+                rect.y += MOVE_AMOUNT;
+            }
+
+            if( currentKeyStates[ SDL_SCANCODE_A ] )
+            {
+                rect.x -= MOVE_AMOUNT;
+            }
+
+            if( currentKeyStates[ SDL_SCANCODE_D ] )
+            {
+                rect.x += MOVE_AMOUNT;
             }
         }
 
