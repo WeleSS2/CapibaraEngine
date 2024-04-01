@@ -5,7 +5,7 @@ add_executable(TestExample
 target_include_directories(TestExample PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(TestExample PUBLIC 
-    EXAMPLELIB
+    CE_main
 )
 
 set_target_properties(TestExample PROPERTIES

@@ -13,53 +13,74 @@
 #include "Singleton.hpp"
 #include "logs.hpp"
 
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+const int RECT_WIDTH = 50;
+const int RECT_HEIGHT = 50;
+const int MOVE_AMOUNT = 10;
+
 int main(int argc, char *argv[])
 {
-    ERRORLOG("ERRORLOG!!!");
-    
-    SDL_Rect aaa;
-    
-    //Pozdrawiam Jacoba :*
-    std::cout << "Hello team!" << std::endl;
-    printf("Do not limit youself, seek for all possible solutions! \n");
-    
-    // Initialize SDL
+    SDL_Window* window = nullptr;
+    SDL_Renderer* renderer = nullptr;
+    SDL_Event event;
+
     if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+        std::cerr << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
-    // Create a window
-    SDL_Window* window = SDL_CreateWindow("SDL2 Window", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
-    if (window == NULL) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Window could not be created! SDL_Error: %s\n", SDL_GetError());
+    window = SDL_CreateWindow("SDL Rectangle Move", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
+    if (window == nullptr) {
+        std::cerr << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
-    // Create a renderer
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-    if (renderer == NULL) {
-        SDL_LogError(SDL_LOG_CATEGORY_APPLICATION, "Renderer could not be created! SDL_Error: %s\n", SDL_GetError());
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (renderer == nullptr) {
+        std::cerr << "Renderer could not be created! SDL_Error: " << SDL_GetError() << std::endl;
         return -1;
     }
 
-    // Set the draw color
-    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_Rect rect = {SCREEN_WIDTH / 2 - RECT_WIDTH / 2, SCREEN_HEIGHT / 2 - RECT_HEIGHT / 2, RECT_WIDTH, RECT_HEIGHT};
 
-    // Clear the screen
-    SDL_RenderClear(renderer);
+    bool quit = false;
+    while (!quit) {
+        while (SDL_PollEvent(&event) != 0) {
+            if (event.type == SDL_QUIT) {
+                quit = true;
+            }
+            else if (event.type == SDL_KEYDOWN) {
+                switch (event.key.keysym.sym) {
+                    case SDLK_w:
+                        rect.y -= MOVE_AMOUNT;
+                        break;
+                    case SDLK_s:
+                        rect.y += MOVE_AMOUNT;
+                        break;
+                    case SDLK_a:
+                        rect.x -= MOVE_AMOUNT;
+                        break;
+                    case SDLK_d:
+                        rect.x += MOVE_AMOUNT;
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
 
-    // Present the renderer
-    SDL_RenderPresent(renderer);
+        SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+        SDL_RenderClear(renderer);
 
-    // Wait for a few seconds
-    SDL_Delay(20000);
+        SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+        SDL_RenderFillRect(renderer, &rect);
 
-    // Destroy window and renderer
+        SDL_RenderPresent(renderer);
+    }
+
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
-
-    // Quit SDL
     SDL_Quit();
 
     return 0;

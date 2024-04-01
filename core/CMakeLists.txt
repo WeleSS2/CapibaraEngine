@@ -6,8 +6,7 @@ foreach(subdir IN LISTS SUBDIRS)
 endforeach()
 
 set(CAPIENGINE
-    engine.cpp
-    engine.hpp
+    filler.cpp
 )
 
 add_library(CE_main SHARED ${CAPIENGINE})
@@ -19,12 +18,10 @@ target_include_directories(CE_mains PUBLIC ${CMAKE_SOURCE_DIR})
 
 target_link_libraries(CE_main PUBLIC 
     CE_renderLIB
-    EXAMPLELIB
 )
 
 target_link_libraries(CE_mains PUBLIC 
     CE_renderLIB
-    EXAMPLELIB
 )
 
 set_target_properties(CE_main PROPERTIES 

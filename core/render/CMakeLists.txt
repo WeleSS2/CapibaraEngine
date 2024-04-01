@@ -1,7 +1,5 @@
 set(CE_render
-    renderObject.cpp
-    scene.cpp
-    renderManager.cpp
+    filler.cpp
 )
 
 add_library(CE_renderLIB SHARED ${CE_render})
@@ -9,16 +7,12 @@ add_library(CE_renderLIBs STATIC ${CE_render})
 
 target_link_libraries(CE_renderLIB PUBLIC
     SDLall
-    CE_logsLIB
-    CE_entityBLIB
-    CE_patternsLIB
+    CE_DPgeneralLIB
 )
 
 target_link_libraries(CE_renderLIBs PUBLIC
     SDLall
-    CE_logsLIB
-    CE_entityBLIB
-    CE_patternsLIB
+    CE_DPgeneralLIB
 )
 
 target_include_directories(CE_renderLIB PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
