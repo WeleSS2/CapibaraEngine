@@ -98,13 +98,3 @@ target_link_libraries(Raylib INTERFACE
 #target_link_libraries(NOVAPhys INTERFACE
 #    Nova_Physics
 #)
-if (WIN32)
-# To do, cannot build on github test, must be fixed
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_image-build/Debug/SDL2_imaged.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_mixer-build/Debug/SDL2_mixerd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl_ttf-build/Debug/SDL2_ttfd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/sdl-build/Debug/SDL2d.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/../build/_deps/spdlog-build/Debug/spdlogd.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
-elseif (APPLE)
-
-endif()
