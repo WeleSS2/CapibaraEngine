@@ -98,3 +98,23 @@ target_link_libraries(Raylib INTERFACE
 #target_link_libraries(NOVAPhys INTERFACE
 #    Nova_Physics
 #)
+
+# Static linking for steam SDK
+
+set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sdk")
+
+if(WIN32)
+    set(LIB_PATH "${LIB_DIR}/redistributable_bin/steam_api.lib")
+elseif(UNIX OR ANDROID)
+    set(LIB_PATH "${LIB_DIR}/redistributable_bin/linux64")
+elseif(APPLE)
+    set(LIB_PATH "${LIB_DIR}/redistributable_bin/osx")
+endif()
+
+add_library(SteamSDK INTERFACE)
+
+target_include_directories(SteamSDK INTERFACE
+    "${LIB_DIR}/public/steam"
+)
+
+target_link_libraries(SteamSDK INTERFACE ${LIB_PATH})
