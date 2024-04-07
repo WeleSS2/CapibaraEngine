@@ -8,6 +8,8 @@ int main()
     
     initSteam();
 
+    ServerFunction();
+
     // Get the Steam user ID
     CSteamID steamUserID = SteamUser()->GetSteamID();
     std::cout << "Steam User ID: " << steamUserID.ConvertToUint64() << std::endl;
