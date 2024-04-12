@@ -9,33 +9,33 @@ set(CAPIENGINE
     filler.cpp
 )
 
-add_library(CE_main SHARED ${CAPIENGINE})
-add_library(CE_mains STATIC ${CAPIENGINE})
+add_library(ceMain SHARED ${CAPIENGINE})
+add_library(ceMains STATIC ${CAPIENGINE})
 
-target_include_directories(CE_main PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ceMain PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_include_directories(CE_mains PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ceMains PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(CE_main PUBLIC 
+target_link_libraries(ceMain PUBLIC 
     Raylib
     Flecs
-    CE_renderLIB
+    ceRender
 )
 
-target_link_libraries(CE_mains PUBLIC
+target_link_libraries(ceMains PUBLIC
     Raylib
     Flecs
-    CE_renderLIB
+    ceRender
 )
 
-set_target_properties(CE_main PROPERTIES 
+set_target_properties(ceMain PROPERTIES 
     RUNTIME_OUTPUT_DIRECTORY ${MAIN_OUTPUT_DIRECTORY}
 )
 
-set_target_properties(CE_mains PROPERTIES
-    OUTPUT_NAME CE_main
+set_target_properties(ceMains PROPERTIES
+    OUTPUT_NAME ceMain
 )
 
-install (TARGETS CE_main
+install (TARGETS ceMain
     DESTINATION ${COMPILED_LIBS}/bin
 )

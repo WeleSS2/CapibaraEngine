@@ -2,27 +2,27 @@ set(CE_render
     render.cpp
 )
 
-add_library(CE_renderLIB SHARED ${CE_render})
-add_library(CE_renderLIBs STATIC ${CE_render})
+add_library(ceRender SHARED ${CE_render})
+add_library(ceRenders STATIC ${CE_render})
 
-target_link_libraries(CE_renderLIB PUBLIC
+target_link_libraries(ceRender PUBLIC
     SDLall
-    CE_DPgeneralLIB
+    ceGeneral
 )
 
-target_link_libraries(CE_renderLIBs PUBLIC
+target_link_libraries(ceRenders PUBLIC
     SDLall
-    CE_DPgeneralLIB
+    ceGeneral
 )
 
-target_include_directories(CE_renderLIB PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ceRender PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_include_directories(CE_renderLIBs PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ceRenders PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-set_target_properties(CE_renderLIB PROPERTIES
+set_target_properties(ceRender PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${MAIN_OUTPUT_DIRECTORY}
 )
 
-set_target_properties(CE_renderLIBs PROPERTIES
-    OUTPUT_NAME CE_renderLIB
+set_target_properties(ceRenders PROPERTIES
+    OUTPUT_NAME ceRender
 )

@@ -5,8 +5,8 @@ add_executable(TestSteamSDK
 target_include_directories(TestSteamSDK PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(TestSteamSDK PUBLIC
-    CE_main
-    CE_NetworkingLIB
+    ceMain
+    ceNetworking
 )
 
 set_target_properties(TestSteamSDK PROPERTIES

@@ -1,30 +1,32 @@
 set(CE_Networking
-    client.cpp
-    server.cpp
-    shared.cpp
+    Client.cpp
+    Server.cpp
+    Shared.cpp
 )
 
-add_library(CE_NetworkingLIB SHARED ${CE_Networking})
-add_library(CE_NetworkingLIBs STATIC ${CE_Networking})
+add_library(ceNetworking SHARED ${CE_Networking})
+add_library(ceNetworkings STATIC ${CE_Networking})
 
-target_include_directories(CE_NetworkingLIB PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ceNetworking PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_include_directories(CE_NetworkingLIBs PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_include_directories(ceNetworkings PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries(CE_NetworkingLIB PUBLIC
+target_link_libraries(ceNetworking PUBLIC
     SteamSDK
+    ceGeneral
     SPDLogs
 )
 
-target_link_libraries(CE_NetworkingLIBs PUBLIC
+target_link_libraries(ceNetworkings PUBLIC
     SteamSDK
+    ceGeneral
     SPDLogs
 )
 
-set_target_properties(CE_NetworkingLIB PROPERTIES
+set_target_properties(ceNetworking PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${MAIN_OUTPUT_DIRECTORY}
 )
 
-set_target_properties(CE_NetworkingLIBs PROPERTIES
-    OUTPUT_NAME CE_NetworkingLIB
+set_target_properties(ceNetworkings PROPERTIES
+    OUTPUT_NAME ceNetworking
 )

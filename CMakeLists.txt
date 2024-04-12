@@ -18,12 +18,12 @@ add_executable(Testing
 )
 
 target_link_libraries(Testing PRIVATE 
-    CE_main
+    ceMain
 )
 
 set(OUTPUT
     Testing
-    CE_main
+    ceMain
 )
 
 set_target_properties(${OUTPUT} PROPERTIES
