@@ -12,7 +12,7 @@ void GetIp6()
     DWORD dwSize = 0;
     DWORD dwRetVal = 0;
 
-    tchar ipstringbuffer[46];
+    tchar ipstringbuffer[INET6_ADDRSTRLEN];
     
     int i;
 
@@ -81,16 +81,16 @@ void GetIp6()
                 break;
             }
 
-            if (InetNtop(AF_INET6, &pTcpTable->table[i].LocalAddr, ipstringbuffer, 46) == NULL)
+            if (InetNtop(AF_INET6, &pTcpTable->table[i].LocalAddr, ipstringbuffer, INET6_ADDRSTRLEN) == NULL)
                 wprintf(L"  InetNtop function failed for local IPv6 address\n");
             else     
                 wprintf(L"\tTCP[%d] Local Addr: %s\n", i, ipstringbuffer);
-            wprintf(L"\tTCP[%d] Local Scope ID: %d \n", i,
+                wprintf(L"\tTCP[%d] Local Scope ID: %d \n", i,
                    ntohl (pTcpTable->table[i].dwLocalScopeId));
-            wprintf(L"\tTCP[%d] Local Port: %d \n", i,
+                wprintf(L"\tTCP[%d] Local Port: %d \n", i,
                    ntohs((u_short)pTcpTable->table[i].dwLocalPort));
 
-            if (InetNtop(AF_INET6, &pTcpTable->table[i].RemoteAddr, ipstringbuffer, 46) == NULL)
+            if (InetNtop(AF_INET6, &pTcpTable->table[i].RemoteAddr, ipstringbuffer, INET6_ADDRSTRLEN) == NULL)
                 wprintf(L"  InetNtop function failed for remote IPv6 address\n");
             else     
                 wprintf(L"\tTCP[%d] Remote Addr: %s\n", i, ipstringbuffer);

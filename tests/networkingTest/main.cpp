@@ -1,6 +1,7 @@
 #include <iostream>
 #include "steam_api.h"
 #include "shared.hpp"
+#include "Win.hpp"
 
 int main()
 {
@@ -18,4 +19,10 @@ int main()
     SteamAPI_Shutdown();
 
     std::cout << "Compiled \n";
+
+    GetIp6();
+
+    while(1);
+
+    return 0;
 }

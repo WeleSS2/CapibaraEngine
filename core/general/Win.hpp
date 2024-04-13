@@ -3,10 +3,10 @@
 #include <iphlpapi.h>
 
 #ifdef UNICODE
-#define TPSTR WPSTR
+#define PTSTR PWSTR
 #define tchar wchar_t
 #else
-#define TPSTR PSTR
+#define PTSTR PSTR
 #define tchar char
 #endif
 
