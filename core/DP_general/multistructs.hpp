@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <iostream>
 
 // Vector which contain 3 uint16_t

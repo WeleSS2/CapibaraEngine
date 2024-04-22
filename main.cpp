@@ -1,4 +1,5 @@
 #include <iostream>
+#include <random>
 #include <stdio.h>
 
 #if defined(WIN32) || defined(_WIN32) || defined(__WIN32__)
@@ -16,6 +17,7 @@
 #include "logs.hpp"
 #include "filler.hpp"
 #include "raylib.h"
+#include <flecs.h>
 
 const int SCREEN_WIDTH = 640;
 const int SCREEN_HEIGHT = 480;
@@ -23,103 +25,87 @@ const int RECT_WIDTH = 50;
 const int RECT_HEIGHT = 50;
 const int MOVE_AMOUNT = 3;
 
-#include <random>
-int main(int argc, char *argv[])
-{
-    test();
 
-    #ifdef raylib
+
+
+
+using namespace std;
+
+// Component to hold rectangle properties
+struct RectangleComp {
+    float x, y;      // Position
+    float width, height; // Size
+    Color color;     // Color
+};
+
+
+struct Velocity {
+    float vx, vy;
+};
+
+
+
+int main() {
     // Initialize window
-    const int screenWidth = 1720;
-    const int screenHeight = 900;
-    InitWindow(screenWidth, screenHeight, "Move Rectangle with WASD");
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+    InitWindow(screenWidth, screenHeight, "ECS example with Flecs and Raylib");
+    SetTargetFPS(60);
 
-    MaximizeWindow();
-
-    // Set up rectangle properties
-    Rectangle rec = { screenWidth / 2 - 50, screenHeight / 2 - 50, 100, 100 };
-
-    //SetTargetFPS(120); // Set the desired frame rate
-
-    std::vector<Rectangle*> recs;
-
-    int a = 0, b = 0;
-
-    for (int i = 0; i < 25000; ++i)
-    {
-        Rectangle* rec = new Rectangle{ screenWidth / 2, screenHeight / 2, 5, 5};
-
-        if (i % 150 == 0)
-        {
-            a++;
-        }
-
-        b++;
-
-        if (i % 150 == 0)
-        {
-            b = 0;
-        }
-
-        recs.emplace_back(rec);
-    }
 
     std::random_device rd; // obtain a random number from hardware
     std::mt19937 gen(rd()); // seed the generator
     std::uniform_int_distribution<> distr(-5, 5); // define the range
     std::uniform_int_distribution<> color(0, 255);
 
-    // Main game loop
-    while (!WindowShouldClose()) // Detect window close button or ESC key
-    {
-        // Update
-        if (IsKeyDown(KEY_W))
-            rec.y -= 5;
-        if (IsKeyDown(KEY_S))
-            rec.y += 5;
-        if (IsKeyDown(KEY_A))
-            rec.x -= 5;
-        if (IsKeyDown(KEY_D))
-            rec.x += 5;
+    // Initialize Flecs
+    flecs::world ecs;
 
-        // Draw
+    // Register component
+    ecs.component<RectangleComp>();
+
+    // Create an entity with a RectangleComp component
+
+
+    ecs.system<RectangleComp, Velocity>().each([](RectangleComp &rc, Velocity &vel) {
+        rc.x += vel.vx;
+        rc.y += vel.vy;
+
+        // Keep entities within screen bounds
+        if (rc.x < 0 || rc.x > screenWidth - rc.width) vel.vx *= -1;
+        if (rc.y < 0 || rc.y > screenHeight - rc.height) vel.vy *= -1;
+    });
+
+
+
+
+    for (int i = 0; i < 10000; i++) {
+        float x = std::rand() % GetScreenWidth();  // Random x coordinate within screen bounds
+        float y = std::rand() % GetScreenHeight(); // Random y coordinate within screen bounds
+
+        ecs.entity()
+           .set<RectangleComp>({x, y, 5, 5, RED}); // Random Position, Fixed Size (150, 100), Color: RED
+    }
+
+    // Main game loop
+    while (!WindowShouldClose()) {
+        // Update ECS
+        ecs.progress();
+
+        // Start drawing
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        for (int i = 0; i < recs.size(); i++)
-        {
-            if (recs[i]->x > 0 && recs[i]->y > 0 && recs[i]->x < 1700 && recs[i]->y < 900)
-            {
-                recs[i]->x += distr(gen);
-                recs[i]->y += distr(gen);
-            }
-            else if (recs[i]->x <= 0 && recs[i]->y <= 0)
-            {
-                recs[i]->x += 5;
-                recs[i]->y += 5;
-            }
-            else
-            {
-                recs[i]->x -= 5;
-                recs[i]->y -= 5;
-            }
-            
-            Color cc = {(unsigned char)color(gen),
-                        (unsigned char)color(gen), 
-                        (unsigned char)color(gen), 
-                        (unsigned char)color(gen)};
-
-            DrawRectangleRec(*recs[i], cc);
-        }
-
-        DrawFPS(10, 10); // Display FPS in top-left corner
-
+        auto query = ecs.query<RectangleComp>(); // Create a query for entities with RectangleComp
+        query.each([](flecs::entity e, RectangleComp& rc) {
+            DrawRectangle(rc.x, rc.y, rc.width, rc.height, rc.color); // Use Raylib to draw the rectangle
+        });
 
         EndDrawing();
     }
 
-    // De-Initialization
-    CloseWindow(); // Close window and OpenGL context
+    #ifdef raylib
+
     
     #else
     
