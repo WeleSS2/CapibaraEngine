@@ -58,6 +58,11 @@ FetchContent_Declare(gtests
     GIT_TAG        v1.14.0
 )
 
+FetchContent_Declare(json
+    GIT_REPOSITORY https://github.com/nlohmann/json
+    GIT_TAG        v3.11.3
+)
+
 #
 #FetchContent_Declare(Nova_Physics
 #    GIT_REPOSITORY https://github.com/kadir014/nova-physics
@@ -68,7 +73,8 @@ FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
 FetchContent_MakeAvailable(spdlog)
 FetchContent_MakeAvailable(flecs)
 FetchContent_MakeAvailable(raylib)
-FetchContent_MakeAvailable(GTests)
+FetchContent_MakeAvailable(gtests)
+FetchContent_MakeAvailable(json)
 #FetchContent_MakeAvailable(Nova_Physics)
 
 add_library(SDLall INTERFACE)
@@ -78,6 +84,8 @@ add_library(SPDLogs INTERFACE)
 add_library(Flecs INTERFACE)
 
 add_library(Raylib INTERFACE)
+
+add_library(Json INTERFACE)
 
 #add_library(NOVAPhys INTERFACE)
 
@@ -99,6 +107,10 @@ target_link_libraries(Flecs INTERFACE
 
 target_link_libraries(Raylib INTERFACE
     raylib
+)
+
+target_link_libraries(Json INTERFACE
+    nlohmann_json::nlohmann_json
 )
 
 #

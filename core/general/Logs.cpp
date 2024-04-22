@@ -1,11 +1,12 @@
 #include "logs.hpp"
+#include "../Engine.hpp"
 
 #include <fstream>
 #include <cstdarg>
 #include <stdio.h>
 #include <cstdlib>
 
-#define DEBUGLOG
+#undef DEBUGLOG
 
 Logs::Logs()
 {
@@ -48,14 +49,18 @@ const int Logs::SaveLog(type logType,
     va_end(args);
 
 #ifdef _WIN32
+    #ifdef DEBUGLOG
+    std::cout << "Appdata error \n";
+    #endif
+
     if(APPDATA_DIR() == "")
     {
-        return 0;
+        return -1;
     }
 
-    std::string defPath = std::string(APPDATA_DIR()) + "/CapibaraStudio/Logs";
+    std::string defPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Logs";
 #else
-    std::string defPath = "/var/log/CapibaraStudio/Logs";
+    std::string defPath = "/var/log/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Logs";
 #endif
 
     #ifdef DEBUGLOG
@@ -74,7 +79,7 @@ const int Logs::SaveLog(type logType,
         defPath.erase(defPath.length() - 1, 1);
         defPath.append("log");
     }
-    else if (file.filename().extension() == ".cpp")
+    else if (file.filename().extension() == ".cpp" || file.filename().extension() == ".hpp")
     {
         defPath.replace(defPath.length() - 3, 3, "log");
     }

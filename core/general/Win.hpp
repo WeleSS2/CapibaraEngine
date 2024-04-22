@@ -10,4 +10,10 @@
 #define tchar char
 #endif
 
+#ifdef _WIN32
+#define APPDATA_DIR() (std::getenv("APPDATA") ? std::getenv("APPDATA") : "")
+#else
+#define APPDATA_DIR() ""
+#endif
+
 void GetIp6();

@@ -26,7 +26,9 @@ void ServerFunction()
 {
     SteamNetworkingIPAddr addr;
 
-    std::cout << addr.GetIPv4() << std::endl;
+    addr.SetIPv6LocalHost(49671);
+
+    std::cout << "Test" << std::endl;
     // Accept incoming connections or perform other server operations
     // Here you would typically wait for incoming connections and handle them
 }

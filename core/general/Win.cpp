@@ -5,6 +5,22 @@
 #pragma comment(lib, "iphlpapi.lib")
 #pragma comment(lib, "ws2_32.lib")
 
+void GetIp()
+{
+    PMIB_TCPTABLE2 table;
+    DWORD dwSize = 0;
+    DWORD dwRet = 0;
+
+    tchar buff[INET_ADDRSTRLEN];
+
+    int i;
+
+    table = (MIB_TCPTABLE2 *) malloc(sizeof (MIB_TCPTABLE2));
+    if (table == NULL) {
+        printf("Error allocating memory\n");
+    }
+}
+
 void GetIp6()
 {
     // Declare and initialize variables
