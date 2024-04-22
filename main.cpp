@@ -49,14 +49,17 @@ int main() {
     // Initialize window
     const int screenWidth = 800;
     const int screenHeight = 450;
+
+
     InitWindow(screenWidth, screenHeight, "ECS example with Flecs and Raylib");
-    SetTargetFPS(60);
+    //SetTargetFPS(60);
 
 
     std::random_device rd; // obtain a random number from hardware
     std::mt19937 gen(rd()); // seed the generator
     std::uniform_int_distribution<> distr(-5, 5); // define the range
     std::uniform_int_distribution<> color(0, 255);
+    std::uniform_int_distribution<> distrXY(-5.0f, 5.0f); // Define the range for velocity
 
     // Initialize Flecs
     flecs::world ecs;
@@ -83,9 +86,68 @@ int main() {
         float x = std::rand() % GetScreenWidth();  // Random x coordinate within screen bounds
         float y = std::rand() % GetScreenHeight(); // Random y coordinate within screen bounds
 
+        float vx = distrXY(gen); // Random velocity x
+        float vy = distrXY(gen); // Random velocity`
+
         ecs.entity()
-           .set<RectangleComp>({x, y, 5, 5, RED}); // Random Position, Fixed Size (150, 100), Color: RED
-    }
+           .set<RectangleComp>({x, y, 5, 5, RED}).set<Velocity>({vx, vy});
+        
+}
+
+
+
+    for (int i = 0; i < 50000; i++) {
+        float x = std::rand() % GetScreenWidth();  // Random x coordinate within screen bounds
+        float y = std::rand() % GetScreenHeight(); // Random y coordinate within screen bounds
+
+        float vx = distrXY(gen); // Random velocity x
+        float vy = distrXY(gen); // Random velocity`
+
+        ecs.entity()
+           .set<RectangleComp>({x, y, 5, 5, RED}).set<Velocity>({vx, vy});
+        
+}
+
+
+
+    for (int i = 0; i < 50000; i++) {
+        float x = std::rand() % GetScreenWidth();  // Random x coordinate within screen bounds
+        float y = std::rand() % GetScreenHeight(); // Random y coordinate within screen bounds
+
+        float vx = distrXY(gen); // Random velocity x
+        float vy = distrXY(gen); // Random velocity`
+
+        ecs.entity()
+           .set<RectangleComp>({x, y, 5, 5, GREEN}).set<Velocity>({vx, vy});
+        
+}
+
+
+
+    for (int i = 0; i < 50000; i++) {
+        float x = std::rand() % GetScreenWidth();  // Random x coordinate within screen bounds
+        float y = std::rand() % GetScreenHeight(); // Random y coordinate within screen bounds
+
+        float vx = distrXY(gen); // Random velocity x
+        float vy = distrXY(gen); // Random velocity`
+
+        ecs.entity()
+           .set<RectangleComp>({x, y, 5, 5, YELLOW}).set<Velocity>({vx, vy});
+        
+}
+
+
+    for (int i = 0; i < 10000; i++) {
+        float x = std::rand() % GetScreenWidth();  // Random x coordinate within screen bounds
+        float y = std::rand() % GetScreenHeight(); // Random y coordinate within screen bounds
+
+        float vx = distrXY(gen); // Random velocity x
+        float vy = distrXY(gen); // Random velocity`
+
+        ecs.entity()
+           .set<RectangleComp>({x, y, 5, 5, RED}).set<Velocity>({vx, vy});
+        
+}
 
     // Main game loop
     while (!WindowShouldClose()) {
@@ -101,6 +163,7 @@ int main() {
             DrawRectangle(rc.x, rc.y, rc.width, rc.height, rc.color); // Use Raylib to draw the rectangle
         });
 
+ DrawFPS(10, 10); // Display FPS in top-left corner
         EndDrawing();
     }
 
