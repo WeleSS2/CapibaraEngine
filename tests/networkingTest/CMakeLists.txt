@@ -5,8 +5,8 @@ add_executable(TestNetworking
 target_include_directories(TestNetworking PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(TestNetworking PUBLIC
-    CE_main
-    CE_NetworkingLIB
+    ceMain
+    ceNetworking
 )
 
 set_target_properties(TestNetworking PROPERTIES

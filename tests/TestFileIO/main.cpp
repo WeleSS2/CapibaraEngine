@@ -1,4 +1,4 @@
-#include <iostream
+#include <iostream>
 #include "Json.hpp"
 #include "Logs.hpp"
 

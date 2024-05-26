@@ -11,6 +11,7 @@
 #include "time.h"
 #include <math.h>
 
+/*
 
 //-----------------------------------------------------------------------------
 // Purpose: Constructor -- note the syntax for setting up Steam API callback handlers
@@ -1106,3 +1107,4 @@ void CSpaceWarServer::KickPlayerOffServer( CSteamID steamID )
 	}
 	m_uPlayerCount = uPlayerCount;
 }
+*/

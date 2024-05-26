@@ -1,8 +1,10 @@
 #include <iostream>
 #include <string>
 #include "steam_api.h"
-#include "steam/isteamnetworkingsockets.h"
-#include "steam/steamclientpublic.h"
+#include "isteamnetworkingsockets.h"
+#include "steamclientpublic.h"
+
+/*
 
 class NetworkClient;
 
@@ -155,4 +157,4 @@ private:
 
 	// Poll group used to receive messages from all clients at once
 	HSteamNetPollGroup m_hNetPollGroup;
-}
+}*/

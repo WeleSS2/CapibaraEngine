@@ -1,7 +1,7 @@
 #include "shared.hpp"
 #include "steam_api.h"
 #include "isteamnetworkingsockets.h"
-
+/*
 int initSteam()
 {
     // Initialize Steam API
@@ -39,4 +39,4 @@ void ClientFunction()
     
     // Use the connection for sending and receiving data
     // Here you would typically exchange data with the server
-}
+}*/

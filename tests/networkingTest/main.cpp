@@ -6,6 +6,7 @@
 
 #pragma comment(lib, "Ws2_32.lib") // Link with Ws2_32.lib
 
+/*
 int test() {
     // Initialize Winsock
     WSADATA wsaData;
@@ -50,29 +51,29 @@ int test() {
     WSACleanup();
     return 0;
 }
-
+*/
 int main()
 {
     std::cout << "Compiled 0 \n";
     
-    initSteam();
+    //initSteam();
 
-    ServerFunction();
+    //ServerFunction();
 
     // Get the Steam user ID
-    CSteamID steamUserID = SteamUser()->GetSteamID();
-    std::cout << "Steam User ID: " << steamUserID.ConvertToUint64() << std::endl;
+    //CSteamID steamUserID = SteamUser()->GetSteamID();
+    //std::cout << "Steam User ID: " << steamUserID.ConvertToUint64() << std::endl;
 
     // Shut down Steam API
-    SteamAPI_Shutdown();
+    //SteamAPI_Shutdown();
 
     std::cout << "Compiled \n";
 
-    test();
+    //test();
 
-    GetIp6();
+    //GetIp6();
 
-    while(1);
+    //while(1);
 
     return 0;
 }
