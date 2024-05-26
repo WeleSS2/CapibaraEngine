@@ -5,12 +5,12 @@ set(CE_render
 add_library(ceRender SHARED ${CE_render})
 add_library(ceRenders STATIC ${CE_render})
 
-target_link_libraries(ceRender PUBLIC
-    SDLall
+target_link_libraries(CE_renderLIB PUBLIC
+    CE_DPgeneralLIB
 )
 
-target_link_libraries(ceRenders PUBLIC
-    SDLall
+target_link_libraries(CE_renderLIBs PUBLIC
+    CE_DPgeneralLIB
 )
 
 target_include_directories(ceRender PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
