@@ -29,7 +29,7 @@ std::unique_ptr<VariantUnMap> loadFile(std::string& path)
     file >> data;
 
     file.close();
-
+    /*
     for (auto& [key, value] : data.items())
     {
         if (value.is_string())
@@ -39,7 +39,7 @@ std::unique_ptr<VariantUnMap> loadFile(std::string& path)
         else if (value.is_number())
         {
             double val = value.get<double>();
-            map.insert(key, val);
+            //map.insert(key, val);
         }
         else
         {
@@ -47,6 +47,7 @@ std::unique_ptr<VariantUnMap> loadFile(std::string& path)
         }
     }
 
-
+*/
     return std::make_unique<VariantUnMap>(map);
+
 };

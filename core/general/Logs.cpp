@@ -58,9 +58,9 @@ const int Logs::SaveLog(type logType,
         return -1;
     }
 
-    std::string defPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Logs";
+    std::string defPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
 #else
-    std::string defPath = "/var/log/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Logs";
+    std::string defPath = "/var/log/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
 #endif
 
     #ifdef DEBUGLOG

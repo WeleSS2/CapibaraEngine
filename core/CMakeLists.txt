@@ -17,11 +17,11 @@ target_include_directories(ceMain PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_include_directories(ceMains PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(ceMain PUBLIC 
-    ceGeneral
+    ceRender
 )
 
 target_link_libraries(ceMains PUBLIC
-    ceGeneral
+    ceRender
 )
 
 set_target_properties(ceMain PROPERTIES 

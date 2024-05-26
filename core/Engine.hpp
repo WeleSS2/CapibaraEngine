@@ -7,7 +7,7 @@ public:
 	Engine();
 	~Engine();
 
-	static Engine* getEngine(){ return getInstance(); };
+	//static Engine* getEngine(){ return getInstance(); };
 
     const std::string &getTitle();
 private:
