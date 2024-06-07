@@ -18,25 +18,25 @@
 
 include(FetchContent)
 
-FetchContent_Declare(SDL
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL
-    GIT_TAG        release-2.28.5
-)
-
-FetchContent_Declare(SDL_ttf
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf
-    GIT_TAG        release-2.22.0
-)
-
-FetchContent_Declare(SDL_image
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image
-    GIT_TAG        release-2.8.2
-)
-
-FetchContent_Declare(SDL_mixer
-    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
-    GIT_TAG        release-2.8.0
-)
+#FetchContent_Declare(SDL
+#    GIT_REPOSITORY https://github.com/libsdl-org/SDL
+#    GIT_TAG        release-2.28.5
+#)
+#
+#FetchContent_Declare(SDL_ttf
+#    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf
+#    GIT_TAG        release-2.22.0
+#)
+#
+#FetchContent_Declare(SDL_image
+#    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image
+#    GIT_TAG        release-2.8.2
+#)
+#
+#FetchContent_Declare(SDL_mixer
+#    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
+#    GIT_TAG        release-2.8.0
+#)
 
 FetchContent_Declare(spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog
@@ -69,15 +69,17 @@ FetchContent_Declare(json
 #    GIT_TAG        0.7.0
 #)
 
-FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
+#FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
+
 FetchContent_MakeAvailable(spdlog)
 FetchContent_MakeAvailable(flecs)
 FetchContent_MakeAvailable(raylib)
 FetchContent_MakeAvailable(gtests)
 FetchContent_MakeAvailable(json)
+
 #FetchContent_MakeAvailable(Nova_Physics)
 
-add_library(SDLall INTERFACE)
+#add_library(SDLall INTERFACE)
 
 add_library(SPDLogs INTERFACE)
 
@@ -89,13 +91,13 @@ add_library(Json INTERFACE)
 
 #add_library(NOVAPhys INTERFACE)
 
-target_link_libraries(SDLall INTERFACE
-    SDL2
-    SDL2main
-    SDL2_image
-    SDL2_mixer
-    SDL2_ttf
-)
+#target_link_libraries(SDLall INTERFACE
+#    SDL2
+#    SDL2main
+#    SDL2_image
+#    SDL2_mixer
+#    SDL2_ttf
+#)
 
 target_link_libraries(SPDLogs INTERFACE
     spdlog

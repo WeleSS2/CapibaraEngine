@@ -1,6 +1,6 @@
 #include "Singleton.hpp"
 
-class Engine : CEngine::DPatterns::Singleton<Engine>
+class Engine 
 {
 public:
 

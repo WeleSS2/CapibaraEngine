@@ -1,5 +1,7 @@
 set(CE_render
     render.cpp
+    RenderObject.cpp
+    Button.cpp
 )
 
 add_library(ceRender SHARED ${CE_render})
@@ -8,11 +10,13 @@ add_library(ceRenders STATIC ${CE_render})
 target_link_libraries(ceRender PUBLIC
     ceGeneral
     raylib
+    flecs
 )
 
 target_link_libraries(ceRenders PUBLIC
     ceGeneral
     raylib
+    flecs
 )
 
 target_include_directories(ceRender PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
