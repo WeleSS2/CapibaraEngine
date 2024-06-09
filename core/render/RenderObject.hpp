@@ -3,7 +3,8 @@
 #include <iostream>
 
 // poxX, posY, width, height
-struct cPosSize {
+struct cPosSize 
+{
     uint16_t posX;
     uint16_t posY;
     uint16_t width;
@@ -14,7 +15,8 @@ struct cPosSize {
         : posX(_posX), posY(_posY), width(_width), height(_height) {};
 };
 
-class cRenderObject{
+class cRenderObject
+{
 public:
     cRenderObject() {};
 

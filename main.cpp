@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <functional>
 #include <vector>
+#include <string>
+#include <sstream>
 
 #define raylib
 
@@ -42,14 +44,16 @@ struct Button {
 
     // Method to add a listener with any number of arguments
     template<typename Func, typename... Args>
-    const void addListener(Func&& func, Args&&... args){
+    const void addListener(Func&& func, Args&&... args)
+    {
         listeners.emplace_back([=]() mutable {
 	        func(args...);
 	    });
     }
 
     // Method to trigger all listeners
-    void click() {
+    void click() 
+    {
         for (auto& listener : listeners) {
             listener(); 
         }
@@ -63,9 +67,8 @@ void changeColor(Button* button, Color color) {
 };
 
 // Example function to be called
-void cchangeColor(cButton* button, Color color) {
-    std::cout << "CLicked 2 " << button << "    " << button->getId() << "    " << button->getY() << "\n";
-    button->applyColor(color);
+void cchangeColor(flecs::ref<cButton> button, Color color) {
+    button.get()->applyColor(color);
 };
 
 void test()
@@ -129,41 +132,99 @@ public:
     {
         for (const auto& i : toRender)
         {
-            i->render();
+            i.entity().get_mut<cButton>()->render();
         }
     }
 
-    const void addModule(cButton* object)
+    const void addModule(flecs::ref<cButton> object)
     {
-        std::cout << object->getId() << "    " <<
-        object << std::endl;
-
         toRender.emplace_back(object);
     }
 
-    std::vector<cButton*> toRender;
+    std::vector<flecs::ref<cButton>> toRender;
 };
 
 class Panel3 {
 public:
-    Panel3(std::string id) : _id(id) { std::cout << "Const IS" << std::endl; };
+    Panel3(std::string _id) : id(_id) { std::cout << "Const IS" << std::endl; };
 
-    std::string _id;
+    std::string id;
 
-    Panel3() {
+    Panel3() 
+    {
+        //*
+        
+        //ecs_bulk_init(*ptr, );
+
+        for (int i = 0; i < 15000; i++)
+        {            
+            
+            std::string name = "btt" + std::to_string(i);
+
+            auto bt0 = ptr->entity().set<cButton>({name, {(uint16_t)(1 + (i)), (uint16_t)(1 + (i)), 100, 50}});
+            bt0.get_ref<cButton>()->applyColor(PINK);
+            bt0.get_ref<cButton>()->applyTexture("test.png");
+        
+            bt0.get_ref<cButton>()->addListener(cchangeColor, bt0.get_ref<cButton>(), BLUE);
+        
+            this->addModule(bt0.get_mut<cButton>());
+        }
+        //*/
+        /*
+        int i = 0;
         auto btt0 = ptr->entity().emplace<cButton>();
-        btt0.get_mut<cButton>()->applyColor(PINK);
-        btt0.get_mut<cButton>()->create("btt0", {1100, 0, 100, 50});
+
+            std::string name = "btt" + std::to_string(i);
+
+            btt0.get_mut<cButton>()->create(name, {(uint16_t)(1 + i), (uint16_t)(1 + i), 200, 200});
+            btt0.get_mut<cButton>()->applyColor(PINK);
+            btt0.get_mut<cButton>()->applyTexture("test.png");
+
+            btt0.get_mut<cButton>()->addListener(cchangeColor, btt0.get_mut<cButton>(), BLUE);
         
-        auto btt1 = ptr->entity().emplace<cButton>();
-        btt1.get_mut<cButton>()->applyColor(PINK);
-        btt1.get_mut<cButton>()->create("btt1", {1100, 100, 100, 50});
+            this->addModule(btt0.get_mut<cButton>());
         
-        btt0.get_mut<cButton>()->addListener(cchangeColor, btt0.get_mut<cButton>(), BLUE);
-        btt1.get_mut<cButton>()->addListener(cchangeColor, btt1.get_mut<cButton>(), BLUE);
+        i = 100;
+        btt0 = ptr->entity().emplace<cButton>();
+
+            name = "btt" + std::to_string(i);
+
+            btt0.get_mut<cButton>()->create(name, {(uint16_t)(1 + i), (uint16_t)(1 + i), 200, 200});
+            btt0.get_mut<cButton>()->applyColor(PINK);
+            btt0.get_mut<cButton>()->applyTexture("test.png");
+
+            btt0.get_mut<cButton>()->addListener(cchangeColor, btt0.get_mut<cButton>(), BLUE);
         
-        this->addModule(btt0.get_mut<cButton>());
-        this->addModule(btt1.get_mut<cButton>());
+            this->addModule(btt0.get_mut<cButton>());
+        //
+        //*
+        i = 200;
+        btt0 = ptr->entity().emplace<cButton>();
+
+            name = "btt" + std::to_string(i);
+
+            btt0.get_mut<cButton>()->create(name, {(uint16_t)(1 + i), (uint16_t)(1 + i), 200, 200});
+            btt0.get_mut<cButton>()->applyColor(PINK);
+            btt0.get_mut<cButton>()->applyTexture("test.png");
+
+            btt0.get_mut<cButton>()->addListener(cchangeColor, btt0.get_mut<cButton>(), BLUE);
+        
+            this->addModule(btt0.get_mut<cButton>());
+        
+        i = 300;
+        btt0 = ptr->entity().emplace<cButton>();
+
+            name = "btt" + std::to_string(i);
+
+            btt0.get_mut<cButton>()->create(name, {(uint16_t)(1 + i), (uint16_t)(1 + i), 200, 200});
+            btt0.get_mut<cButton>()->applyColor(PINK);
+            btt0.get_mut<cButton>()->applyTexture("test.png");
+
+            btt0.get_mut<cButton>()->addListener(cchangeColor, btt0.get_mut<cButton>(), BLUE);
+        
+            this->addModule(btt0.get_mut<cButton>());
+        */
+        std::cout << toRender.size() << std::endl;
     };
     
 
@@ -193,7 +254,7 @@ int main(int argc, char *argv[])
     SetConfigFlags(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
     InitWindow(screenWidth, screenHeight, "ECS example with Flecs and Raylib");
-    SetTargetFPS(60);
+    //SetTargetFPS(60);
     MaximizeWindow();
 
     std::random_device rd; // obtain a random number from hardware
@@ -216,8 +277,6 @@ int main(int argc, char *argv[])
     // TEST AREA
 
     std::cout << "Test   " << TextureManager::getManager()->loadTexture("test.png") << "\n";
-
-
 
 
 
@@ -285,23 +344,22 @@ int main(int argc, char *argv[])
     auto bt3 = ecs.entity().set<cButton>({"bt3", {800, 300, 100, 50}});
     bt3.get_mut<cButton>()->applyColor(PINK);
 
-    auto bt4 = ecs.entity().emplace<cButton>();
+    auto bt4 = ecs.entity().set<cButton>({"bt4", {800, 400, 100, 50}});
     bt4.get_mut<cButton>()->applyColor(PINK);
 
-
-    bt0.get_mut<cButton>()->addListener(cchangeColor, bt0.get_mut<cButton>(), BLUE);
-    bt1.get_mut<cButton>()->addListener(cchangeColor, bt1.get_mut<cButton>(), BLUE);
-    bt2.get_mut<cButton>()->addListener(cchangeColor, bt2.get_mut<cButton>(), GREEN);
-    bt3.get_mut<cButton>()->addListener(cchangeColor, bt3.get_mut<cButton>(), YELLOW);
-    bt4.get_mut<cButton>()->addListener(cchangeColor, bt4.get_mut<cButton>(), BLACK);
+    bt0.get_ref<cButton>()->addListener(cchangeColor, bt0.get_ref<cButton>(), RED);
+    bt1.get_ref<cButton>()->addListener(cchangeColor, bt1.get_ref<cButton>(), BLUE);
+    bt2.get_ref<cButton>()->addListener(cchangeColor, bt2.get_ref<cButton>(), GREEN);
+    bt3.get_ref<cButton>()->addListener(cchangeColor, bt3.get_ref<cButton>(), YELLOW);
+    bt4.get_ref<cButton>()->addListener(cchangeColor, bt4.get_ref<cButton>(), BLACK);
 
     ecs.component<Panel2>();
     auto panel2 = ecs.entity().emplace<Panel2>();
-    panel2.get_mut<Panel2>()->addModule(bt0.get_mut<cButton>());
-    panel2.get_mut<Panel2>()->addModule(bt1.get_mut<cButton>());
-    panel2.get_mut<Panel2>()->addModule(bt2.get_mut<cButton>());
-    panel2.get_mut<Panel2>()->addModule(bt3.get_mut<cButton>());
-    panel2.get_mut<Panel2>()->addModule(bt4.get_mut<cButton>());
+    panel2.get_mut<Panel2>()->addModule(bt0.get_ref<cButton>());
+    panel2.get_mut<Panel2>()->addModule(bt1.get_ref<cButton>());
+    panel2.get_mut<Panel2>()->addModule(bt2.get_ref<cButton>());
+    panel2.get_mut<Panel2>()->addModule(bt3.get_ref<cButton>());
+    panel2.get_mut<Panel2>()->addModule(bt4.get_ref<cButton>());
     
     ecs.component<Panel3>();
     auto panel3 = ecs.entity().emplace<Panel3>();
@@ -328,7 +386,6 @@ int main(int argc, char *argv[])
 
     auto a = ecs.query<Panel>().count();
 
-    std::cout << ecs.query<Panel>().count() << std::endl;
 
 
     for (int i = 0; i < 50; i++) {
@@ -346,7 +403,7 @@ int main(int argc, char *argv[])
     while (!WindowShouldClose()) {
         // Update ECS
         ecs.progress();
-
+        
         // Check for button click
         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
             int mouseX = GetMouseX();
@@ -370,7 +427,7 @@ int main(int argc, char *argv[])
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
                 // Check if the mouse is within the button bounds
                 if (btn.clickCheck(mouseX, mouseY)) {
-
+                    
                     std::cout << btn.getId() <<"    " << &btn << std::endl;
 
                     btn.click();
@@ -381,15 +438,17 @@ int main(int argc, char *argv[])
         // Start drawing
         BeginDrawing();
         ClearBackground(RAYWHITE);
-
+        
         if (panel.is_alive())
         {
             panel.get<Panel>()->draw();
         }
-
+        
         if (panel2.is_alive())
         {
+            
             panel2.get<Panel2>()->render();
+            
         }
 
         if (panel3.is_alive())

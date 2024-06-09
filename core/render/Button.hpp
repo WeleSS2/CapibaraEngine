@@ -10,7 +10,7 @@ public:
     cButton() {};
 
     cButton (const std::string _id, const cPosSize& data_)
-        : id_(_id), cRenderObject(data_) { std::cout << "Cons for id " << _id << std::endl; };
+        : id_(_id), cRenderObject(data_) { std::cout << "Const IS" << std::endl; };
 
     // Method to add a listener with any number of arguments
     template<typename Func, typename... Args>
@@ -36,13 +36,15 @@ public:
 
     int getY() {return this->posSize_.posY; };
 
-    void applyColor(Color _color);
+    const void applyColor(Color _color);
 
-    void applyText(const std::string& text);
+    const void applyText(const std::string& text);
 
-    void applyTexture(const std::string& id);
+    const void applyTexture(const std::string& id, bool rescale_ = false);
 
-    void applyTexture(Texture2D* texture_);
+    const void drawRescaleTexture();
+
+    const void applyTexture(Texture2D* texture_);
 
 protected:
     std::vector<std::function<void()>> listeners;
@@ -57,6 +59,11 @@ private:
     Texture2D* texture_ = nullptr;
 
     Color color_ = {};
+
+    Rectangle* source = nullptr;
+    Rectangle* dest = nullptr;
+
+    bool rescale = false;
 
     bool colorApplied = false;
 

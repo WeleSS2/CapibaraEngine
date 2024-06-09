@@ -1,4 +1,5 @@
 #include "Button.hpp"
+#include "TextureManager.hpp"
 
 const void cButton::create(std::string _id, cPosSize data_)
 {
@@ -15,7 +16,14 @@ const void cButton::render() const
 
     if (textureApplied)
     {
-        // TODO
+        if (!rescale)
+        {
+            DrawTexture(*texture_, this->posSize_.posX, this->posSize_.posY, WHITE);
+        }
+        else
+        {
+            DrawTexturePro(*texture_, *source, *dest, { 0.0f, 0.0f }, 0.0f, WHITE);
+        }
     }
 
     if (textApplied)
@@ -46,22 +54,37 @@ bool cButton::clickCheck(int x, int y) const
     return false;
 }
 
-void cButton::applyColor(Color _color) {
+const void cButton::applyColor(Color _color) {
     color_ = _color;
     colorApplied = true;
 }
 
-void cButton::applyText(const std::string& _text) {
+const void cButton::applyText(const std::string& _text) {
     text_ = _text;
     textApplied = true;
 }
 
-void cButton::applyTexture(const std::string& id) {
-    // TODO
+const void cButton::applyTexture(const std::string& id, bool rescale_) {
+    texture_ = TextureManager::getManager()->getTextureById(id);
+
+    rescale = rescale_;
+
+    drawRescaleTexture();
+
     textureApplied = true;
 }
 
-void cButton::applyTexture(Texture2D* _texture) {
+const void cButton::drawRescaleTexture() {
+    source = new Rectangle{ 0.0f, 0.0f, (float)texture_->width, (float)texture_->height };
+    dest = new Rectangle{ 
+        (float)this->posSize_.posX,
+        (float)this->posSize_.posY,
+        (float)( this->posSize_.width),
+        (float)( this->posSize_.height) 
+    };
+}
+
+const void cButton::applyTexture(Texture2D* _texture) {
     texture_ = _texture;
     textureApplied = true;
 }

@@ -1,13 +1,14 @@
 #pragma once
 
-#include "Texture.hpp"
+#include <iostream>
+#include "raylib.h"
 #include <unordered_map>
 
 class TextureManager {
 public:
     static TextureManager* getManager();
 
-    const Texture2D* getTextureById(std::string id);
+    Texture2D* getTextureById(std::string id);
     
     const int loadTexture(const std::string& path);
 protected:

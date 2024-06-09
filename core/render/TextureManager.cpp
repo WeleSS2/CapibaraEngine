@@ -1,4 +1,5 @@
 #include "TextureManager.hpp"
+#include <filesystem>
 
 TextureManager* TextureManager::getManager()
 {
@@ -7,7 +8,7 @@ TextureManager* TextureManager::getManager()
     return manager;
 }
 
-const Texture2D* TextureManager::getTextureById(std::string id)
+Texture2D* TextureManager::getTextureById(std::string id)
 {
     for (auto& i : textures)
     {
@@ -16,24 +17,30 @@ const Texture2D* TextureManager::getTextureById(std::string id)
             return i.first;
         }
     }
+
+    return nullptr;
 }
 
 const int TextureManager::loadTexture(const std::string& path)
 {
     Texture2D* texture = new Texture2D();
 
-    *texture = LoadTexture(path.c_str());
+    std::string path2 = "gfx\\" + path;
+
+    *texture = LoadTexture(path2.c_str());
+
+    std::filesystem::path p(path2.c_str());
     
     if(!IsTextureReady(*texture))
     {
-        std::cout << "Error loading texture" << std::endl;
+        std::cout << "Error loading texture - " << path2 << std::endl;
         
         return -1;
     }
 
-    std::cout << path << std::endl;
+    std::cout << p.filename().string() << " \n";
 
-    textures.emplace(texture, "test");
+    textures.emplace(texture, p.filename().string());
 
     return 0;
 }

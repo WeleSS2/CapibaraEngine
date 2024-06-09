@@ -1,7 +1,6 @@
 file(GLOB_RECURSE FILES "*.cpp")
 
 set(CE_DP
-    Singleton.cpp
     Multistructs.cpp
     Logs.cpp
     Win.cpp

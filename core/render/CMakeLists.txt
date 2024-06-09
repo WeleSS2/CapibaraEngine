@@ -2,7 +2,6 @@ set(CE_render
     render.cpp
     RenderObject.cpp
     Button.cpp
-    Texture.cpp
     TextureManager.cpp
 )
 
