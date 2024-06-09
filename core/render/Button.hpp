@@ -1,3 +1,5 @@
+#pragma once
+
 #include "RenderObject.hpp"
 #include <vector>
 #include <functional>

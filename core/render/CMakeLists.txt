@@ -2,6 +2,8 @@ set(CE_render
     render.cpp
     RenderObject.cpp
     Button.cpp
+    Texture.cpp
+    TextureManager.cpp
 )
 
 add_library(ceRender SHARED ${CE_render})

@@ -7,6 +7,7 @@
 
 #include "logs.hpp"
 #include "Button.hpp"
+#include "TextureManager.hpp"
 #include "raylib.h"
 #include <flecs.h>
 
@@ -184,7 +185,7 @@ public:
 
 #include <random>
 int main(int argc, char *argv[])
-{
+{   
     // Initialize window
     const int screenWidth = 1600;
     const int screenHeight = 900;
@@ -211,6 +212,29 @@ int main(int argc, char *argv[])
     flecs::world ecs;
 
     ptr = &ecs;
+
+    // TEST AREA
+
+    std::cout << "Test   " << TextureManager::getManager()->loadTexture("test.png") << "\n";
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     // Register component
     ecs.component<RectangleComp>();
 

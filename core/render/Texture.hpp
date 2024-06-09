@@ -1,4 +1,7 @@
+#pragma once
+
 #include "RenderObject.hpp"
+#include "raylib.h"
 
 class cTexture : private cRenderObject {
 public:
