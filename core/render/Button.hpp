@@ -10,7 +10,15 @@ public:
     cButton() {};
 
     cButton (const std::string _id, const cPosSize& data_)
-        : id_(_id), cRenderObject(data_) { std::cout << "Const IS" << std::endl; };
+        : id_(_id), cRenderObject(data_) { std::cout << "Const IS   "  << id_ << std::endl; };
+
+    virtual ~cButton() 
+    { 
+        if (source) delete source;
+        if (dest) delete dest;
+        
+        std::cout << "Test 111 " << id_ << "\n"; 
+    }
 
     // Method to add a listener with any number of arguments
     template<typename Func, typename... Args>

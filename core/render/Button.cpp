@@ -34,8 +34,6 @@ const void cButton::render() const
 
 void cButton::click()
 {
-    this->applyColor(RED);
-    
     for (auto& listener : listeners) {
         listener();
     }
@@ -69,8 +67,11 @@ const void cButton::applyTexture(const std::string& id, bool rescale_) {
 
     rescale = rescale_;
 
-    drawRescaleTexture();
-
+    if (rescale)
+    {
+        drawRescaleTexture();
+    }
+    
     textureApplied = true;
 }
 

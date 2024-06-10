@@ -130,9 +130,24 @@ public:
 
     const void render() const
     {
-        for (const auto& i : toRender)
+        std::cout << "Render 3 \n";
+        for (auto& i : toRender)
         {
-            i.entity().get_mut<cButton>()->render();
+            //if (i.entity().is_alive()) 
+            {
+                i.entity().get_mut<cButton>()->render();
+            }
+        }
+    }
+
+    void remove(flecs::ref<cButton> bt)
+    {
+        for (int i = 0; i < toRender.size(); i++) //auto i : toRender)
+        {
+            if (toRender[i].get()->getId() == bt.get()->getId())
+            {
+                toRender.erase(toRender.begin() + i);
+            }
         }
     }
 
@@ -156,7 +171,7 @@ public:
         
         //ecs_bulk_init(*ptr, );
 
-        for (int i = 0; i < 15000; i++)
+        for (int i = 0; i < 1; i++)
         {            
             
             std::string name = "btt" + std::to_string(i);
@@ -244,6 +259,14 @@ public:
     std::vector<cButton*> toRender;
 };
 
+void deleteButton(flecs::ref<cButton> button, flecs::ref<Panel2> parent) {
+    //button.get()->~cButton();
+    button.entity().destruct();
+    std::cout << "Killed \n";
+
+    parent.get()->remove(button);
+};
+
 #include <random>
 int main(int argc, char *argv[])
 {   
@@ -297,64 +320,35 @@ int main(int argc, char *argv[])
     // Register component
     ecs.component<RectangleComp>();
 
-    // Create a button entity
-    ecs.component<Button>();
-    ecs.entity()
-       .set<Button>({50, 50, 100, 50, BLACK, false});
-    ecs.entity()
-       .set<Button>({50, 150, 100, 50, BLACK, false});
-    ecs.entity()
-       .set<Button>({50, 250, 100, 50, BLACK, false});
-    ecs.entity()
-       .set<Button>({50, 350, 100, 50, BLACK, false});
-
-    auto one = ecs.entity()
-       .set<Button>({50, 450, 100, 50, BLACK, false});
-    one.get_mut<Button>()->addListener(changeColor, one.get_mut<Button>(), RED);
-    
-    auto two = ecs.entity()
-       .set<Button>({50, 550, 100, 50, BLACK, false});
-    two.get_mut<Button>()->addListener(changeColor, two.get_mut<Button>(), BLUE);
-    
-    auto three = ecs.entity()
-       .set<Button>({});
-    three.get_mut<Button>()->x = 500;
-    three.get_mut<Button>()->y = 300;
-    three.get_mut<Button>()->width = 100;
-    three.get_mut<Button>()->height = 100;   
-    three.get_mut<Button>()->addListener(changeColor, three.get_mut<Button>(), GREEN);
-
-    ecs.component<Panel>();
-    auto panel = ecs.entity()
-        .set<Panel>({one, two, three});
-
     // Create an entity with a RectangleComp component
 
     
     ecs.component<cButton>();
-    auto bt0 = ecs.entity().set<cButton>({"bt0", {800, 0, 100, 50}});
+    auto bt0 = ecs.entity().set<cButton>({"bta0", {800, 0, 100, 50}});
     bt0.get_mut<cButton>()->applyColor(PINK);
 
-    auto bt1 = ecs.entity().set<cButton>({"bt1", {800, 100, 100, 50}});
+    auto bt1 = ecs.entity().set<cButton>({"bta1", {800, 100, 100, 50}});
     bt1.get_mut<cButton>()->applyColor(PINK);
 
-    auto bt2 = ecs.entity().set<cButton>({"bt2", {800, 200, 100, 50}});
+    auto bt2 = ecs.entity().set<cButton>({"bta2", {800, 200, 100, 50}});
     bt2.get_mut<cButton>()->applyColor(PINK);
 
-    auto bt3 = ecs.entity().set<cButton>({"bt3", {800, 300, 100, 50}});
+    auto bt3 = ecs.entity().set<cButton>({"bta3", {800, 300, 100, 50}});
     bt3.get_mut<cButton>()->applyColor(PINK);
 
-    auto bt4 = ecs.entity().set<cButton>({"bt4", {800, 400, 100, 50}});
+    auto bt4 = ecs.entity().set<cButton>({"bta4", {800, 400, 100, 50}});
     bt4.get_mut<cButton>()->applyColor(PINK);
+
+    ecs.component<Panel2>();
+    auto panel2 = ecs.entity().emplace<Panel2>();
 
     bt0.get_ref<cButton>()->addListener(cchangeColor, bt0.get_ref<cButton>(), RED);
     bt1.get_ref<cButton>()->addListener(cchangeColor, bt1.get_ref<cButton>(), BLUE);
     bt2.get_ref<cButton>()->addListener(cchangeColor, bt2.get_ref<cButton>(), GREEN);
     bt3.get_ref<cButton>()->addListener(cchangeColor, bt3.get_ref<cButton>(), YELLOW);
-    bt4.get_ref<cButton>()->addListener(cchangeColor, bt4.get_ref<cButton>(), BLACK);
+    bt4.get_ref<cButton>()->addListener(deleteButton, bt4.get_ref<cButton>(), panel2.get_ref<Panel2>());
 
-    ecs.component<Panel2>();
-    auto panel2 = ecs.entity().emplace<Panel2>();
+
     panel2.get_mut<Panel2>()->addModule(bt0.get_ref<cButton>());
     panel2.get_mut<Panel2>()->addModule(bt1.get_ref<cButton>());
     panel2.get_mut<Panel2>()->addModule(bt2.get_ref<cButton>());
@@ -409,46 +403,27 @@ int main(int argc, char *argv[])
             int mouseX = GetMouseX();
             int mouseY = GetMouseY();
 
-            // Query all buttons and check for clicks
-            auto buttonQuery = ecs.query<Button>();
-            buttonQuery.each([&](flecs::entity e, Button& btn) {
-                // Check if the mouse is within the button bounds
-                if (mouseX >= btn.x && mouseX <= btn.x + btn.width &&
-                    mouseY >= btn.y && mouseY <= btn.y + btn.height) {
-            
-                    std::cout << btn.y << std::endl;
-            
-                    btn.click();
-                }
-            });
-
-            // Query all buttons and check for clicks
+            ecs.defer_begin();
             auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
-                // Check if the mouse is within the button bounds
                 if (btn.clickCheck(mouseX, mouseY)) {
-                    
-                    std::cout << btn.getId() <<"    " << &btn << std::endl;
-
                     btn.click();
                 }
             });
+            ecs.defer_end();
         }
 
         // Start drawing
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        
-        if (panel.is_alive())
-        {
-            panel.get<Panel>()->draw();
-        }
-        
+        std::cout << "Render 0\n";
         if (panel2.is_alive())
         {
-            
-            panel2.get<Panel2>()->render();
-            
+            std::cout << "Render 1\n";
+            auto a = panel2.get<Panel2>(); 
+            std::cout << "Render 1.1\n";
+            a->render();
+            std::cout << "Render 2\n";
         }
 
         if (panel3.is_alive())
