@@ -1,0 +1,26 @@
+All rules when coding in this repo:
+
+1. If do you have input arguments use _ before name e.g.
+void doSmth(int _value, std::string _name)
+This will help to think less when changing later and coding.
+
+2. Camel Style for classes and variables. Classes from upper, methods 
+and fields no.
+
+3. -1 as fail, 0 as success, highter value than 0 are specific success 
+when lower than -1 are specific fail.
+
+4. Keep line length under 60-80 if you can, half of the screen,
+easier to read, maintain. (Use tabs to do so)
+
+5. Keep functions shorter than 100 lines if you can. 
+
+6. Avoid recursion, it's making code more complex logically and 
+benefits aren't that great (Usually highter cpu usage for a price of memory).
+
+7. Keep in mind future refractoring for networking and multithreading, 
+especially things which would need both.
+
+
+
+10. Just code with fun :)

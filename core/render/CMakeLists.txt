@@ -1,5 +1,4 @@
 set(CE_render
-    render.cpp
     RenderObject.cpp
     Button.cpp
     TextureManager.cpp

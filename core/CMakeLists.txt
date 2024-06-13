@@ -6,7 +6,7 @@ foreach(subdir IN LISTS SUBDIRS)
 endforeach()
 
 set(CAPIENGINE
-    filler.cpp
+    Engine.cpp
 )
 
 add_library(ceMain SHARED ${CAPIENGINE})

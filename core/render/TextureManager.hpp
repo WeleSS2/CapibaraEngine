@@ -9,8 +9,8 @@ public:
     static TextureManager* getManager();
 
     Texture2D* getTextureById(std::string id);
-    
-    const int loadTexture(const std::string& path);
+
+    const int loadTexture(const std::string& name);
 protected:
     TextureManager() {};
 
@@ -18,6 +18,8 @@ protected:
     TextureManager& operator=(const TextureManager&) = delete;
 private:
     std::unordered_map<Texture2D*, std::string> textures;
+
+    std::string gfxPath = "";
 
     static TextureManager* manager;
 

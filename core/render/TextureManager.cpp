@@ -1,10 +1,14 @@
 #include "TextureManager.hpp"
+#include "Logs.hpp"
 #include <filesystem>
 
 TextureManager* TextureManager::getManager()
 {
-    std::call_once(flag, []() { manager = new TextureManager(); });
-
+    std::call_once(flag, []() 
+        { 
+            manager = new TextureManager(); 
+        }
+    );
     return manager;
 }
 
@@ -21,11 +25,23 @@ Texture2D* TextureManager::getTextureById(std::string id)
     return nullptr;
 }
 
-const int TextureManager::loadTexture(const std::string& path)
+const int TextureManager::loadTexture(const std::string& name)
 {
+    if (gfxPath == "")
+    {
+        gfxPath = std::filesystem::current_path().string() + "\\gfx\\";
+    
+        if (std::filesystem::exists(gfxPath) == false)
+        {
+            ERRORLOG("Critical error - Failed to load gfx path - ", gfxPath);
+
+            return -1;
+        }
+    }
+
     Texture2D* texture = new Texture2D();
 
-    std::string path2 = "gfx\\" + path;
+    std::string path2 = gfxPath + name;
 
     *texture = LoadTexture(path2.c_str());
 
@@ -33,7 +49,7 @@ const int TextureManager::loadTexture(const std::string& path)
     
     if(!IsTextureReady(*texture))
     {
-        std::cout << "Error loading texture - " << path2 << std::endl;
+        ERRORLOG("Critical error - Failed to load texture - ", path2);
         
         return -1;
     }

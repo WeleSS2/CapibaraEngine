@@ -130,7 +130,6 @@ public:
 
     const void render() const
     {
-        std::cout << "Render 3 \n";
         for (auto& i : toRender)
         {
             //if (i.entity().is_alive()) 
@@ -299,7 +298,7 @@ int main(int argc, char *argv[])
 
     // TEST AREA
 
-    std::cout << "Test   " << TextureManager::getManager()->loadTexture("test.png") << "\n";
+    TextureManager::getManager()->loadTexture("test.png");
 
 
 
@@ -347,7 +346,7 @@ int main(int argc, char *argv[])
     bt2.get_ref<cButton>()->addListener(cchangeColor, bt2.get_ref<cButton>(), GREEN);
     bt3.get_ref<cButton>()->addListener(cchangeColor, bt3.get_ref<cButton>(), YELLOW);
     bt4.get_ref<cButton>()->addListener(deleteButton, bt4.get_ref<cButton>(), panel2.get_ref<Panel2>());
-
+    bt4.get_ref<cButton>()->addListener([](){ std::cout << "Heheszki\n"; });
 
     panel2.get_mut<Panel2>()->addModule(bt0.get_ref<cButton>());
     panel2.get_mut<Panel2>()->addModule(bt1.get_ref<cButton>());
@@ -416,14 +415,9 @@ int main(int argc, char *argv[])
         // Start drawing
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        std::cout << "Render 0\n";
         if (panel2.is_alive())
         {
-            std::cout << "Render 1\n";
-            auto a = panel2.get<Panel2>(); 
-            std::cout << "Render 1.1\n";
-            a->render();
-            std::cout << "Render 2\n";
+            panel2.get<Panel2>()->render(); 
         }
 
         if (panel3.is_alive())

@@ -16,8 +16,6 @@ public:
     { 
         if (source) delete source;
         if (dest) delete dest;
-        
-        std::cout << "Test 111 " << id_ << "\n"; 
     }
 
     // Method to add a listener with any number of arguments
