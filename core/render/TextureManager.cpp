@@ -2,6 +2,9 @@
 #include "Logs.hpp"
 #include <filesystem>
 
+TextureManager* TextureManager::manager = nullptr;
+std::once_flag TextureManager::flag;
+
 TextureManager* TextureManager::getManager()
 {
     std::call_once(flag, []() 
@@ -60,6 +63,3 @@ const int TextureManager::loadTexture(const std::string& name)
 
     return 0;
 }
-
-TextureManager* TextureManager::manager = nullptr;
-std::once_flag TextureManager::flag;

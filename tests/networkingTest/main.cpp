@@ -1,7 +1,5 @@
 #include <iostream>
 #include "steam_api.h"
-#include "shared.hpp"
-#include "Win.hpp"
 #include <WS2tcpip.h> // Include the Windows Sockets API header file
 
 #pragma comment(lib, "Ws2_32.lib") // Link with Ws2_32.lib

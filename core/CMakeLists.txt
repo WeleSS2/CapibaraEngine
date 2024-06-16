@@ -18,10 +18,12 @@ target_include_directories(ceMains PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(ceMain PUBLIC 
     ceRender
+    flecs
 )
 
 target_link_libraries(ceMains PUBLIC
     ceRender
+    flecs
 )
 
 set_target_properties(ceMain PROPERTIES 

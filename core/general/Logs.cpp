@@ -8,9 +8,43 @@
 
 #undef DEBUGLOG
 
-Logs::Logs()
+Logs* Logs::singleton = nullptr;
+std::once_flag Logs::flag;
+std::string Logs::currentPath;
+
+Logs* Logs::getInstance()
 {
-    
+    if (singleton == nullptr)
+    {
+        std::call_once(flag, []() 
+        { 
+            #ifdef _WIN32
+            
+                #ifdef DEBUGLOG
+                std::cout << "Appdata error \n";
+                #endif
+            
+                if(APPDATA_DIR() == "")
+                {
+                    return -1;
+                }
+            
+                currentPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
+            
+            #else
+                currentPath = "/var/log/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
+            #endif
+            
+            #ifdef DEBUGLOG
+            std::cout << "Test path: " << currentPath << "\n";
+            #endif
+            
+            singleton = new Logs(); 
+        }
+        );
+    }
+
+    return singleton;
 }
 
 const int Logs::SaveLog(type logType, 
@@ -48,43 +82,24 @@ const int Logs::SaveLog(type logType,
 
     va_end(args);
 
-#ifdef _WIN32
-    #ifdef DEBUGLOG
-    std::cout << "Appdata error \n";
-    #endif
-
-    if(APPDATA_DIR() == "")
+    if(!sf::exists(sf::path(currentPath)))
     {
-        return -1;
+        sf::create_directories(currentPath);
     }
 
-    std::string defPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
-#else
-    std::string defPath = "/var/log/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
-#endif
-
-    #ifdef DEBUGLOG
-    std::cout << "Test path: " << defPath << "\n";
-    #endif
-
-    if(!sf::exists(sf::path(defPath)))
-    {
-        sf::create_directories(defPath);
-    }
-
-    defPath += "/" + file.filename().generic_string();
+    currentPath += "/" + file.filename().generic_string();
 
     if(file.filename().extension() == ".h")
     {
-        defPath.erase(defPath.length() - 1, 1);
-        defPath.append("log");
+        currentPath.erase(currentPath.length() - 1, 1);
+        currentPath.append("log");
     }
     else if (file.filename().extension() == ".cpp" || file.filename().extension() == ".hpp")
     {
-        defPath.replace(defPath.length() - 3, 3, "log");
+        currentPath.replace(currentPath.length() - 3, 3, "log");
     }
     
-    std::fstream out(defPath, std::ios_base::out | std::ios_base::app);
+    std::fstream out(currentPath, std::ios_base::out | std::ios_base::app);
 
     if(out.is_open())
     {

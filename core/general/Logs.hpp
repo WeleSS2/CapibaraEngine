@@ -2,6 +2,7 @@
 #include <iostream>
 #include <filesystem>
 
+
 #ifdef _WIN32
 #define APPDATA_DIR() (std::getenv("APPDATA") ? std::getenv("APPDATA") : "")
 #else
@@ -22,6 +23,7 @@ enum type{
 
 class Logs{
 public:
+    static Logs* getInstance();
 
     // Save log to a file in default path location
     static const int SaveLog(type logType, 
@@ -29,7 +31,16 @@ public:
                        const char* function,
                        int line,
                        std::string log...);
-    Logs();
+protected:
+    Logs() {};
+
+    Logs(const Logs&) = delete;
+    Logs& operator=(const Logs&) = delete;
+
 private:
-    std::string currentPath;
+    static Logs* singleton;
+
+    static std::once_flag flag;
+
+    static std::string currentPath;
 };

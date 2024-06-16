@@ -3,7 +3,6 @@ file(GLOB_RECURSE FILES "*.cpp")
 set(CE_DP
     Multistructs.cpp
     Logs.cpp
-    Win.cpp
     Json.cpp
 )
 
