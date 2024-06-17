@@ -21,6 +21,7 @@ benefits aren't that great (Usually highter cpu usage for a price of memory).
 7. Keep in mind future refractoring for networking and multithreading, 
 especially things which would need both.
 
-
+8. For every binary in test it should be named as "theme"Test e.g. jsonTest
+For us using later search for debug target will be much easier
 
 10. Just code with fun :)

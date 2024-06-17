@@ -9,7 +9,7 @@
 
 using json = nlohmann::json;
 
-std::unique_ptr<VariantUnMap> loadFile(std::string& path)
+std::unique_ptr<VariantUnMap> loadFile(std::string_view path)
 {
     if (!std::filesystem::exists(std::filesystem::path(path)))
     {
@@ -22,32 +22,31 @@ std::unique_ptr<VariantUnMap> loadFile(std::string& path)
 
     std::unique_ptr<VariantUnMap> ptr;
 
-    std::ifstream file(path);
+    std::ifstream file(path.data());
 
     json data;
 
     file >> data;
 
     file.close();
-    /*
+    
     for (auto& [key, value] : data.items())
     {
-        if (value.is_string())
-        {
-            map.insert(key, value.get<std::string>());
-        }
-        else if (value.is_number())
-        {
-            double val = value.get<double>();
-            //map.insert(key, val);
-        }
-        else
-        {
-            ERRORLOG("Unknown value type imported from file");
-        }
+    //     if (value.is_string())
+    //     {
+    //         map.insert(key, value.get<std::string>());
+    //     }
+    //     else if (value.is_number())
+    //     {
+    //         double val = value.get<double>();
+    //         //map.insert(key, val);
+    //     }
+    //     else
+    //     {
+    //         ERRORLOG("Unknown value type imported from file");
+    //     }
     }
 
-*/
     return std::make_unique<VariantUnMap>(map);
 
 };

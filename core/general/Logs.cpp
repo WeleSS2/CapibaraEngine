@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#undef DEBUGLOG
+#define DEBUGLOG
 
 Logs* Logs::singleton = nullptr;
 std::once_flag Logs::flag;
@@ -29,10 +29,10 @@ Logs* Logs::getInstance()
                     return -1;
                 }
             
-                currentPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
+                currentPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
             
             #else
-                currentPath = "/var/log/CapibaraEngine/";// + Engine::getEngine()->getTitle() + "/Logs";
+                currentPath = "/var/log/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
             #endif
             
             #ifdef DEBUGLOG
@@ -53,8 +53,18 @@ const int Logs::SaveLog(type logType,
                   int line,
                   std::string log...)
 {
+    if (singleton == nullptr)
+    {
+        Logs::getInstance();
+    }
+
+    if (singleton == nullptr)
+    {
+        return -1; 
+    }
+
     #ifdef DEBUGLOG
-    std::cout << "Input \n";
+    std::cout << "Input \n" << currentPath << "\n";
     #endif
 
     std::string logInfo;
