@@ -36,7 +36,7 @@ const int TextureManager::loadTexture(const std::string& name)
     
         if (std::filesystem::exists(gfxPath) == false)
         {
-            ERRORLOG("Critical error - Failed to load gfx path - ", gfxPath);
+            ERRORLOG("Critical error - Failed to load gfx path - ", gfxPath.c_str());
 
             return -1;
         }
@@ -52,7 +52,7 @@ const int TextureManager::loadTexture(const std::string& name)
     
     if(!IsTextureReady(*texture))
     {
-        ERRORLOG("Critical error - Failed to load texture - ", path2);
+        ERRORLOG("Critical error - Failed to load texture - ", path2.c_str());
         
         return -1;
     }

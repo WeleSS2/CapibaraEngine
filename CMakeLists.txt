@@ -1,7 +1,5 @@
 cmake_minimum_required (VERSION 3.27.2)
 
-project (CapibaraEngine VERSION 0.1)
-
 set (CMAKE_CXX_STANDARD 23)
 set (MAIN_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/out)
 #set (CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
@@ -15,16 +13,7 @@ add_subdirectory(core)
 add_subdirectory(tests)
 add_subdirectory(games)
 
-add_executable(Testing 
-    main.cpp
-)
-
-target_link_libraries(Testing PRIVATE 
-    ceMain
-)
-
 set(OUTPUT
-    Testing
     ceMain
 )
 
