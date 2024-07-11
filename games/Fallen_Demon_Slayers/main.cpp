@@ -1,6 +1,5 @@
 #include <iostream>
-
-#include <flecs.h>
+#include <chrono>
 
 #include "MainMenu.hpp"
 
@@ -17,31 +16,52 @@ int main()
 
     ptr = &ecs;
 
-    //MainMenu mm(&ecs);
+    ecs.component<cButton>();
+
+    ecs.component<MainMenu>();
+    auto mm = ecs.entity().emplace<MainMenu>(ptr);
+
+    double sum = 0;
+    double iter = 0;
 
     while (!WindowShouldClose()) {
-        ecs.progress();
-        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-            int mouseX = GetMouseX();
-            int mouseY = GetMouseY();
+        iter++;
 
-            ecs.defer_begin();
+        if (sum >= 1000000) {
+            std::cout << "Iter sum was" << iter << std::endl;
+            break;
+        }
+        ecs.progress();
+        int mouseX = GetMouseX();
+        int mouseY = GetMouseY();
+
+
+        ecs.defer_begin();
             auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
+                auto start = std::chrono::high_resolution_clock::now();
                 if (btn.clickCheck(mouseX, mouseY)) {
                     btn.click();
                 }
+                auto finish = std::chrono::high_resolution_clock::now();
+                std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";
+            
+                sum += std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count();
             });
             ecs.defer_end();
-        }
 
         // Start drawing
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
+        if(mm.is_alive())
+        {
+            mm.get_mut<MainMenu>()->render();
+        }
 
         DrawFPS(10, 10); // Display FPS in top-left corner
         EndDrawing();
     }
+
     return 0;
 }

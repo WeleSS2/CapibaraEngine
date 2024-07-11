@@ -1,5 +1,5 @@
-#include "Json.hpp"
-#include "Logs.hpp"
+#include "json.hpp"
+#include "logs.hpp"
 
 #include "nlohmann/json.hpp"
 
@@ -13,7 +13,8 @@ std::unique_ptr<VariantUnMap> loadFile(std::string_view path)
 {
     if (!std::filesystem::exists(std::filesystem::path(path)))
     {
-        ERRORLOG("File do not exist!");
+        std::cout << "Path is: " << path << std::endl;
+        ERRORLOG("File do not exist!", path);
 
         return NULL;
     }
@@ -32,19 +33,18 @@ std::unique_ptr<VariantUnMap> loadFile(std::string_view path)
     
     for (auto& [key, value] : data.items())
     {
-    //     if (value.is_string())
-    //     {
-    //         map.insert(key, value.get<std::string>());
-    //     }
-    //     else if (value.is_number())
-    //     {
-    //         double val = value.get<double>();
-    //         //map.insert(key, val);
-    //     }
-    //     else
-    //     {
-    //         ERRORLOG("Unknown value type imported from file");
-    //     }
+        if (value.is_string())
+        {
+            map.insert(std::make_pair(key, value.get<std::string>()));
+        }
+        else if (value.is_number())
+        {
+            map.insert(std::make_pair(key, value.get<double>()));
+        }
+        else
+        {
+            ERRORLOG("Unknown value type imported from file");
+        }
     }
 
     return std::make_unique<VariantUnMap>(map);

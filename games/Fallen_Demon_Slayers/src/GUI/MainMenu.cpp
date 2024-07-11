@@ -1,9 +1,6 @@
 #include "MainMenu.hpp"
-#include <vector>
 
-#include "flecs.h"
 
-/*
 MainMenu::MainMenu(flecs::world *_world)
 {
     auto bt0 = _world->entity().set<cButton>({"bta0", {800, 0, 100, 50}});
@@ -21,12 +18,12 @@ MainMenu::MainMenu(flecs::world *_world)
     auto bt4 = _world->entity().set<cButton>({"bta4", {800, 400, 100, 50}});
     bt4.get_mut<cButton>()->applyColor(PINK);
 
-    bt0.get_ref<cButton>()->addListener(cchangeColor, bt0.get_ref<cButton>(), RED);
-    bt1.get_ref<cButton>()->addListener(cchangeColor, bt1.get_ref<cButton>(), BLUE);
-    bt2.get_ref<cButton>()->addListener(cchangeColor, bt2.get_ref<cButton>(), GREEN);
-    bt3.get_ref<cButton>()->addListener(cchangeColor, bt3.get_ref<cButton>(), YELLOW);
-    bt4.get_ref<cButton>()->addListener(deleteButton, bt4.get_ref<cButton>(), this);
-    bt4.get_ref<cButton>()->addListener([](){ std::cout << "Heheszki\n"; });
+    // bt0.get_ref<cButton>()->addListener(cchangeColor, bt0.get_ref<cButton>(), RED);
+    // bt1.get_ref<cButton>()->addListener(cchangeColor, bt1.get_ref<cButton>(), BLUE);
+    // bt2.get_ref<cButton>()->addListener(cchangeColor, bt2.get_ref<cButton>(), GREEN);
+    // bt3.get_ref<cButton>()->addListener(cchangeColor, bt3.get_ref<cButton>(), YELLOW);
+    // bt4.get_ref<cButton>()->addListener(deleteButton, bt4.get_ref<cButton>(), this);
+    // bt4.get_ref<cButton>()->addListener([](){ std::cout << "Heheszki\n"; });
 
     this->addModule(bt0.get_mut<cButton>());
     this->addModule(bt1.get_mut<cButton>());
@@ -51,4 +48,4 @@ const void MainMenu::render() const
 const void MainMenu::addModule(cButton* object)
 {
     toRender.emplace_back(object);
-}*/
+}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderObject.hpp"
+#include "renderObject.hpp"
 #include <vector>
 #include <functional>
 #include "raylib.h"

@@ -1,11 +1,11 @@
 #pragma once
 
 #include <variant>
-#include "Singleton.hpp"
+#include "json.hpp"
 
 using json = nlohmann::json;
 
-class Settings : CEngine::DPatterns::Singleton<Settings> {
+class Settings {
 public:
 
     Settings();

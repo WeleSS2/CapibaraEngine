@@ -1,4 +1,4 @@
-file(GLOB_RECURSE SUBDIRS "*/CMakeLists.txt")
+file(GLOB SUBDIRS "*/CMakeLists.txt")
 
 foreach(subdir IN LISTS SUBDIRS)
     get_filename_component(subdir_name ${subdir} DIRECTORY)

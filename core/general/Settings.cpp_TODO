@@ -1,8 +1,8 @@
-#include "Settings.hpp"
-#include "Win.hpp"
-#include "Logs.hpp"
-#include "Json.hpp"
-#include "../Engine.hpp"
+#include "settings.hpp"
+#include "win.hpp"
+#include "logs.hpp"
+#include "json.hpp"
+#include "../engine.hpp"
 
 #include <filesystem>
 #include <iostream>

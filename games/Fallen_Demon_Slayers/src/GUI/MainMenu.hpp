@@ -2,12 +2,12 @@
 
 #include "TextureManager.hpp"
 #include "Button.hpp"
-/*
+#include "flecs.h"
+#include <vector>
+
 class MainMenu : public cRenderObject
 {
 public:
-    MainMenu(){};
-
     MainMenu(flecs::world *_world);
 
     ~MainMenu();
@@ -20,4 +20,4 @@ public:
 
 private:
     std::vector<cButton*> toRender;
-};*/
+};

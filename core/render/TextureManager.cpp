@@ -1,5 +1,5 @@
-#include "TextureManager.hpp"
-#include "Logs.hpp"
+#include "textureManager.hpp"
+#include "logs.hpp"
 #include <filesystem>
 
 TextureManager* TextureManager::manager = nullptr;

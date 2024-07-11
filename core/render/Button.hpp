@@ -1,6 +1,6 @@
 #pragma once
 
-#include "RenderObject.hpp"
+#include "renderObject.hpp"
 #include <vector>
 #include <functional>
 #include "raylib.h"
@@ -57,7 +57,7 @@ protected:
 
     bool isClicked_ = false;
 
-    std::string id_ = "DD";
+    std::string id_ = "TODO";
 
 private:
     std::string text_ = "";

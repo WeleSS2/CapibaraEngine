@@ -1,5 +1,5 @@
 #include "logs.hpp"
-#include "../Engine.hpp"
+#include "../engine.hpp"
 
 #include <fstream>
 #include <cstdarg>
@@ -40,6 +40,8 @@ Logs* Logs::getInstance()
             #endif
             
             singleton = new Logs(); 
+
+            return 0;
         }
         );
     }

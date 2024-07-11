@@ -1,22 +1,19 @@
   
-# #  Tests for backend code
-  
-# enable_testing()
+#  Tests for backend code
+add_executable(gTestsExample
+    test_test.cpp
+)
 
-# add_executable(TestWindows
-#     test_test.cc
-# )
+target_link_libraries(gTestsExample PRIVATE
+    ceMain
+    gtest_main
+)
 
-# target_include_directories(TestWindows PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+include(GoogleTest)
 
-# target_link_libraries(TestWindows PUBLIC
-#     ceMain
-#     GTest::gtest_main
-# )
-
-# set_target_properties(TestWindows PROPERTIES
-#     RUNTIME_OUTPUT_DIRECTORY ${MAIN_OUTPUT_DIRECTORY}
-# )
-
-# include(GoogleTest)
-# gtest_discover_tests(TestWindows)
+gtest_discover_tests(gTestsExample
+  PROPERTIES
+    LABELS "unit"
+  DISCOVERY_TIMEOUT  # how long to wait (in seconds) before crashing
+    240
+  )

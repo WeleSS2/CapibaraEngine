@@ -1,5 +1,5 @@
-#include "Button.hpp"
-#include "TextureManager.hpp"
+#include "button.hpp"
+#include "textureManager.hpp"
 
 const void cButton::create(std::string _id, cPosSize data_)
 {
@@ -39,17 +39,42 @@ void cButton::click()
     }
 }
 
+// bool cButton::clickCheck(int x, int y) const
+// {
+//     if (x <= this->posSize_.posX)
+//     {
+//         return false;
+//     }
+
+//     if (x >= this->posSize_.posX + this->posSize_.width)
+//     {
+//         return false;
+//     }
+
+//     if (y <= this->posSize_.posY)
+//     {
+//         return false;
+//     }
+
+//     if (y >= this->posSize_.posY + this->posSize_.height)
+//     {
+//         return false;
+//     }
+
+//     return true;
+// }
+
 bool cButton::clickCheck(int x, int y) const
 {
-    if (x >= this->posSize_.posX 
-        && x <= this->posSize_.posX + this->posSize_.width 
-        && y >= this->posSize_.posY 
-        && y <= this->posSize_.posY + this->posSize_.height)
+    if (x <= this->posSize_.posX 
+        || x >= this->posSize_.posX + this->posSize_.width 
+        || y <= this->posSize_.posY 
+        || y >= this->posSize_.posY + this->posSize_.height)
     {
-        return true;
+        return false;
     }
 
-    return false;
+    return true;
 }
 
 const void cButton::applyColor(Color _color) {

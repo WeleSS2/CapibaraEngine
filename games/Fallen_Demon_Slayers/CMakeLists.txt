@@ -9,6 +9,7 @@ add_subdirectory(gfx)
 
 add_executable(Fallen_Demon_Slayers
     main.cpp
+    ${SRC_cpp}
 )
 
 target_link_libraries(Fallen_Demon_Slayers PRIVATE 
