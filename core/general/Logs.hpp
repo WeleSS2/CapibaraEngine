@@ -26,11 +26,11 @@ public:
     static Logs* getInstance();
 
     // Save log to a file in default path location
-    static const int SaveLog(type logType, 
-                       const std::filesystem::path& file,
-                       const char* function,
-                       int line,
-                       std::string log...);
+    static const int SaveLog(type _logType, 
+                       const std::filesystem::path& _file,
+                       const char* _function,
+                       int _line,
+                       std::string _log...);
 protected:
     Logs() {};
 
@@ -38,9 +38,9 @@ protected:
     Logs& operator=(const Logs&) = delete;
 
 private:
-    static Logs* singleton;
+    static Logs* singleton_;
 
-    static std::once_flag flag;
+    static std::once_flag flag_;
 
-    static std::string currentPath;
+    static std::string currentPath_;
 };

@@ -6,4 +6,4 @@
 
 typedef std::unordered_map<std::string, std::variant<std::string, double>> VariantUnMap;
 
-std::unique_ptr<VariantUnMap> loadFile(std::string_view path);
+std::unique_ptr<VariantUnMap> loadFile(std::string_view _path);

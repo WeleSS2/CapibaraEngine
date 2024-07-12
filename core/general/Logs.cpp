@@ -8,15 +8,15 @@
 
 #define DEBUGLOG
 
-Logs* Logs::singleton = nullptr;
-std::once_flag Logs::flag;
-std::string Logs::currentPath;
+Logs* Logs::singleton_ = nullptr;
+std::once_flag Logs::flag_;
+std::string Logs::currentPath_;
 
 Logs* Logs::getInstance()
 {
-    if (singleton == nullptr)
+    if (singleton_ == nullptr)
     {
-        std::call_once(flag, []() 
+        std::call_once(flag_, []() 
         { 
             #ifdef _WIN32
             
@@ -29,49 +29,49 @@ Logs* Logs::getInstance()
                     return -1;
                 }
             
-                currentPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
+                currentPath_ = std::string(APPDATA_DIR()) + "/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
             
             #else
-                currentPath = "/var/log/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
+                currentPath_ = "/var/log/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
             #endif
             
             #ifdef DEBUGLOG
-            std::cout << "Test path: " << currentPath << "\n";
+            std::cout << "Test path: " << currentPath_ << "\n";
             #endif
             
-            singleton = new Logs(); 
+            singleton_ = new Logs(); 
 
             return 0;
         }
         );
     }
 
-    return singleton;
+    return singleton_;
 }
 
-const int Logs::SaveLog(type logType, 
-                  const std::filesystem::path& file,
-                  const char* function,
-                  int line,
-                  std::string log...)
+const int Logs::SaveLog(type _logType, 
+                  const std::filesystem::path& _file,
+                  const char* _function,
+                  int _line,
+                  std::string _log...)
 {
-    if (singleton == nullptr)
+    if (singleton_ == nullptr)
     {
         Logs::getInstance();
     }
 
-    if (singleton == nullptr)
+    if (singleton_ == nullptr)
     {
         return -1; 
     }
 
     #ifdef DEBUGLOG
-    std::cout << "Input \n" << currentPath << "\n";
+    std::cout << "Input \n" << currentPath_ << "\n";
     #endif
 
     std::string logInfo;
 
-    switch (logType)
+    switch (_logType)
     {
         case eINFO:
             logInfo = "INFO";
@@ -87,31 +87,31 @@ const int Logs::SaveLog(type logType,
     namespace sf = std::filesystem;
 
     va_list args;
-    va_start(args, log);
+    va_start(args, _log);
 
     char buffer[1024];
-    vsnprintf(buffer, sizeof(buffer), log.c_str(), args);
+    vsnprintf(buffer, sizeof(buffer), _log.c_str(), args);
 
     va_end(args);
 
-    if(!sf::exists(sf::path(currentPath)))
+    if(!sf::exists(sf::path(currentPath_)))
     {
-        sf::create_directories(currentPath);
+        sf::create_directories(currentPath_);
     }
 
-    currentPath += "/" + file.filename().generic_string();
+    currentPath_ += "/" + _file.filename().generic_string();
 
-    if(file.filename().extension() == ".h")
+    if(_file.filename().extension() == ".h")
     {
-        currentPath.erase(currentPath.length() - 1, 1);
-        currentPath.append("log");
+        currentPath_.erase(currentPath_.length() - 1, 1);
+        currentPath_.append("log");
     }
-    else if (file.filename().extension() == ".cpp" || file.filename().extension() == ".hpp")
+    else if (_file.filename().extension() == ".cpp" || _file.filename().extension() == ".hpp")
     {
-        currentPath.replace(currentPath.length() - 3, 3, "log");
+        currentPath_.replace(currentPath_.length() - 3, 3, "log");
     }
     
-    std::fstream out(currentPath, std::ios_base::out | std::ios_base::app);
+    std::fstream out(currentPath_, std::ios_base::out | std::ios_base::app);
 
     if(out.is_open())
     {
@@ -119,13 +119,13 @@ const int Logs::SaveLog(type logType,
         std::cout << logInfo
             << " | "
             << "File: "
-            << file
+            << _file
             << " | "
             << "Function: "
-            << function
+            << _function
             << " | "
             << "Line: "
-            << line
+            << _line
             << " | "
             << buffer
             << std::endl;
@@ -133,13 +133,13 @@ const int Logs::SaveLog(type logType,
         out << logInfo
             << " | "
             << "File: "
-            << file
+            << _file
             << " | "
             << "Function: "
-            << function
+            << _function
             << " | "
             << "Line: "
-            << line
+            << _line
             << " | "
             << buffer
             << std::endl;

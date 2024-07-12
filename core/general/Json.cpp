@@ -9,12 +9,11 @@
 
 using json = nlohmann::json;
 
-std::unique_ptr<VariantUnMap> loadFile(std::string_view path)
+std::unique_ptr<VariantUnMap> loadFile(std::string_view _path)
 {
-    if (!std::filesystem::exists(std::filesystem::path(path)))
+    if (!std::filesystem::exists(std::filesystem::path(_path)))
     {
-        std::cout << "Path is: " << path << std::endl;
-        ERRORLOG("File do not exist!", path);
+        ERRORLOG("File do not exist!", _path);
 
         return NULL;
     }
@@ -23,7 +22,7 @@ std::unique_ptr<VariantUnMap> loadFile(std::string_view path)
 
     std::unique_ptr<VariantUnMap> ptr;
 
-    std::ifstream file(path.data());
+    std::ifstream file(_path.data());
 
     json data;
 
@@ -35,7 +34,7 @@ std::unique_ptr<VariantUnMap> loadFile(std::string_view path)
     {
         if (value.is_string())
         {
-            map.insert(std::make_pair(key, value.get<std::string>()));
+            map.insert(std::make_pair( key, value.get<std::string>()));
         }
         else if (value.is_number())
         {
