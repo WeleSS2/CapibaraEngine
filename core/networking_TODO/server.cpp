@@ -5,8 +5,8 @@
 // $NoKeywords: $
 //=============================================================================
 
-#include "Server.hpp"
-#include "Client.hpp"
+#include "server.h"
+#include "client.h"
 #include "stdlib.h"
 #include "time.h"
 #include <math.h>

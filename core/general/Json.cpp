@@ -1,5 +1,5 @@
-#include "json.hpp"
-#include "logs.hpp"
+#include "json.h"
+#include "logs.h"
 
 #include "nlohmann/json.hpp"
 

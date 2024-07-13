@@ -1,5 +1,5 @@
-#include "logs.hpp"
-#include "../engine.hpp"
+#include "logs.h"
+#include "../engine.h"
 
 #include <fstream>
 #include <cstdarg>

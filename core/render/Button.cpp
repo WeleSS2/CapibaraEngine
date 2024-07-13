@@ -1,5 +1,5 @@
-#include "button.hpp"
-#include "textureManager.hpp"
+#include "button.h"
+#include "textureManager.h"
 
 const void cButton::create(std::string _id, cPosSize data_)
 {
@@ -38,31 +38,6 @@ void cButton::click()
         listener();
     }
 }
-
-// bool cButton::clickCheck(int x, int y) const
-// {
-//     if (x <= this->posSize_.posX)
-//     {
-//         return false;
-//     }
-
-//     if (x >= this->posSize_.posX + this->posSize_.width)
-//     {
-//         return false;
-//     }
-
-//     if (y <= this->posSize_.posY)
-//     {
-//         return false;
-//     }
-
-//     if (y >= this->posSize_.posY + this->posSize_.height)
-//     {
-//         return false;
-//     }
-
-//     return true;
-// }
 
 bool cButton::clickCheck(int x, int y) const
 {

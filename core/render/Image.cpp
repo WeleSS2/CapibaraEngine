@@ -1,5 +1,5 @@
-#include "image.hpp"
-#include "textureManager.hpp"
+#include "image.h"
+#include "textureManager.h"
 
 const void cImage::render() const
 {
