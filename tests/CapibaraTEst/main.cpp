@@ -8,9 +8,9 @@
 
 #define raylib
 
-#include "logs.hpp"
-#include "Button.hpp"
-#include "TextureManager.hpp"
+#include "logs.h"
+#include "Button.h"
+#include "TextureManager.h"
 #include "raylib.h"
 #include <flecs.h>
 

@@ -1,79 +1,56 @@
 #pragma once
-
-#include "renderObject.hpp"
 #include <vector>
 #include <functional>
+
 #include "raylib.h"
+
+#include "image.h"
+#include "clickObject.h"
 
 class cButton : private cRenderObject {
 public:
-    cButton() {};
+    cButton(cPositionObject _data);
 
-    cButton (const std::string _id, const cPosSize& data_)
-        : id_(_id), cRenderObject(data_) { std::cout << "Const IS   "  << id_ << std::endl; };
+    cButton(std::shared_ptr<cPositionObject> _data);
 
-    virtual ~cButton() 
-    { 
-        if (source) delete source;
-        if (dest) delete dest;
-    }
+    virtual ~cButton() {}
 
-    // Method to add a listener with any number of arguments
-    template<typename Func, typename... Args>
-    void addListener(Func&& func, Args&&... args) {
-        listeners.emplace_back([=]() {
-            func(args...);
-        });
-    }
+    void setPositionObject(std::shared_ptr<cPositionObject> _data);
+
+    std::shared_ptr<cPositionObject> getPositionObject() const;
 
     // Render color -> texture -> text. It need to looks correctly 
-    const void render() const override;
+    void render() const override;
 
     // DO not use constructor with .set as it's cause double fire of constructor
-    const void create(std::string _id, cPosSize data_);
+    //void create(std::string _id, cPosSize data_);
 
-    // Method to trigger listeners
-    void click();
+    void applyColor(Color _color);
 
-    // Check did click is inside
-    bool clickCheck(int x, int y) const;
+    void applyText(const std::string& text);
 
-    const std::string& getId() const {return id_; };
+    void applyTexture(std::string& id, bool rescale_ = false);
 
-    int getY() {return this->posSize_.posY; };
+    void applyTexture(std::shared_ptr<cImage> _image);
 
-    const void applyColor(Color _color);
-
-    const void applyText(const std::string& text);
-
-    const void applyTexture(const std::string& id, bool rescale_ = false);
-
-    const void drawRescaleTexture();
-
-    const void applyTexture(Texture2D* texture_);
-
-protected:
-    std::vector<std::function<void()>> listeners;
-
-    bool isClicked_ = false;
-
-    std::string id_ = "TODO";
+    std::unique_ptr<cClickObject>& getClickObject();
 
 private:
-    std::string text_ = "";
+    void drawRescaleTexture();
 
-    Texture2D* texture_ = nullptr;
+    std::shared_ptr<cPositionObject> data_ = nullptr;
+
+    std::shared_ptr<cImage> image_ = nullptr;
+
+    std::unique_ptr<cClickObject> click_ = nullptr;
+
+    std::string text_ = "";
 
     Color color_ = {};
 
-    Rectangle* source = nullptr;
-    Rectangle* dest = nullptr;
+    bool colorApplied_ = false;
 
-    bool rescale = false;
+    bool textureApplied_ = false;
 
-    bool colorApplied = false;
-
-    bool textureApplied = false;
-
-    bool textApplied = false;
+    bool textApplied_ = false;
 };

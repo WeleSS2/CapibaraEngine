@@ -4,7 +4,13 @@
 #include "json.h"
 
 using json = nlohmann::json;
-
+/*
+ * Settings class
+ * Using json files to load and save values in folder 
+ * %appdata%/CapibaraStudio/$title$/settings/$custom$.json
+ * $custom$ can be anything also a additional path
+ * mac / unix eq: 
+ */
 class Settings {
 public:
 

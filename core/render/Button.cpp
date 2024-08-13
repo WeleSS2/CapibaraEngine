@@ -1,91 +1,74 @@
 #include "button.h"
 #include "textureManager.h"
 
-const void cButton::create(std::string _id, cPosSize data_)
+cButton::cButton(cPositionObject _data)
+    : cRenderObject(data_)
 {
-    id_ = _id;
-    posSize_ = data_;
-}
+    data_ = std::make_shared<cPositionObject>(std::move(_data));
+};
 
-const void cButton::render() const
+cButton::cButton(std::shared_ptr<cPositionObject> _data)
+    : data_(_data), cRenderObject(_data)
 {
-    if (colorApplied)
+
+};
+
+//void cButton::create(std::string _id, cPosSize data_)
+//{
+//    id_ = _id;
+//    posSize_ = data_;
+//}
+
+void cButton::render() const
+{
+    if (colorApplied_)
     {
-        DrawRectangle(this->posSize_.posX, this->posSize_.posY, this->posSize_.width, this->posSize_.height, color_);
+        DrawRectangle(
+            data_->getPosSize().posX, 
+            data_->getPosSize().posY,
+            data_->getPosSize().width, 
+            data_->getPosSize().height, 
+            color_);
     }
 
-    if (textureApplied)
+    if (textureApplied_)
     {
-        if (!rescale)
-        {
-            DrawTexture(*texture_, this->posSize_.posX, this->posSize_.posY, WHITE);
-        }
-        else
-        {
-            DrawTexturePro(*texture_, *source, *dest, { 0.0f, 0.0f }, 0.0f, WHITE);
-        }
+        image_->render();
     }
 
-    if (textApplied)
+    if (textApplied_)
     {
         // TODO
     }
-}
+};
 
-void cButton::click()
-{
-    for (auto& listener : listeners) {
-        listener();
-    }
-}
-
-bool cButton::clickCheck(int x, int y) const
-{
-    if (x <= this->posSize_.posX 
-        || x >= this->posSize_.posX + this->posSize_.width 
-        || y <= this->posSize_.posY 
-        || y >= this->posSize_.posY + this->posSize_.height)
-    {
-        return false;
-    }
-
-    return true;
-}
-
-const void cButton::applyColor(Color _color) {
+void cButton::applyColor(Color _color) {
     color_ = _color;
-    colorApplied = true;
-}
+    colorApplied_ = true;
+};
 
-const void cButton::applyText(const std::string& _text) {
+void cButton::applyText(const std::string& _text) {
     text_ = _text;
-    textApplied = true;
-}
+    textApplied_ = true;
+};
 
-const void cButton::applyTexture(const std::string& id, bool rescale_) {
-    texture_ = TextureManager::getManager()->getTextureById(id);
+void cButton::applyTexture(std::string& _id, bool _rescale) 
+{
+    image_ = std::make_shared<cImage>(data_);
 
-    rescale = rescale_;
+    image_->applyTexture(_id, _rescale);
 
-    if (rescale)
-    {
-        drawRescaleTexture();
-    }
-    
-    textureApplied = true;
-}
+    textureApplied_ = true;
+};
 
-const void cButton::drawRescaleTexture() {
-    source = new Rectangle{ 0.0f, 0.0f, (float)texture_->width, (float)texture_->height };
-    dest = new Rectangle{ 
-        (float)this->posSize_.posX,
-        (float)this->posSize_.posY,
-        (float)( this->posSize_.width),
-        (float)( this->posSize_.height) 
-    };
-}
+void cButton::applyTexture(std::shared_ptr<cImage> _image) 
+{
+    image_ = _image;
 
-const void cButton::applyTexture(Texture2D* _texture) {
-    texture_ = _texture;
-    textureApplied = true;
-}
+    textureApplied_ = true;
+};
+
+std::unique_ptr<cClickObject>& cButton::getClickObject()
+{
+    return click_;
+};

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <chrono>
 
-#include "MainMenu.hpp"
+#include "MainMenu.h"
 
 flecs::world *ptr = NULL;
 
@@ -40,8 +40,8 @@ int main()
             auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
                 auto start = std::chrono::high_resolution_clock::now();
-                if (btn.clickCheck(mouseX, mouseY)) {
-                    btn.click();
+                if (btn.getClickObject()->clickCheck(mouseX, mouseY)) {
+                    btn.getClickObject()->click();
                 }
                 auto finish = std::chrono::high_resolution_clock::now();
                 std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";

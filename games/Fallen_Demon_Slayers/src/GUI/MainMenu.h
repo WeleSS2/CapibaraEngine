@@ -1,7 +1,7 @@
 #pragma once
 
-#include "TextureManager.hpp"
-#include "Button.hpp"
+#include "TextureManager.h"
+#include "Button.h"
 #include "flecs.h"
 #include <vector>
 
@@ -12,7 +12,7 @@ public:
 
     ~MainMenu();
 
-    const void render() const override;
+    void render() const override;
 
     void remove(flecs::ref<cButton> bt);
 

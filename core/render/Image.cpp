@@ -1,45 +1,64 @@
 #include "image.h"
 #include "textureManager.h"
 
-const void cImage::render() const
+cImage::cImage(cPositionObject _data)
+    : cRenderObject(_data)
 {
-    if (textureApplied)
+    data_ = std::make_shared<cPositionObject>(std::move(_data));
+};
+
+cImage::cImage(std::shared_ptr<cPositionObject> _data)
+    : cRenderObject(_data)
+{
+    data_ = _data;
+};
+
+void cImage::render() const
+{
+    if (textureApplied_)
     {
-        if (!rescale)
+        if (!rescale_)
         {
-            DrawTexture(*texture_, this->posSize_.posX, this->posSize_.posY, WHITE);
+            DrawTexture(*texture_, 
+                data_->getPosSize().posX, 
+                data_->getPosSize().posY, WHITE);
         }
         else
         {
-            DrawTexturePro(*texture_, *source, *dest, { 0.0f, 0.0f }, 0.0f, WHITE);
+            DrawTexturePro(*texture_, *source_, *dest_, { 0.0f, 0.0f }, 0.0f, WHITE);
         }
     }
 }
 
-const void cImage::applyTexture(const std::string& id, bool rescale_) {
-    texture_ = TextureManager::getManager()->getTextureById(id);
+void cImage::applyTexture(std::string& _id, bool _rescale) {
+    texture_ = TextureManager::getInstance()->getTextureById(_id);
 
-    rescale = rescale_;
+    rescale_ = _rescale;
 
-    if (rescale)
+    if (rescale_)
     {
         drawRescaleTexture();
     }
     
-    textureApplied = true;
+    textureApplied_ = true;
 }
 
-const void cImage::drawRescaleTexture() {
-    source = new Rectangle{ 0.0f, 0.0f, (float)texture_->width, (float)texture_->height };
-    dest = new Rectangle{ 
-        (float)this->posSize_.posX,
-        (float)this->posSize_.posY,
-        (float)( this->posSize_.width),
-        (float)( this->posSize_.height) 
+void cImage::setFullscreen() {
+    data_->setPosSize({0, 0, GetScreenWidth(), GetScreenHeight()});
+
+    drawRescaleTexture();
+
+    rescale_ = true;
+}
+
+
+void cImage::drawRescaleTexture() {
+    source_ = new Rectangle{ 0.0f, 0.0f, (float)texture_->width, (float)texture_->height };
+
+    dest_ = new Rectangle{ 
+        (float) data_->getPosSize().posX,
+        (float) data_->getPosSize().posY,
+        (float) data_->getPosSize().width,
+        (float) data_->getPosSize().height 
     };
-}
-
-const void cImage::applyTexture(Texture2D* _texture) {
-    texture_ = _texture;
-    textureApplied = true;
 }
