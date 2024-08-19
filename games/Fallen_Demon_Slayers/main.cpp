@@ -13,24 +13,25 @@ int main()
     InitWindow(1920, 1080, "Test");
 
     flecs::world ecs;
+    cPositionObject po = {{"gmm", 0}, {0, 0, 1920, 1080}, {0, 0, 0}};
 
     ptr = &ecs;
 
     ecs.component<cButton>();
 
     ecs.component<MainMenu>();
-    auto mm = ecs.entity().emplace<MainMenu>(ptr);
+    auto mm = ecs.entity().emplace<MainMenu>(ptr, po);
 
     double sum = 0;
     double iter = 0;
 
     while (!WindowShouldClose()) {
-        iter++;
+        //iter++;
 
-        if (sum >= 1000000) {
-            std::cout << "Iter sum was" << iter << std::endl;
-            break;
-        }
+        //if (sum >= 1000000) {
+        //    std::cout << "Iter sum was" << iter << std::endl;
+        //    break;
+        //}
         ecs.progress();
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
@@ -39,16 +40,16 @@ int main()
         ecs.defer_begin();
             auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
-                auto start = std::chrono::high_resolution_clock::now();
+                //auto start = std::chrono::high_resolution_clock::now();
                 if (btn.getClickObject()->clickCheck(mouseX, mouseY)) {
                     btn.getClickObject()->click();
                 }
-                auto finish = std::chrono::high_resolution_clock::now();
-                std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";
+                //auto finish = std::chrono::high_resolution_clock::now();
+                //std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";
             
-                sum += std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count();
+                //sum += std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count();
             });
-            ecs.defer_end();
+        ecs.defer_end();
 
         // Start drawing
         BeginDrawing();

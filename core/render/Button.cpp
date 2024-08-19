@@ -1,16 +1,19 @@
 #include "button.h"
 #include "textureManager.h"
 
-cButton::cButton(cPositionObject _data)
-    : cRenderObject(data_)
+cButton::cButton(cPositionObject& _data)
+    : cRenderObject(_data)
 {
-    data_ = std::make_shared<cPositionObject>(std::move(_data));
+    std::cout << "Button" << std::endl;
+    //data_ = std::make_shared<cPositionObject>(std::move(_data));
+    //std::cout << "data" << std::endl;
+
 };
 
 cButton::cButton(std::shared_ptr<cPositionObject> _data)
-    : data_(_data), cRenderObject(_data)
+    : cRenderObject(_data)
 {
-
+    //std::cout << "PTR" << std::endl;
 };
 
 //void cButton::create(std::string _id, cPosSize data_)
@@ -24,10 +27,10 @@ void cButton::render() const
     if (colorApplied_)
     {
         DrawRectangle(
-            data_->getPosSize().posX, 
-            data_->getPosSize().posY,
-            data_->getPosSize().width, 
-            data_->getPosSize().height, 
+            getPositionObject()->getPosSize().posX, 
+            getPositionObject()->getPosSize().posY,
+            getPositionObject()->getPosSize().width, 
+            getPositionObject()->getPosSize().height, 
             color_);
     }
 
@@ -54,7 +57,7 @@ void cButton::applyText(const std::string& _text) {
 
 void cButton::applyTexture(std::string& _id, bool _rescale) 
 {
-    image_ = std::make_shared<cImage>(data_);
+    image_ = std::make_shared<cImage>(getPositionObject());
 
     image_->applyTexture(_id, _rescale);
 
@@ -70,5 +73,12 @@ void cButton::applyTexture(std::shared_ptr<cImage> _image)
 
 std::unique_ptr<cClickObject>& cButton::getClickObject()
 {
+    std::cout << "getClickObject" << std::endl;
+    if (!click_)
+    {
+        std::cout << "make_unique" << std::endl;
+        click_ = std::make_unique<cClickObject>(getPositionObject());
+    }
+
     return click_;
 };

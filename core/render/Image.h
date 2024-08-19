@@ -8,15 +8,15 @@
 
 class cImage : public cRenderObject {
 public:
-    cImage(cPositionObject _data);
+    cImage(cPositionObject& _data);
 
     cImage (std::shared_ptr<cPositionObject> _data);
 
     virtual ~cImage() {};
 
-    void setPositionObject(std::shared_ptr<cPositionObject> _data);
+    //void setPositionObject(std::shared_ptr<cPositionObject> _data);
 
-    std::shared_ptr<cPositionObject> getPositionObject() const;
+    //std::shared_ptr<cPositionObject> getPositionObject() const;
 
     /*
      * Render image
@@ -38,7 +38,7 @@ public:
 private:
     void drawRescaleTexture();
 
-    std::shared_ptr<cPositionObject> data_ = nullptr;
+    //std::shared_ptr<cPositionObject> data_ = nullptr;
 
     Texture2D* texture_ = nullptr;
 

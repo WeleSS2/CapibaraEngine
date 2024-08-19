@@ -25,6 +25,7 @@ public:
     template<typename Func, typename... Args>
     void addListener(Func&& func, Args&&... args) 
     {
+        std::cout << "Listener added" << std::endl;
         listeners_.emplace_back([=]() {
             func(args...);
         });

@@ -8,9 +8,13 @@
 class MainMenu : public cRenderObject
 {
 public:
-    MainMenu(flecs::world *_world);
+    MainMenu(MainMenu&&) noexcept = default;
 
-    ~MainMenu();
+    MainMenu& operator=(MainMenu&&) noexcept = default;
+
+    MainMenu(flecs::world *_world, cPositionObject& _data);
+
+    ~MainMenu() noexcept = default;
 
     void render() const override;
 

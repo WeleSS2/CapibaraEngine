@@ -10,11 +10,19 @@
 class cRenderObject
 {
 public:
-    cRenderObject(cPositionObject _data);
+    cRenderObject(cRenderObject&&) noexcept = default;
+    
+    cRenderObject& operator=(cRenderObject&&) noexcept = default;
+
+    cRenderObject& operator=(const cRenderObject& other) {
+        return *this;
+    }
+
+    cRenderObject(cPositionObject& _data);
     
     cRenderObject(std::shared_ptr<cPositionObject> _data);
 
-    virtual ~cRenderObject() {};
+    virtual ~cRenderObject() noexcept = default;
 
     /*
      * Render object to screen

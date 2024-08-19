@@ -9,14 +9,14 @@
  * When positions something take it into account
  * It's vecotr of 3 ints to get better logic of them when categorizing
  */
-struct IV3
+struct cIV3
 {
     int one;
     int two;
     int three;
 
-    IV3() {};
-    IV3(int _one, int _two, int _three)
+    cIV3() {};
+    cIV3(int _one, int _two, int _three)
     : one(_one), two(_two), three(_three) {};
 };
 
@@ -41,8 +41,36 @@ struct cPosSize
  * App info
  * Title and version
  */
-struct appInfo
+struct cAppInfo
 {
     std::string title = "";
     std::string version = "";
+};
+
+/*
+ * ID for entities
+ * WE use combination of string and int 
+ * total of N bits but try to keep string part as small
+ * as possible, this way we have huge amount of potential IDs
+ * for copies of one entity type and flexible approach for different 
+ * entities
+ * 
+ *     cID(const std::string& _ifStr, int _idNum)
+ *       : ifStr(_ifStr), idNum(_idNum) {};
+ */
+struct cID
+{
+    std::string ifStr = "";
+    int idNum = 0;
+
+    cID() {};
+
+    cID(const std::string& _ifStr, int _idNum)
+        : ifStr(_ifStr), idNum(_idNum) {};
+
+    cID operator++() { idNum++; };
+    cID operator++(int) { idNum++; return *this; };
+    
+    cID operator--() { idNum--; };
+    cID operator--(int) { idNum--; return *this; };
 };

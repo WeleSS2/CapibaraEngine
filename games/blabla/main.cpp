@@ -12,6 +12,7 @@
 ********************************************************************************************/
 
 #include "raylib.h"
+#include "logs.h"
 
 #define MAX_COLORS_COUNT    21          // Number of colors available
 
@@ -20,6 +21,8 @@
 //------------------------------------------------------------------------------------
 int main(void)
 {
+    std::string dede = "dede";
+    INFOLOG("Test is   ", dede);
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;

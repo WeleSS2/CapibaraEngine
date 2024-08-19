@@ -25,11 +25,11 @@ public:
 
 	static Engine* getInstance();
 
-	const appInfo& getAppInfo() const;
+	const cAppInfo& getAppInfo() const;
 protected:
 	static Engine* engineInstance_;
 
 	static std::once_flag flag_;
 
-    appInfo appInfo_;
+    cAppInfo appInfo_;
 };

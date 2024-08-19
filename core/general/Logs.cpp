@@ -94,6 +94,10 @@ const int Logs::SaveLog(type _logType,
 
     va_end(args);
 
+    #ifdef DEBUGLOG
+    std::cout << buffer << "\n";
+    #endif
+
     if(!sf::exists(sf::path(currentPath_)))
     {
         sf::create_directories(currentPath_);

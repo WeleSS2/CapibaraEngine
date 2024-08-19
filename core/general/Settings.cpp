@@ -10,6 +10,29 @@
 #include <vector>
 #include <sstream>
 
+#define ERROR
+#define WARN
+#define INFO
+
+
+
+#ifdef ERROR
+#define LogError(format, ...) Logs::SaveLog(eERROR, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+#else
+#define LogError(format, ...)
+#endif
+
+#ifdef WARN
+#define LogWarn(format, ...) Logs::SaveLog(eWARNING, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+#else
+#define LogWarn(format, ...)
+#endif
+
+#ifdef INFO
+#define LogInfo(format, ...) Logs::SaveLog(eINFO, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+#else
+#define LogInfo(format, ...)
+#endif
 
 namespace fs = std::filesystem;
 
@@ -50,14 +73,14 @@ int Settings::findSettings()
     #ifdef _WIN32
         if(APPDATA_DIR() == "")
         {
-            WARNLOG("Appdata do not exist?!");
+            LogWarn("Appdata do not exist?!");
 
             return -1;
         }
 
-        defPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Settings";
+        //defPath = std::string(APPDATA_DIR()) + "/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Settings";
     #elif __unix__
-        defPath = "~/.config/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Settings";
+        //defPath = "~/.config/CapibaraEngine/" + Engine::getEngine()->getTitle() + "/Settings";
     #endif
     
     }
@@ -72,7 +95,7 @@ int Settings::findSettings()
         }
         else
         {
-            ERRORLOG("Failed to create settings directory");
+            LogError("Failed to create settings directory");
             
             return -1;
         }
@@ -91,7 +114,7 @@ int Settings::findSettings()
         }
     }
 
-    ERRORLOG("Total error at checking path for settings");
+    LogError("Total error at checking path for settings");
 
     return -1;
 }
@@ -107,7 +130,7 @@ int Settings::openSettingsFile(std::string& path)
         return 0;
     }
 
-    ERRORLOG("Failed to create settings file");
+    LogError("Failed to create settings file");
 
     return -1;
 }

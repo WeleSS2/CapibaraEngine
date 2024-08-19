@@ -6,18 +6,25 @@
 
 #include "image.h"
 #include "clickObject.h"
-
-class cButton : private cRenderObject {
+class cButton : public cRenderObject {
 public:
-    cButton(cPositionObject _data);
+    cButton(cButton&&) noexcept = default;
+    
+    cButton& operator=(cButton&&) noexcept = default;
+
+    cButton& operator=(const cButton& other) {
+        return *this;
+    }
+
+    cButton(cPositionObject& _data);
 
     cButton(std::shared_ptr<cPositionObject> _data);
 
-    virtual ~cButton() {}
+    virtual ~cButton() noexcept = default;
 
-    void setPositionObject(std::shared_ptr<cPositionObject> _data);
+    //void setPositionObject(std::shared_ptr<cPositionObject> _data);
 
-    std::shared_ptr<cPositionObject> getPositionObject() const;
+    //std::shared_ptr<cPositionObject> getPositionObject() const;
 
     // Render color -> texture -> text. It need to looks correctly 
     void render() const override;
@@ -38,7 +45,7 @@ public:
 private:
     void drawRescaleTexture();
 
-    std::shared_ptr<cPositionObject> data_ = nullptr;
+    //std::shared_ptr<cPositionObject> data_ = nullptr;
 
     std::shared_ptr<cImage> image_ = nullptr;
 

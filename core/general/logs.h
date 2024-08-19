@@ -9,10 +9,13 @@
 #define APPDATA_DIR() ""
 #endif
 
+/*
+ * Logs Examples, you can use them but preffered solution is to use 
+ * inside custom macros "LogInfo, LogWarn, LogError" with possibility to
+ * disable them in local file.
+ */
 #define INFOLOG(format, ...) Logs::SaveLog(eINFO, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
-
 #define WARNLOG(format, ...) Logs::SaveLog(eWARNING, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
-
 #define ERRORLOG(format, ...) Logs::SaveLog(eERROR, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
 
 enum type{

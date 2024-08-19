@@ -17,7 +17,7 @@ Engine* Engine::getInstance() {
 	return engineInstance_; 	
 };
 
-const appInfo& Engine::getAppInfo() const
+const cAppInfo& Engine::getAppInfo() const
 {
     return appInfo_;
 };

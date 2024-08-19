@@ -7,13 +7,38 @@
 #include <vector>
 #include <filesystem>
 
+#define ERROR
+#define WARN
+#define INFO
+
+
+
+#ifdef ERROR
+#define LogError(format, ...) Logs::SaveLog(eERROR, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+#else
+#define LogError(format, ...)
+#endif
+
+#ifdef WARN
+#define LogWarn(format, ...) Logs::SaveLog(eWARNING, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+#else
+#define LogWarn(format, ...)
+#endif
+
+#ifdef INFO
+#define LogInfo(format, ...) Logs::SaveLog(eINFO, std::filesystem::path(__FILE__), __func__, __LINE__, format, ##__VA_ARGS__)
+#else
+#define LogInfo(format, ...)
+#endif
+
+
 using json = nlohmann::json;
 
 std::unique_ptr<VariantUnMap> loadFile(std::string_view _path)
 {
     if (!std::filesystem::exists(std::filesystem::path(_path)))
     {
-        ERRORLOG("File do not exist!", _path);
+        LogError("File do not exist!", _path);
 
         return NULL;
     }
@@ -42,7 +67,7 @@ std::unique_ptr<VariantUnMap> loadFile(std::string_view _path)
         }
         else
         {
-            ERRORLOG("Unknown value type imported from file");
+            LogError("Unknown value type imported from file");
         }
     }
 
