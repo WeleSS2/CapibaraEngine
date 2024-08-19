@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <vector>
+#include <map>
 #include <functional>
 #include "structs.h"
 #include "positionObject.h"
@@ -23,22 +24,28 @@ public:
      * Custom listeners for buttons 
      */
     template<typename Func, typename... Args>
-    void addListener(Func&& func, Args&&... args) 
+    void addListener(cID id, Func&& func, Args&&... args) 
     {
         std::cout << "Listener added" << std::endl;
-        listeners_.emplace_back([=]() {
-            func(args...);
-        });
+        listeners_.emplace_back(std::make_pair(id, 
+                [=]() {
+                    func(args...);
+                }));
     }
 
     // Method to trigger listeners
     void click();
 
-    // Check did click is inside
-    bool clickCheck(int x, int y) const;
+    /*
+     * Advanced method to trigger listeners but only selected
+     */
+    void executeListeners(const cID& id);
+
+    // Check did mouse is inside
+    bool mouseCheck(int x, int y) const;
 
 protected:
-    std::vector<std::function<void()>> listeners_;
+    std::vector<std::pair<cID, std::function<void()>>> listeners_;
 
     bool isClicked_ = false;
 

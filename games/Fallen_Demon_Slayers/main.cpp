@@ -41,8 +41,16 @@ int main()
             auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
                 //auto start = std::chrono::high_resolution_clock::now();
-                if (btn.getClickObject()->clickCheck(mouseX, mouseY)) {
-                    btn.getClickObject()->click();
+                if (btn.getClickObject()->mouseCheck(mouseX, mouseY)) 
+                {
+                    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+                    {
+                        btn.getClickObject()->executeListeners({"c", 0});
+                    }
+                    else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+                    {
+                        btn.getClickObject()->executeListeners({"c", 1});
+                    }
                 }
                 //auto finish = std::chrono::high_resolution_clock::now();
                 //std::cout << std::chrono::duration_cast<std::chrono::nanoseconds>(finish-start).count() << "ns\n";

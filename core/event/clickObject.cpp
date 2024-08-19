@@ -23,11 +23,19 @@ std::shared_ptr<cPositionObject> cClickObject::getPositionObject() const
 
 void cClickObject::click() {
     for (auto& i : listeners_) {
-        i();
+        i.second();
     }
 };
 
-bool cClickObject::clickCheck(int x, int y) const {
+void cClickObject::executeListeners(const cID& id) {
+    for (auto& i : listeners_) {
+        if (i.first == id) {
+            i.second();
+        }
+    }
+};
+
+bool cClickObject::mouseCheck(int x, int y) const {
     if (x <= data_->getPosSize().posX
         || x >= data_->getPosSize().posX + data_->getPosSize().width
         || y <= data_->getPosSize().posY

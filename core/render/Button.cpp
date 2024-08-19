@@ -73,10 +73,8 @@ void cButton::applyTexture(std::shared_ptr<cImage> _image)
 
 std::unique_ptr<cClickObject>& cButton::getClickObject()
 {
-    std::cout << "getClickObject" << std::endl;
     if (!click_)
     {
-        std::cout << "make_unique" << std::endl;
         click_ = std::make_unique<cClickObject>(getPositionObject());
     }
 

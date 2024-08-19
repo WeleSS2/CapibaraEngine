@@ -55,22 +55,24 @@ struct cAppInfo
  * for copies of one entity type and flexible approach for different 
  * entities
  * 
- *     cID(const std::string& _ifStr, int _idNum)
- *       : ifStr(_ifStr), idNum(_idNum) {};
+ *     cID(const std::string& _idStr, int _idNum)
+ *       : idStr(_idStr), idNum(_idNum) {};
  */
 struct cID
 {
-    std::string ifStr = "";
+    std::string idStr = "";
     int idNum = 0;
 
     cID() {};
 
-    cID(const std::string& _ifStr, int _idNum)
-        : ifStr(_ifStr), idNum(_idNum) {};
+    cID(const std::string& _idStr, int _idNum)
+        : idStr(_idStr), idNum(_idNum) {};
 
     cID operator++() { idNum++; };
     cID operator++(int) { idNum++; return *this; };
     
     cID operator--() { idNum--; };
     cID operator--(int) { idNum--; return *this; };
+
+    bool operator==(const cID& _id) const { return ((idStr == _id.idStr) && (idNum == _id.idNum)); };
 };
