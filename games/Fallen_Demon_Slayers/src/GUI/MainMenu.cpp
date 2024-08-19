@@ -7,6 +7,7 @@ MainMenu::MainMenu(flecs::world *_world, cPositionObject& _data)
     cPositionObject mm = { {"bt", 0}, {800, 0, 100, 50}, {0, 0, 1} };
     auto bt0 = _world->entity().emplace<cButton>(mm);
     bt0.get_mut<cButton>()->applyColor(PINK);
+    bt0.get_mut<cButton>()->applyTexture("button");
 
     mm = { {"bt", 1}, {800, 100, 100, 50}, {0, 0, 1} };
     auto bt1 = _world->entity().emplace<cButton>(mm);

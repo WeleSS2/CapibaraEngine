@@ -36,9 +36,9 @@ public:
 
     void applyText(const std::string& text);
 
-    void applyTexture(std::string& id, bool rescale_ = false);
+    int applyTexture(std::string id, bool rescale_ = false);
 
-    void applyTexture(std::shared_ptr<cImage> _image);
+    int applyTexture(std::shared_ptr<cImage> _image);
 
     std::unique_ptr<cClickObject>& getClickObject();
 

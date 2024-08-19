@@ -28,7 +28,7 @@ public:
      * Rescale texture means that texture will be scaled to fit size declared
      * and will break their ratio if needed
      */
-    void applyTexture(std::string& id, bool rescale_ = false);
+    int applyTexture(std::string& id, bool rescale_ = false);
 
     /* 
      * Rescale texture to fit fullscreen

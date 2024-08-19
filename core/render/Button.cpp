@@ -55,20 +55,32 @@ void cButton::applyText(const std::string& _text) {
     textApplied_ = true;
 };
 
-void cButton::applyTexture(std::string& _id, bool _rescale) 
+int cButton::applyTexture(std::string _id, bool _rescale) 
 {
     image_ = std::make_shared<cImage>(getPositionObject());
 
-    image_->applyTexture(_id, _rescale);
+    if(image_->applyTexture(_id, _rescale) != 0)
+    {
+        return -1;
+    }
 
     textureApplied_ = true;
+
+    return 0;
 };
 
-void cButton::applyTexture(std::shared_ptr<cImage> _image) 
+int cButton::applyTexture(std::shared_ptr<cImage> _image) 
 {
+    if (_image == nullptr)
+    {
+        return -1;
+    }
+
     image_ = _image;
 
     textureApplied_ = true;
+
+    return 0;
 };
 
 std::unique_ptr<cClickObject>& cButton::getClickObject()

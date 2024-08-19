@@ -30,8 +30,15 @@ void cImage::render() const
     }
 }
 
-void cImage::applyTexture(std::string& _id, bool _rescale) {
+int cImage::applyTexture(std::string& _id, bool _rescale) {
     texture_ = TextureManager::getInstance()->getTextureById(_id);
+
+    if (texture_ == nullptr)
+    {
+        return -1; 
+
+        std::cout << "Texture not found" << std::endl;
+    }
 
     rescale_ = _rescale;
 
@@ -41,6 +48,8 @@ void cImage::applyTexture(std::string& _id, bool _rescale) {
     }
     
     textureApplied_ = true;
+
+    return 0;
 }
 
 void cImage::setFullscreen() {

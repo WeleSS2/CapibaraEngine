@@ -25,6 +25,8 @@ int main()
     double sum = 0;
     double iter = 0;
 
+    auto buttonQuery2 = ecs.query<cButton>();
+
     while (!WindowShouldClose()) {
         //iter++;
 
@@ -35,10 +37,9 @@ int main()
         ecs.progress();
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
-
-
+        //
+        //
         ecs.defer_begin();
-            auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
                 //auto start = std::chrono::high_resolution_clock::now();
                 if (btn.getClickObject()->mouseCheck(mouseX, mouseY)) 
