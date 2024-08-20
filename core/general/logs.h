@@ -23,7 +23,9 @@ enum type{
     eWARNING,
     eERROR
 };
-
+/*
+ * TODO: Fix log itself it does not send all arguments
+ */
 class Logs{
 public:
     static Logs* getInstance();

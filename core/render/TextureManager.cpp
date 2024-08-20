@@ -62,8 +62,6 @@ const int TextureManager::loadTexture(const std::string& _id)
         return -1;
     }
 
-    std::cout << p.filename().string() << " \n";
-
     textures.emplace(std::make_pair(p.filename().string(), texture));
 
     return 0;

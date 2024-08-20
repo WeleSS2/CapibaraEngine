@@ -176,7 +176,7 @@ int main(int argc, char *argv[])
             auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
                 if (btn.mouseCheck(mouseX, mouseY)) {
-                    btn.click();
+
                 }
             });
             ecs.defer_end();

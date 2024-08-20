@@ -8,20 +8,20 @@
 class MainMenu : public cRenderObject
 {
 public:
-    MainMenu(MainMenu&&) noexcept = default;
-
-    MainMenu& operator=(MainMenu&&) noexcept = default;
-
     MainMenu(flecs::world *_world, cPositionObject& _data);
 
     ~MainMenu() noexcept = default;
 
+    MainMenu(MainMenu&&) noexcept = default;
+
+    MainMenu& operator=(MainMenu&&) noexcept = default;
+
     void render() const override;
 
-    void remove(flecs::ref<cButton> bt);
-
-    const void addModule(cButton* _object);
-
 private:
-    std::vector<cButton*> toRender;
+    void createButton(flecs::entity& ent, cPositionObject _data);
+
+    flecs::world* world_;
+
+    std::vector<flecs::entity> toRender_;
 };

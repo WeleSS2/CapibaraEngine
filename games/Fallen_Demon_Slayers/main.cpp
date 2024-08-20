@@ -39,18 +39,19 @@ int main()
         int mouseY = GetMouseY();
         //
         //
+
         ecs.defer_begin();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
                 //auto start = std::chrono::high_resolution_clock::now();
-                if (btn.getClickObject()->mouseCheck(mouseX, mouseY)) 
+                if (btn.getMouseObject()->mouseCheck(mouseX, mouseY)) 
                 {
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                     {
-                        btn.getClickObject()->executeListeners({"c", 0});
+                        btn.getMouseObject()->executeListeners({"c", 0});
                     }
                     else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
                     {
-                        btn.getClickObject()->executeListeners({"c", 1});
+                        btn.getMouseObject()->executeListeners({"c", 1});
                     }
                 }
                 //auto finish = std::chrono::high_resolution_clock::now();

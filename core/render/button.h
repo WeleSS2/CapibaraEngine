@@ -5,7 +5,7 @@
 #include "raylib.h"
 
 #include "image.h"
-#include "clickObject.h"
+#include "mouseObject.h"
 class cButton : public cRenderObject {
 public:
     cButton(cButton&&) noexcept = default;
@@ -40,7 +40,7 @@ public:
 
     int applyTexture(std::shared_ptr<cImage> _image);
 
-    std::unique_ptr<cClickObject>& getClickObject();
+    std::unique_ptr<cMouseObject>& getMouseObject();
 
 private:
     void drawRescaleTexture();
@@ -49,7 +49,7 @@ private:
 
     std::shared_ptr<cImage> image_ = nullptr;
 
-    std::unique_ptr<cClickObject> click_ = nullptr;
+    std::unique_ptr<cMouseObject> click_ = nullptr;
 
     std::string text_ = "";
 

@@ -4,20 +4,32 @@
 #include <vector>
 #include <map>
 #include <functional>
+
 #include "structs.h"
 #include "positionObject.h"
 
-class cClickObject
+/*
+ * Base class for all interactive objects.
+ * It have listeners which wait where you can specify ID
+ * of the action and add this action in main loop.
+ * TODO: Main loop where you can push type of action
+ *   cMouseObject(cPositionObject _data) {};
+ *   cMouseObject(std::shared_ptr<cPositionObject> _data) {};
+ */
+class cMouseObject
 {
 public:
-    cClickObject(cPositionObject _data);
+    cMouseObject(cPositionObject _data);
 
-    cClickObject(std::shared_ptr<cPositionObject> _data);
+    cMouseObject(std::shared_ptr<cPositionObject> _data);
 
-    virtual ~cClickObject() { };
+    virtual ~cMouseObject() { };
     
     void setPositionObject(std::shared_ptr<cPositionObject> _data);
 
+    /*
+     * Get position
+     */
     std::shared_ptr<cPositionObject> getPositionObject() const;
 
     /*
@@ -26,28 +38,24 @@ public:
     template<typename Func, typename... Args>
     void addListener(cID id, Func&& func, Args&&... args) 
     {
-        std::cout << "Listener added" << std::endl;
         listeners_.emplace_back(std::make_pair(id, 
                 [=]() {
                     func(args...);
                 }));
     }
 
-    // Method to trigger listeners
-    void click();
-
     /*
      * Advanced method to trigger listeners but only selected
      */
     void executeListeners(const cID& id);
 
-    // Check did mouse is inside
+    /*
+     * Check if mouse is inside
+     */
     bool mouseCheck(int x, int y) const;
 
 protected:
     std::vector<std::pair<cID, std::function<void()>>> listeners_;
-
-    bool isClicked_ = false;
 
 private:
     std::shared_ptr<cPositionObject> data_ = nullptr;

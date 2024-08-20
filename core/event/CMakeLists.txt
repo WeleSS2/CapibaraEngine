@@ -1,5 +1,5 @@
 set(CE_Event
-    clickObject.cpp)
+    mouseObject.cpp)
 
 add_library(ceEvent SHARED ${CE_Event})
 add_library(ceEvents STATIC ${CE_Event})

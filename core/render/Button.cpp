@@ -4,23 +4,14 @@
 cButton::cButton(cPositionObject& _data)
     : cRenderObject(_data)
 {
-    std::cout << "Button" << std::endl;
-    //data_ = std::make_shared<cPositionObject>(std::move(_data));
-    //std::cout << "data" << std::endl;
 
 };
 
 cButton::cButton(std::shared_ptr<cPositionObject> _data)
     : cRenderObject(_data)
 {
-    //std::cout << "PTR" << std::endl;
+   
 };
-
-//void cButton::create(std::string _id, cPosSize data_)
-//{
-//    id_ = _id;
-//    posSize_ = data_;
-//}
 
 void cButton::render() const
 {
@@ -83,11 +74,11 @@ int cButton::applyTexture(std::shared_ptr<cImage> _image)
     return 0;
 };
 
-std::unique_ptr<cClickObject>& cButton::getClickObject()
+std::unique_ptr<cMouseObject>& cButton::getMouseObject()
 {
     if (!click_)
     {
-        click_ = std::make_unique<cClickObject>(getPositionObject());
+        click_ = std::make_unique<cMouseObject>(getPositionObject());
     }
 
     return click_;
