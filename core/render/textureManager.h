@@ -21,7 +21,7 @@ public:
     TextureManager(TextureManager&&) = delete;
     TextureManager operator=(const TextureManager&&) = delete;
 
-    const static TextureManager* getInstance();
+    static TextureManager* getInstance();
 
     Texture2D* getTextureById(const std::string& _id) const;
 
@@ -31,7 +31,7 @@ public:
      * If success 0
      * If already loaded 1
      */
-    const int loadTexture(const std::string& _id);
+    int loadTexture(std::string _id);
 private:
     std::unordered_map<std::string, Texture2D*> textures;
 

@@ -24,20 +24,18 @@ void cImage::render() const
                 getPositionObject()->getPosSize().posY, WHITE);
         }
         else
-        {
+        {   
             DrawTexturePro(*texture_, *source_, *dest_, { 0.0f, 0.0f }, 0.0f, WHITE);
         }
     }
 }
 
-int cImage::applyTexture(std::string& _id, bool _rescale) {
+int cImage::applyTexture(std::string _id, bool _rescale) {
     texture_ = TextureManager::getInstance()->getTextureById(_id);
 
     if (texture_ == nullptr)
     {
         return -1; 
-
-        std::cout << "Texture not found" << std::endl;
     }
 
     rescale_ = _rescale;
@@ -61,8 +59,19 @@ void cImage::setFullscreen() {
 }
 
 
-void cImage::drawRescaleTexture() {
+void cImage::drawRescaleTexture() 
+{
+    if (source_ != nullptr)
+    {
+        delete source_;
+    }
+
     source_ = new Rectangle{ 0.0f, 0.0f, (float)texture_->width, (float)texture_->height };
+
+    if (dest_ != nullptr)
+    {
+        delete dest_;
+    }
 
     dest_ = new Rectangle{ 
         (float) getPositionObject()->getPosSize().posX,

@@ -2,15 +2,16 @@
 
 #include "TextureManager.h"
 #include "Button.h"
+#include "scene.h"
 #include "flecs.h"
 #include <vector>
 
-class MainMenu : public cRenderObject
+class MainMenu : public cScene
 {
 public:
     MainMenu(flecs::world *_world, cPositionObject& _data);
 
-    ~MainMenu() noexcept = default;
+    virtual ~MainMenu() noexcept = default;
 
     MainMenu(MainMenu&&) noexcept = default;
 
@@ -19,9 +20,9 @@ public:
     void render() const override;
 
 private:
-    void createButton(flecs::entity& ent, cPositionObject _data);
-
-    flecs::world* world_;
+    void createButton(cPositionObject _data);
 
     std::vector<flecs::entity> toRender_;
+
+    flecs::entity bg_;
 };

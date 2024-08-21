@@ -14,6 +14,14 @@ public:
 
     virtual ~cImage() {};
 
+    cImage(cImage&&) noexcept = default;
+    
+    cImage& operator=(cImage&&) noexcept = default;
+
+    cImage& operator=(const cImage& other) {
+        return *this;
+    }
+
     //void setPositionObject(std::shared_ptr<cPositionObject> _data);
 
     //std::shared_ptr<cPositionObject> getPositionObject() const;
@@ -23,12 +31,17 @@ public:
      */
     void render() const override;
 
+    void updateTexture()
+    {
+        drawRescaleTexture();
+    }
+
     /*
      * Apply texture
      * Rescale texture means that texture will be scaled to fit size declared
      * and will break their ratio if needed
      */
-    int applyTexture(std::string& id, bool rescale_ = false);
+    int applyTexture(std::string id, bool rescale_ = false);
 
     /* 
      * Rescale texture to fit fullscreen

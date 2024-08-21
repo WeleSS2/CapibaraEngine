@@ -5,7 +5,7 @@
 TextureManager* TextureManager::manager = nullptr;
 std::once_flag TextureManager::flag;
 
-const TextureManager* TextureManager::getInstance()
+TextureManager* TextureManager::getInstance()
 {
     std::call_once(flag, []() 
         { 
@@ -28,7 +28,7 @@ Texture2D* TextureManager::getTextureById(const std::string& _id) const
     return nullptr;
 }
 
-const int TextureManager::loadTexture(const std::string& _id)
+int TextureManager::loadTexture(std::string _id)
 {
     if (gfxPath == "")
     {
@@ -52,6 +52,8 @@ const int TextureManager::loadTexture(const std::string& _id)
     std::string path2 = gfxPath + _id;
 
     *texture = LoadTexture(path2.c_str());
+
+    std::cout << path2.c_str() << std::endl;
 
     std::filesystem::path p(path2.c_str());
     

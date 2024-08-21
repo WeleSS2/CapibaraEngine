@@ -1,6 +1,5 @@
 set(CE_render
     renderObject.cpp
-    button.cpp
     textureManager.cpp
     image.cpp
 )
@@ -10,7 +9,6 @@ add_library(ceRenders STATIC ${CE_render})
 
 target_link_libraries(ceRender PUBLIC
     ceGeneral
-    ceEvent
     raylib
 )
 

@@ -27,21 +27,31 @@ void cButton::render() const
 
     if (textureApplied_)
     {
+        image_->updateTexture();
+
         image_->render();
     }
 
     if (textApplied_)
     {
-        // TODO
+        DrawText(text_.c_str(), textPosX_, textPosY_, 20, WHITE);
     }
 };
 
-void cButton::applyColor(Color _color) {
+void cButton::applyColor(Color _color) 
+{
     color_ = _color;
     colorApplied_ = true;
 };
 
-void cButton::applyText(const std::string& _text) {
+void cButton::applyText(const std::string& _text) 
+{
+    int textWidth = MeasureText(_text.c_str(), 20);
+    int textHeight = 20;
+
+    textPosX_ = getPositionObject()->getPosSize().posX + (getPositionObject()->getPosSize().width - textWidth) / 2;
+    textPosY_ = getPositionObject()->getPosSize().posY + (getPositionObject()->getPosSize().height - textHeight) / 2;
+
     text_ = _text;
     textApplied_ = true;
 };

@@ -10,6 +10,8 @@
 class cRenderObject
 {
 public:
+    cRenderObject(const cRenderObject&) noexcept = default;
+
     cRenderObject(cRenderObject&&) noexcept = default;
     
     cRenderObject& operator=(cRenderObject&&) noexcept = default;
@@ -27,7 +29,7 @@ public:
     /*
      * Render object to screen
      */
-    virtual void render() const = 0;
+    virtual void render() const {};
 
     void setPositionObject(std::shared_ptr<cPositionObject> _data);
 
