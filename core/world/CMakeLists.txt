@@ -1,6 +1,7 @@
 set(CE_world
-    button.cpp
     scene.cpp
+    sceneManager.cpp
+    renderManager.cpp
 )
 
 add_library(ceWorld SHARED ${CE_world})

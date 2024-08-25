@@ -35,6 +35,7 @@ public:
 		scenes_.emplace_back(_scene);
 	};
 
+	/*
 	int removeScene(cID _id)
 	{
 		for (auto it = scenes_.begin(); it != scenes_.end(); ++it)
@@ -77,7 +78,7 @@ public:
 		}
 
 		return -1;
-	};
+	};*/
 
 protected:
 	static Engine* engineInstance_;

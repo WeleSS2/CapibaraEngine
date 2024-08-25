@@ -20,23 +20,6 @@ struct cIV3
     : one(_one), two(_two), three(_three) {};
 };
 
-/* 
- * 4x16bit vector
- * Position and Size
- * Used for rendering only, for others create a new struct with different name
- * x, y, width, height
- */
-struct cPosSize 
-{
-    int posX;
-    int posY;
-    int width;
-    int height;
-
-    cPosSize() {};
-    cPosSize(int _posX, int _posY, int _width, int _height)
-        : posX(_posX), posY(_posY), width(_width), height(_height) {};
-};
 /*
  * App info
  * Title and version
@@ -75,4 +58,21 @@ struct cID
     cID operator--(int) { idNum--; return *this; };
 
     bool operator==(const cID& _id) const { return ((idStr == _id.idStr) && (idNum == _id.idNum)); };
+    //bool operator==(const cID _id) const { return ((idStr == _id.idStr) && (idNum == _id.idNum)); };
+
+};
+
+/*
+ * Screen scale
+ * Fill on start of the program
+ */
+struct cScreenScale
+{
+    static int scaleW;
+    static int scaleH;
+
+    static int getScaleW() { if (scaleW == 0) return -1; return scaleW; };
+    static int getScaleH() { if (scaleH == 0) return -1; return scaleH; };
+
+    static void setScale(int _w, int _h) { scaleW = _w; scaleH = _h; };
 };

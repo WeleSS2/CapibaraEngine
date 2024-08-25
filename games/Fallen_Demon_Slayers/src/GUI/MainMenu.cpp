@@ -1,53 +1,54 @@
 #include "MainMenu.h"
-
+#include "raylib.h"
+#include "textureManager.h"
+#include "sceneManager.h"
 
 #include <memory>
 
+MainMenu::MainMenu(flecs::world* _world)
+    : cScene(_world)
+{
+    getScene().set<cID>({"scene", 0})
+        .set<cPosition>({0, 0})
+        .set<cSize>({GetScreenWidth(), GetScreenHeight()})
+        .set<cLayer>({0, 0, 0})
+        .set<cRenderFlags>({true, true})
+        .set<cRotation>({0.0f})
+        .set<Texture2D>(*(TextureManager::getInstance()->getTextureById("bg2.png")));
 
-MainMenu::MainMenu(flecs::world* _world, cPositionObject& _data)
-    : cScene(_world, _data)
-{   
-    createButton({ {"bt", 0}, {800, 0, 100, 50}, {0, 0, 1} });
-    createButton({ {"bt", 1}, {800, 100, 100, 50}, {0, 0, 1} });
-    createButton({ {"bt", 2}, {800, 200, 100, 50}, {0, 0, 1} });
-    createButton({ {"bt", 3}, {800, 300, 100, 50}, {0, 0, 1} });
-    createButton({ {"bt", 4}, {800, 400, 100, 50}, {0, 0, 1} });
-
-    //toRender_[0].get_ref<cButton>()->getMouseObject()->addListener(cchangeColor, bt0.get_ref<cButton>(), RED);
-    toRender_[0].get_mut<cButton>()->getMouseObject()->addListener({"c", 0}, 
-    [](){ 
-        std::cout << "Heheszki\n"; 
+    addButton(_world, 1, "Singleplayer");
+    addButton(_world, 2, "Multiplayer");
+    addButton(_world, 3, "Options");
+    addButton(_world, 4, "Quit");
     
-        //Engine::getInstance()->enableScene({"map", 0});
+    getEntity({"bt", 1}).emplace<cInteraction>(cInteraction{
+        {"c", 0},
+        [=]()
+        { 
+            cSceneManager::getInstance()->setStatus({"mm", 0}, false);
+        }
     });
-
-    toRender_[0].get_mut<cButton>()->getMouseObject()->addListener({"c", 1}, [](){ std::cout << "Different listener : P\n"; });
-    toRender_[0].get_mut<cButton>()->applyText("Play");
-    toRender_[1].get_ref<cButton>()->getMouseObject()->addListener({"c", 0}, [](){ std::cout << "Heheszki 1\n"; });
-    toRender_[2].get_ref<cButton>()->getMouseObject()->addListener({"c", 0}, [](){ std::cout << "Heheszki 2\n"; });
-    toRender_[3].get_ref<cButton>()->getMouseObject()->addListener({"c", 0}, [](){ std::cout << "Heheszki 3\n"; });
-    toRender_[4].get_mut<cButton>()->applyText("Quit");
-    toRender_[4].get_ref<cButton>()->getMouseObject()->addListener({"c", 0}, [](){ CloseWindow(); std::cout << "Heheszki 4\n"; });
-
-    cPositionObject po = {{"bg", 0}, {0, 0, 1920, 1080}, {0, 0, 0}};
-
-    bg_ = getWorld()->entity().emplace<cImage>(po);
-    bg_.get_mut<cImage>()->applyTexture("bg2.png", true);
+    getEntity({"bt", 4}).emplace<cInteraction>(cInteraction{
+       {"c", 0},
+       [=]()
+       {
+           CloseWindow();
+       } 
+    });
 }
 
-void MainMenu::render() const
+void MainMenu::addButton(flecs::world* _world, int _i, std::string _text)
 {
-    bg_.get_mut<cImage>()->render();
-
-    for (const auto& i : toRender_)
-    {
-        i.get_mut<cButton>()->render();
-    }
-}
-
-void MainMenu::createButton(cPositionObject _data)
-{
-    toRender_.emplace_back(getWorld()->entity().emplace<cButton>(_data));
-
-    toRender_.back().get_mut<cButton>()->applyColor(PINK);
+    addEntity(
+        _world->entity().child_of(getScene())
+            .set<cID>({"bt", _i})
+            .set<cPosition>({cScreenScale::getScaleW() * 40, cScreenScale::getScaleH() * 15 * _i})
+            .set<cSize>({cScreenScale::getScaleW() * 20, cScreenScale::getScaleH() * 5})
+            .set<cLayer>({0, 0, 0})
+            .set<cRenderFlags>({true, false})
+            .set<cRotation>({0.0f})
+            .emplace<cColor>(cColor{PINK})
+            .emplace<cText>(cText{_text, 18, {0, 0, 0, 255}})
+            //.set<Texture2D>(*(TextureManager::getInstance()->getTextureById("test.png")))
+        );
 }

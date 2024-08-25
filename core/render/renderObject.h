@@ -1,40 +1,86 @@
 #pragma once
 
+#include <iostream>
+#include <functional>
 #include "structs.h"
-#include "positionObject.h"
+#include "raylib.h"
 
-/*
- * Base class for all renderable objects
- * Have virtual method render which must be implemented
- */
-class cRenderObject
+struct cPosition
 {
-public:
-    cRenderObject(const cRenderObject&) noexcept = default;
+    int posX;
+    int posY;
+};
 
-    cRenderObject(cRenderObject&&) noexcept = default;
-    
-    cRenderObject& operator=(cRenderObject&&) noexcept = default;
+struct cSize
+{
+    int width;
+    int height;
+};
 
-    cRenderObject& operator=(const cRenderObject& other) {
-        return *this;
+struct cLayer
+{
+    int layer;
+    int layer2;
+    int layer3;
+};
+
+struct cRotation
+{
+    float rot = 0.0f;
+};
+
+struct cRenderFlags
+{
+    bool visible = false;
+    bool modify = false;
+};
+
+//struct cRenderFlags
+//{
+//    bool visible : 1;
+//    bool modify : 1;
+//
+//    cRenderFlags(uint32_t flags) 
+//        : visible(flags & 1),
+//        modify(flags & 2)
+//        {};
+//};
+
+struct cColor
+{
+    Color color;
+
+    cColor(Color _color) 
+    : color(_color) 
+    {};
+};
+
+struct cText
+{
+    std::string text;
+    int size;
+    Color color;
+    bool center;
+
+    cText(std::string _text, int _size, Color _color, bool _center = true) 
+        : text(_text),
+        size(_size),
+        color(_color),
+        center(_center)
+        {};
+};
+
+struct cInteraction
+{
+    cID id;
+    std::function<void()> func;
+
+    // Constructor
+    template <typename Func, typename... Args>
+    cInteraction(cID _id, Func&& _func, Args&&... _args)
+        : id(_id),
+          func([f = std::forward<Func>(_func), ...args = 
+          std::forward<Args>(_args)]() mutable { f(args...); })
+    {
     }
-
-    cRenderObject(cPositionObject& _data);
-    
-    cRenderObject(std::shared_ptr<cPositionObject> _data);
-
-    virtual ~cRenderObject() noexcept = default;
-
-    /*
-     * Render object to screen
-     */
-    virtual void render() const {};
-
-    void setPositionObject(std::shared_ptr<cPositionObject> _data);
-
-    std::shared_ptr<cPositionObject> getPositionObject() const;
-
-private:
-    std::shared_ptr<cPositionObject> data_ = nullptr;
 };

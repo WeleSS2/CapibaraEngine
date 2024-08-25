@@ -1,63 +1,25 @@
 #include <iostream>
 #include <chrono>
+#include <functional>
 
+#include "TextureManager.h"
 #include "MainMenu.h"
-#include "scene.h"
+#include "renderManager.h"
+#include "sceneManager.h"
 
 flecs::world *ptr = NULL;
 
-struct test
-{
-    Rectangle* dest_ = nullptr;
-};
-
 int main() 
 {
-    SetConfigFlags( //FLAG_FULLSCREEN_MODE
+    SetConfigFlags( FLAG_FULLSCREEN_MODE |
        FLAG_WINDOW_RESIZABLE);
 
-    InitWindow(1920, 1000, "Test");
+    InitWindow(GetScreenWidth(), GetScreenHeight(), "Test");
+    cScreenScale::setScale(GetScreenWidth() / 100, GetScreenHeight() / 100);
 
     SetTargetFPS(1000);
-
-    std::vector<test> v;
-
-    Texture text = LoadTexture("gfx/test.png");
-
-    Rectangle* source_ = nullptr;
-
-    source_ = new Rectangle{0.0f, 0.0f, (float)text.width, (float)text.height};
-
-    for (int i = 0; i < 5000; i++)
-    {
-        test t;
-                
-        t.dest_ = new Rectangle{(float)GetRandomValue(0, 1920), (float)GetRandomValue(0, 1920), 100.0f, 124.0f};
-
-        v.push_back(t);
-    }
-
-    while(WindowShouldClose() == false)
-    {
-        // Start drawing
-        BeginDrawing();
-        ClearBackground(RAYWHITE);
-
-        for (auto& i : v)
-        {
-            //DrawTexture(text, i.x, i.y, WHITE);
-
-            DrawTexturePro(text, *source_, *i.dest_, { 0.0f, 0.0f }, 0.0f, WHITE);
-        }
-
-
-        DrawFPS(10, 10); // Display FPS in top-left corner
-        EndDrawing();
-    }
-    /*
+    
     flecs::world ecs;
-    cPositionObject po = {{"gmm", 0}, {0, 0, 1920, 1080}, {0, 0, 1}};
-
     ptr = &ecs;
 
     TextureManager::getInstance()->loadTexture("bg2.png");
@@ -67,71 +29,78 @@ int main()
     TextureManager::getInstance()->loadTexture("road.png");
     TextureManager::getInstance()->loadTexture("building.png");
 
-    ecs.component<cButton>();
-    ecs.component<MainMenu>();
-    ecs.component<cImage>();
+    MainMenu* scene = new MainMenu(ptr);
 
-    auto mm = ecs.entity().emplace<MainMenu>(ptr, po);
+    scene->setID({"mm", 0});
 
-    //for (int i = 0; i < 5000; i++)
+    cSceneManager::getInstance()->addScene(static_cast<cScene*>(scene));
+
+    //auto buttonQuery2 = ecs.query<cButton>();
+    auto query = ecs.query<cRenderFlags>();
+
+    //std::vector <int> xx;
+    //std::vector <int> yy;
+
+    //for ( int i = 0 ; i < 10000 ;i++)
     //{
-    //    flecs::entity ent = ecs.entity();
-    //    ent.set<pos>({300, 300});
-    //    ent.set<sprite>({TextureManager::getInstance()->getTextureById("test.png")});
+    //    xx.emplace_back(GetRandomValue(0, 1920));
+    //    yy.emplace_back(GetRandomValue(0, 1080));
     //}
 
-    // CM001 Old scene
-    ecs.component<cOScene>();
-    auto scene = ecs.entity().emplace<cOScene>(ptr, po);
-    for (int i = 0; i < 5000; i++)
-    {
-        po = {{"btm", i}, {800, 100, 50, 62}, {0, 0, 1}};
-        scene.get_mut<cOScene>()->addEntity<cButton>(po);
-
-        cButton* bt = scene.get_mut<cOScene>()->getEntity<cButton>({"btm", i});
-
-        //std::cout << i << std::endl;
-
-        bt->applyColor(RED);
-
-        bt->applyTexture("test.png", true);
-    }//
-
-    double sum = 0;
-    double iter = 0;
-
-    auto buttonQuery2 = ecs.query<cButton>();
-
     while (!WindowShouldClose()) {
-        //iter++;
 
-        //if (sum >= 1000000) {
-        //    std::cout << "Iter sum was" << iter << std::endl;
-        //    break;
-        //}
         ecs.progress();
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
-        //
-        //
+        
+        
 
         ecs.defer_begin();
-            buttonQuery2.each([&](flecs::entity e, cButton& btn) {
-                if (btn.getMouseObject()->mouseCheck(mouseX, mouseY)) 
+            //buttonQuery2.each([&](flecs::entity e, cButton& btn) {
+            //    if (btn.getMouseObject()->mouseCheck(mouseX, mouseY)) 
+            //    {
+            //        if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+            //        {
+            //            btn.getMouseObject()->executeListeners({"c", 0});
+            //        }
+            //        else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+            //        {
+            //            btn.getMouseObject()->executeListeners({"c", 1});
+            //        }
+            //    }
+            //
+            //    if (btn.getPositionObject()->getId().idStr == "btm")
+            //    {
+            //        btn.move();
+            //    }
+            //});
+            cID tmp = {"mm", 0};
+            query.each([&](flecs::entity e, cRenderFlags& s) {
+                if ( mouseX >= e.get<cPosition>()->posX 
+                    && mouseY >= e.get<cPosition>()->posY
+                    && mouseX <= e.get<cPosition>()->posX + e.get<cSize>()->width 
+                    && mouseY <= e.get<cPosition>()->posY + e.get<cSize>()->height)
                 {
                     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                     {
-                        btn.getMouseObject()->executeListeners({"c", 0});
+                        if (e.has<cInteraction>())
+                        {
+                            if (e.get<cInteraction>()->id == cID{"c", 0})
+                            {
+                                e.get<cInteraction>()->func();
+                            }
+                        }
                     }
-                    else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
-                    {
-                        btn.getMouseObject()->executeListeners({"c", 1});
-                    }
-                }
-
-                if (btn.getPositionObject()->getId().idStr == "btm")
-                {
-                    btn.move();
+                    //else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON))
+                    //{
+                    //    if (e.has<cRenderFlags>())
+                    //    {
+                    //        if (*e.get<cID>() == tmp)
+                    //        {
+                    //            cSceneManager::getInstance()->setStatus({"mm", 0}, false);
+                    //        }
+                    //    } 
+                    //}
                 }
             });
         ecs.defer_end();
@@ -140,24 +109,24 @@ int main()
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        if (mm.is_alive())
-        {
-            mm.get_mut<MainMenu>()->render();
-        }
+        //for ( int i = 0 ; i < 5000 ;i++)
+        //{
+        //    DrawRectangle(xx[i], yy[i], 200, 50, PINK);
+        //    DrawTexture(*TextureManager::getInstance()->getTextureById("test.png"),
+        //         xx[i], yy[i], WHITE);
+        //}
 
-        //ecs.system<pos, sprite>("Render").each([&](flecs::entity e, pos& p, sprite& s) {
-        //    DrawTexture(*s.text, p.x, p.y, WHITE);
-        //});
-
-        // CM001 Old scene
-        if (scene.is_alive())
-        {
-            scene.get_mut<cOScene>()->render<cButton>();
-        }
+        ecs.system<cRenderFlags>("Render").each
+        (
+            [&](flecs::entity_view e, cRenderFlags s) 
+            {
+                cRenderManager::getInstance()->render(e);
+            }
+        );
 
         DrawFPS(10, 10); // Display FPS in top-left corner
         EndDrawing();
-    }*/
+    }
 
     return 0;
 }

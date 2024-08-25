@@ -4,78 +4,49 @@
 #include "flecs.h"
 #include "renderObject.h"
 
-class cScene : public cRenderObject
+
+class cScene
 {
 public:
-    cScene(flecs::world* _world, cPositionObject& _data);
-    
-    virtual ~cScene() noexcept = default;
+    cScene(flecs::world* _world);
 
-    /*
-     * Set did scene should be rendered or not
-     */
-    void setStatus(bool _render) { render_ = _render; }
+    virtual ~cScene();
 
-    /*
-     * Get did scene is rendered or not
-     */
-    bool getStatus() const { return render_; }
+    virtual void addEntity(flecs::entity _entity);
 
-    flecs::world* getWorld() const { return world_; }
+    virtual void removeEntity(flecs::entity _entity);
 
-private:
-    bool render_ = false;
+    void setPosition(cPosition _data);
 
-    flecs::world* world_;
-};
+    cPosition* getPosition() const;
 
+    void setStatus(bool _status);
 
+    bool getStatus() const;
 
-// CM001 Old scene
-class cOScene : public cRenderObject
-{
-public:
-    cOScene(flecs::world* _world, cPositionObject& _data);
-    
-    virtual ~cOScene() noexcept = default;
+    void setID(cID _id);
 
-    template <typename T>
-    void render() const 
-    {
-        for (const auto& i : toRender_)
+    cID* getID() const;
+
+    flecs::entity getScene() const { return scene_; };
+
+    flecs::entity getEntity(cID _id) const 
+    { 
+        for (auto i : toRender_) 
         {
-            i.get_mut<T>()->render();
-        }    
-    }
-
-    template <typename T>
-    void addEntity(cPositionObject _data);
-
-    //template <typename T, typename Func, typename... Args>
-    //void addEntity(T _type, cPositionObject _data, Func&& _func, Args&&... _args);
-
-    template<typename T>
-    T* getEntity(cID _id)
-    {
-        for (const auto& i : toRender_)
-        {
-           if (i.get_mut<T>()->getPositionObject()->getId() == _id)
+            if (*i.get_mut<cID>() == _id)
             {
-                return i.get_mut<T>();
-            }
-        }
+                return i;
+            }; 
+        };
+    };
 
-        return nullptr;
-    }
+    flecs::world* getWorld() const { return world_; };
 
 private:
     flecs::world* world_;
+
+    flecs::entity scene_;
 
     std::vector<flecs::entity> toRender_;
 };
-
-template <typename T>
-void cOScene::addEntity(cPositionObject _data)
-{
-    toRender_.emplace_back(world_->entity().emplace<T>(_data));
-};//*/

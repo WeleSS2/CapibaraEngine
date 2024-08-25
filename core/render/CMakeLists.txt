@@ -1,7 +1,6 @@
 set(CE_render
     renderObject.cpp
     textureManager.cpp
-    image.cpp
 )
 
 add_library(ceRender SHARED ${CE_render})

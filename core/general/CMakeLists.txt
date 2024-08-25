@@ -3,6 +3,8 @@ file(GLOB_RECURSE FILES "*.cpp")
 set(CE_DP
     logs.cpp
     json.cpp
+    structs.cpp
+    
 )
 
 add_library(ceGeneral SHARED ${CE_DP})

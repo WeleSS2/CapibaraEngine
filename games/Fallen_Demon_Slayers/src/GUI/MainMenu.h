@@ -1,7 +1,5 @@
 #pragma once
 
-#include "TextureManager.h"
-#include "Button.h"
 #include "scene.h"
 #include "flecs.h"
 #include <vector>
@@ -9,7 +7,7 @@
 class MainMenu : public cScene
 {
 public:
-    MainMenu(flecs::world *_world, cPositionObject& _data);
+    MainMenu(flecs::world *_world);
 
     virtual ~MainMenu() noexcept = default;
 
@@ -17,12 +15,5 @@ public:
 
     MainMenu& operator=(MainMenu&&) noexcept = default;
 
-    void render() const override;
-
-private:
-    void createButton(cPositionObject _data);
-
-    std::vector<flecs::entity> toRender_;
-
-    flecs::entity bg_;
+    void addButton(flecs::world* _world, int _i, std::string _text);
 };
