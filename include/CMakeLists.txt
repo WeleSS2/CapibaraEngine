@@ -156,4 +156,8 @@ target_include_directories(RaylibStatic INTERFACE
     "${RAYLIB_DIR}/build/raylib/include"
 )
 
-target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS} winmm.lib)
+if(WIN32)
+    target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS} winmm.lib)
+else()
+    target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS})
+endif()
