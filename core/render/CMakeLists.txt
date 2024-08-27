@@ -8,13 +8,13 @@ add_library(ceRenders STATIC ${CE_render})
 
 target_link_libraries(ceRender PUBLIC
     ceGeneral
-    raylib
+    RaylibStatic
 )
 
 target_link_libraries(ceRenders PUBLIC
     ceGeneral
     ceEvent
-    raylib
+    RaylibStatic
 )
 
 target_include_directories(ceRender PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

@@ -10,14 +10,14 @@ add_library(ceWorlds STATIC ${CE_world})
 target_link_libraries(ceWorld PUBLIC
     ceRender
     ceEvent
-    raylib
+    RaylibStatic
     flecs
 )
 
 target_link_libraries(ceWorlds PUBLIC
     ceRender
     ceEvent
-    raylib
+    RaylibStatic
     flecs
 )
 

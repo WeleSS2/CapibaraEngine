@@ -143,3 +143,17 @@ target_include_directories(SteamSDK INTERFACE
 )
 
 target_link_libraries(SteamSDK INTERFACE ${LIB_PATH})
+
+# Static for raylib
+
+set(RAYLIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Raylib")
+
+set(RAYLIB_LIBS "${RAYLIB_DIR}/build/raylib/Debug/raylib.lib")
+
+add_library(RaylibStatic INTERFACE)
+
+target_include_directories(RaylibStatic INTERFACE
+    "${RAYLIB_DIR}/build/raylib/include"
+)
+
+target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS} winmm.lib)
