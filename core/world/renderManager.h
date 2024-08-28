@@ -24,6 +24,8 @@ private:
 
     void renderText(flecs::entity_view _entity) const;
 
+    void pauser() const;
+
     static cRenderManager* instance_;
 
     static std::once_flag flag_;

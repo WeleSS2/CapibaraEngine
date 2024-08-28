@@ -41,14 +41,17 @@ void cRenderManager::render(flecs::entity_view _entity) const
     {
         if (_entity.get<cRenderFlags>()->visible)
         {
-            // Check if colored
+            // Check if colored 
             renderColorRectangle(_entity);
-
+            //renderColorRectangle(_entity);
             // Check if texture applied
             renderTexture(_entity);
 
             // Render text
             renderText(_entity);
+
+            // Pauser
+            //pauser();
         }
     }
 }
@@ -58,6 +61,7 @@ void cRenderManager::renderColorRectangle(flecs::entity_view _entity) const
 {
     if (_entity.has<cColor>())
     {
+
         DrawRectangle(_entity.get<cPosition>()->posX,
             _entity.get<cPosition>()->posY,
             _entity.get<cSize>()->width,
@@ -71,6 +75,8 @@ void cRenderManager::renderTexture(flecs::entity_view _entity) const
 {
     if (_entity.has<Texture2D>())
     {
+        std::cout << "rendered texture  " << _entity.get<cID>()->idStr << " "
+            << _entity.get<cID>()->idNum << std::endl;
         if (_entity.get<cRenderFlags>()->modify)
         {
             DrawTexturePro(*_entity.get<Texture2D>(),
@@ -117,4 +123,9 @@ void cRenderManager::renderText(flecs::entity_view _entity) const
                 _entity.get<cText>()->color);
         }
     }
+}
+
+void cRenderManager::pauser() const
+{
+    ;
 }

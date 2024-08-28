@@ -35,20 +35,61 @@ MainMenu::MainMenu(flecs::world* _world)
            CloseWindow();
        } 
     });
+    // 8158
+    // 16384
+    // 24577
+    for (int i = 5; i < 132; i++)
+    {
+        addButton3(_world, i, "dd");
+    }
+    for (int i = 5; i < 5508; i++)
+    {
+        //addButton2(_world, i, "");
+    }
 }
 
 void MainMenu::addButton(flecs::world* _world, int _i, std::string _text)
 {
     addEntity(
-        _world->entity().child_of(getScene())
-            .set<cID>({"bt", _i})
-            .set<cPosition>({cScreenScale::getScaleW() * 40, cScreenScale::getScaleH() * 15 * _i})
-            .set<cSize>({cScreenScale::getScaleW() * 20, cScreenScale::getScaleH() * 5})
-            .set<cLayer>({0, 0, 0})
-            .set<cRenderFlags>({true, false})
-            .set<cRotation>({0.0f})
-            .emplace<cColor>(cColor{PINK})
-            .emplace<cText>(cText{_text, 18, {0, 0, 0, 255}})
-            //.set<Texture2D>(*(TextureManager::getInstance()->getTextureById("test.png")))
-        );
+    _world->entity().child_of(getScene())
+        .set<cID>({"bt", _i})
+        .set<cPosition>({cScreenScale::getScaleW() * 40, cScreenScale::getScaleH() * 15 * _i})
+        .set<cSize>({cScreenScale::getScaleW() * 20, cScreenScale::getScaleH() * 5})
+        .set<cLayer>({0, 0, 0})
+        .set<cRenderFlags>({true, false})
+        .set<cRotation>({0.0f})
+        .emplace<cColor>(cColor{PINK})
+        .emplace<cText>(cText{_text, 18, {0, 0, 0, 255}})
+        //.set<Texture2D>(*(TextureManager::getInstance()->getTextureById("test.png")))
+    );
+}
+void MainMenu::addButton3(flecs::world* _world, int _i, std::string _text)
+{
+    addEntity(
+    _world->entity().child_of(getScene())
+        .set<cID>({"bt", _i})
+        .set<cPosition>({GetRandomValue(50, 1920), GetRandomValue(0, 1080)})
+        .set<cSize>({cScreenScale::getScaleW() * 20, cScreenScale::getScaleH() * 5})
+        .set<cLayer>({0, 0, 0})
+        .set<cRenderFlags>({true, false})
+        .set<cRotation>({0.0f})
+        .emplace<cColor>(cColor{PINK})
+        .emplace<cText>(cText{_text, 18, {0, 0, 0, 255}})
+        .set<Texture2D>(*(TextureManager::getInstance()->getTextureById("test.png")))
+    );
+}
+void MainMenu::addButton2(flecs::world* _world, int _i, std::string _text)
+{
+    addEntity(
+    _world->entity().child_of(getScene())
+        .set<cID>({"bt", _i})
+        .set<cPosition>({GetRandomValue(0, 1920), GetRandomValue(0, 1080)})
+        .set<cSize>({cScreenScale::getScaleW() * 20, cScreenScale::getScaleH() * 5})
+        .set<cLayer>({0, 0, 0})
+        .set<cRenderFlags>({true, false})
+        .set<cRotation>({0.0f})
+        //.emplace<cColor>(cColor{PINK})
+        //.emplace<cText>(cText{_text, 18, {0, 0, 0, 255}})
+        .set<Texture2D>(*(TextureManager::getInstance()->getTextureById("test.png")))
+    );
 }

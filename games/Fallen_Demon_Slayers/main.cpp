@@ -17,7 +17,7 @@ int main()
     InitWindow(GetScreenWidth(), GetScreenHeight(), "Test");
     cScreenScale::setScale(GetScreenWidth() / 100, GetScreenHeight() / 100);
 
-    SetTargetFPS(1000);
+    SetTargetFPS(10000);
     
     flecs::world ecs;
     ptr = &ecs;
@@ -29,6 +29,8 @@ int main()
     TextureManager::getInstance()->loadTexture("road.png");
     TextureManager::getInstance()->loadTexture("building.png");
 
+    auto query = ecs.query<cRenderFlags>();
+
     MainMenu* scene = new MainMenu(ptr);
 
     scene->setID({"mm", 0});
@@ -36,16 +38,18 @@ int main()
     cSceneManager::getInstance()->addScene(static_cast<cScene*>(scene));
 
     //auto buttonQuery2 = ecs.query<cButton>();
-    auto query = ecs.query<cRenderFlags>();
 
-    //std::vector <int> xx;
-    //std::vector <int> yy;
+    std::vector <int> xx;
+    std::vector <int> yy;
+    int counter = 250168;
 
-    //for ( int i = 0 ; i < 10000 ;i++)
+    //for ( int i = 0 ; i < counter ;i++)
     //{
     //    xx.emplace_back(GetRandomValue(0, 1920));
     //    yy.emplace_back(GetRandomValue(0, 1080));
     //}
+
+    Texture2D text = LoadTexture("texture.png");
 
     while (!WindowShouldClose()) {
 
@@ -53,8 +57,6 @@ int main()
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
         
-        
-
         ecs.defer_begin();
             //buttonQuery2.each([&](flecs::entity e, cButton& btn) {
             //    if (btn.getMouseObject()->mouseCheck(mouseX, mouseY)) 
@@ -109,7 +111,7 @@ int main()
         BeginDrawing();
         ClearBackground(RAYWHITE);
 
-        //for ( int i = 0 ; i < 5000 ;i++)
+        //for ( int i = 0 ; i < counter ;i++)
         //{
         //    DrawRectangle(xx[i], yy[i], 200, 50, PINK);
         //    DrawTexture(*TextureManager::getInstance()->getTextureById("test.png"),
