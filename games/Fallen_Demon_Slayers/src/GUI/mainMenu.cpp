@@ -1,4 +1,4 @@
-#include "MainMenu.h"
+#include "mainMenu.h"
 #include "raylib.h"
 #include "textureManager.h"
 #include "sceneManager.h"
