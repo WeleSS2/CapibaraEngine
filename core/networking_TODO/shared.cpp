@@ -1,4 +1,4 @@
-#include "shared.hpp"
+#include "shared.h"
 #include "steam_api.h"
 #include "isteamnetworkingsockets.h"
 /*

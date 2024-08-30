@@ -131,9 +131,9 @@ set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sdk")
 if(WIN32)
     set(LIB_PATH "${LIB_DIR}/redistributable_bin/steam_api.lib")
 elseif(UNIX OR ANDROID)
-    set(LIB_PATH "${LIB_DIR}/redistributable_bin/linux64")
+    set(LIB_PATH "${LIB_DIR}/redistributable_bin/linux64/libsteam_api.so")
 elseif(APPLE)
-    set(LIB_PATH "${LIB_DIR}/redistributable_bin/osx")
+    set(LIB_PATH "${LIB_DIR}/redistributable_bin/osx/libsteam_api.dylib")
 endif()
 
 add_library(SteamSDK INTERFACE)
@@ -143,3 +143,26 @@ target_include_directories(SteamSDK INTERFACE
 )
 
 target_link_libraries(SteamSDK INTERFACE ${LIB_PATH})
+
+# Static for raylib
+
+set(RAYLIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/Raylib")
+
+set(RAYLIB_LIBS "${RAYLIB_DIR}/build/raylib/Debug/raylib.lib")
+
+add_library(RaylibStatic INTERFACE)
+
+target_include_directories(RaylibStatic INTERFACE
+    "${RAYLIB_DIR}/build/raylib/include"
+)
+
+if(WIN32)
+    target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS} winmm.lib)
+    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY})
+elseif(UNIX OR ANDROID)
+    target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS})
+    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.so DESTINATION ${MAIN_OUTPUT_DIRECTORY})
+elseif(APPLE)
+    target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS})
+    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dylib DESTINATION ${MAIN_OUTPUT_DIRECTORY})
+endif()

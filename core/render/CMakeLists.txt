@@ -1,6 +1,5 @@
 set(CE_render
     renderObject.cpp
-    button.cpp
     textureManager.cpp
 )
 
@@ -9,12 +8,13 @@ add_library(ceRenders STATIC ${CE_render})
 
 target_link_libraries(ceRender PUBLIC
     ceGeneral
-    raylib
+    RaylibStatic
 )
 
 target_link_libraries(ceRenders PUBLIC
     ceGeneral
-    raylib
+    ceEvent
+    RaylibStatic
 )
 
 target_include_directories(ceRender PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

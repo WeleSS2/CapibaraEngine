@@ -8,9 +8,9 @@
 
 #define raylib
 
-#include "logs.hpp"
-#include "Button.hpp"
-#include "TextureManager.hpp"
+#include "logs.h"
+#include "Button.h"
+#include "TextureManager.h"
 #include "raylib.h"
 #include <flecs.h>
 
@@ -175,8 +175,8 @@ int main(int argc, char *argv[])
             ecs.defer_begin();
             auto buttonQuery2 = ecs.query<cButton>();
             buttonQuery2.each([&](flecs::entity e, cButton& btn) {
-                if (btn.clickCheck(mouseX, mouseY)) {
-                    btn.click();
+                if (btn.mouseCheck(mouseX, mouseY)) {
+
                 }
             });
             ecs.defer_end();
