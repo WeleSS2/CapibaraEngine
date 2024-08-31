@@ -1,5 +1,4 @@
 #include "renderManager.h"
-#include "renderObject.h"
 #include "raylib.h"
 
 cRenderManager* cRenderManager::instance_ = nullptr;
@@ -39,7 +38,7 @@ void cRenderManager::render(flecs::entity_view _entity) const
 {
     if (_entity.has<cRenderFlags>())
     {
-        if (_entity.get<cRenderFlags>()->visible)
+        if (_entity.get<cRenderFlags>()->value & cRenderFlags::Visible)
         {
             // Check if colored 
             renderColorRectangle(_entity);
@@ -56,12 +55,26 @@ void cRenderManager::render(flecs::entity_view _entity) const
     }
 }
 
+void cRenderManager::cameraMove(flecs::entity _entity, cCamera* _camera) const
+{
+    if (_camera != nullptr)
+    {
+        if (_entity.get<cRenderFlags>()->value & cRenderFlags::Visible)
+        {
+            if (!(_entity.get<cRenderFlags>()->value & cRenderFlags::UnMovable))
+            {
+                _entity.get_mut<cPosition>()->posX += _camera->offsetX;
+                _entity.get_mut<cPosition>()->posY += _camera->offsetY;
+            }
+        }
+    }
+}
+
 
 void cRenderManager::renderColorRectangle(flecs::entity_view _entity) const
 {
     if (_entity.has<cColor>())
     {
-
         DrawRectangle(_entity.get<cPosition>()->posX,
             _entity.get<cPosition>()->posY,
             _entity.get<cSize>()->width,
@@ -75,9 +88,7 @@ void cRenderManager::renderTexture(flecs::entity_view _entity) const
 {
     if (_entity.has<Texture2D>())
     {
-        std::cout << "rendered texture  " << _entity.get<cID>()->idStr << " "
-            << _entity.get<cID>()->idNum << std::endl;
-        if (_entity.get<cRenderFlags>()->modify)
+        if (_entity.get<cRenderFlags>()->value & cRenderFlags::Modify)
         {
             DrawTexturePro(*_entity.get<Texture2D>(),
                 { 0.0f, 0.0f, (float)_entity.get<Texture2D>()->width,

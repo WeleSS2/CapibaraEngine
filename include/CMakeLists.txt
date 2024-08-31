@@ -158,7 +158,7 @@ target_include_directories(RaylibStatic INTERFACE
 
 if(WIN32)
     target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS} winmm.lib)
-    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY})
+    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
 elseif(UNIX OR ANDROID)
     target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS})
     file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.so DESTINATION ${MAIN_OUTPUT_DIRECTORY})

@@ -19,6 +19,5 @@ public:
 
     void addButton2(flecs::world* _world, int _i, std::string _text);
 
-        void addButton3(flecs::world* _world, int _i, std::string _text);
-
+    void addButton3(flecs::world* _world, int _i, std::string _text);
 };

@@ -1,4 +1,11 @@
 build/*
-out/*
+out/Debug/*.exe
+out/Debug/*.pdb
+out/Debug/*.dll
+out/Debug/*.so
+out/Debug/*.lib
+out/Debug/*.a
+out/Debug/.vs
 include/Raylib/build/*
 settings.json
+*.vscode

@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include "flecs.h"
+#include "renderObject.h"
 
 class cRenderManager
 {
@@ -16,6 +17,8 @@ public:
     static cRenderManager* getInstance();
 
     void render(flecs::entity_view _entity) const;
+
+    void cameraMove(flecs::entity _entity, cCamera* _camera) const;
 
 private:
     void renderColorRectangle(flecs::entity_view _entity) const;

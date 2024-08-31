@@ -21,7 +21,7 @@ public:
 
     void removeScene(cID _id);
 
-    void setStatus(cID _id, bool _status);
+    int setStatus(cID _id, bool _status);
 private:
 
     static cSceneManager* instance_;
