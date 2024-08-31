@@ -55,22 +55,6 @@ void cRenderManager::render(flecs::entity_view _entity) const
     }
 }
 
-void cRenderManager::cameraMove(flecs::entity _entity, cCamera* _camera) const
-{
-    if (_camera != nullptr)
-    {
-        if (_entity.get<cRenderFlags>()->value & cRenderFlags::Visible)
-        {
-            if (!(_entity.get<cRenderFlags>()->value & cRenderFlags::UnMovable))
-            {
-                _entity.get_mut<cPosition>()->posX += _camera->offsetX;
-                _entity.get_mut<cPosition>()->posY += _camera->offsetY;
-            }
-        }
-    }
-}
-
-
 void cRenderManager::renderColorRectangle(flecs::entity_view _entity) const
 {
     if (_entity.has<cColor>())

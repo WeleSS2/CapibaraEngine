@@ -10,15 +10,6 @@ struct cPosition
     int posX;
     int posY;
 };
-
-struct cAbsPosition
-{
-    float basePosX;
-    float basePosY;
-    float posX;
-    float posY;
-};
-
 struct cSize
 {
     int width;
@@ -76,11 +67,6 @@ struct cRenderFlags
     {
         return value != v;
     }
-};
-
-struct cCamera {
-    float offsetX;
-    float offsetY;
 };
 
 class cScene;

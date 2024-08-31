@@ -32,8 +32,6 @@ int main()
 
     auto query = ecs.query<cRenderFlags>();
 
-    cCamera cam = {0 ,0};
-
     int speed = 10;
 
     MainMenu* scene = new MainMenu(ptr);
@@ -44,25 +42,32 @@ int main()
 
     cSceneManager::getInstance()->addScene(static_cast<cScene*>(scene));
 
-    while (!WindowShouldClose()) {
-        // This is a breakpoint it will wait for asynchronous ecs and rendering
-        ecs.progress();
-        ClearBackground(RAYWHITE);
+    flecs::entity et = cSceneManager::getInstance()->getScene(cID{"map", 0})->
+            getEntity(cID{"player", 0});
 
+    Camera2D camera = { 0 };
+    camera.target = {
+            (float)et.get<cPosition>()->posX,
+            (float)et.get<cPosition>()->posY
+        };
+    camera.offset = {(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2};
+    camera.rotation = 0.0f;
+    camera.zoom = 1.0f;
+
+    while (!WindowShouldClose()) 
+    {
         int mouseX = GetMouseX();
         int mouseY = GetMouseY();
-        
-        cam.offsetY = 0;
-        cam.offsetX = 0;
 
         ecs.defer_begin();
-            query.each([&](flecs::entity e, cRenderFlags& s) {
+            query.each([&](flecs::entity e, cRenderFlags& s) 
+            {
                 if (e.get<cRenderFlags>()->value & cRenderFlags::Visible)
                 {
                     if ( mouseX >= e.get<cPosition>()->posX 
                         && mouseY >= e.get<cPosition>()->posY
                         && mouseX <= e.get<cPosition>()->posX + e.get<cSize>()->width 
-                        && mouseY <= e.get<cPosition>()->posY + e.get<cSize>()->height)
+                        && mouseY <= e.get<cPosition>()->posY + e.get<cSize>()->height )
                     {
                         if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
                         {
@@ -80,97 +85,79 @@ int main()
                     {
                         if (IsKeyDown(KEY_A))
                         {
-                            e.get_mut<cAbsPosition>()->posX -= speed;
-
-                            cam.offsetX += speed;
+                            e.get_mut<cPosition>()->posX -= speed;
                         }
 
                         if (IsKeyDown(KEY_D))
                         {
-                            e.get_mut<cAbsPosition>()->posX += speed;
-
-                            cam.offsetX -= speed;
+                            e.get_mut<cPosition>()->posX += speed;
                         }
 
                         if (IsKeyDown(KEY_W))
                         {   
-                            e.get_mut<cAbsPosition>()->posY -= speed;
-
-                            cam.offsetY += speed; 
+                            e.get_mut<cPosition>()->posY -= speed;
                         }
 
                         if (IsKeyDown(KEY_S))
                         {
-                            e.get_mut<cAbsPosition>()->posY += speed;
+                            e.get_mut<cPosition>()->posY += speed;
+                        }
 
-                            cam.offsetY -= speed;
+                        if (IsKeyDown(KEY_SPACE))
+                        {
+                            std::cout << (float)cSceneManager::getInstance()->getScene(cID{"map", 0})->
+                            getEntity(cID{"player", 0}).get<cPosition>()->posX << std::endl;
+
+                            std::cout << (float)cSceneManager::getInstance()->getScene(cID{"map", 0})->
+                            getEntity(cID{"player", 0}).get<cPosition>()->posY << std::endl;
+                        
+                            std::cout << camera.target.x << std::endl;
+
+                            std::cout << camera.target.y << std::endl;
+
+                            std::cout << "--------------------------" << std::endl;
                         }
                     }
                 }
             });
         ecs.defer_end();
 
-        ecs.system<cAbsPosition>("PlayerSpawn").each
-        (
-            [&](flecs::entity e, cAbsPosition s) 
-            {
-                if (e.get<cRenderFlags>()->value & cRenderFlags::Visible)
-                {
-                    if (e.get<cAbsPosition>()->posX > e.get<cAbsPosition>()->basePosX + 32)
-                    {
-                        map->setNeg(true);
-
-                        //map->spawnOnX(ptr);
-
-                        e.get_mut<cAbsPosition>()->basePosX += 32;
-                    }
-
-                    if (e.get<cAbsPosition>()->posY > e.get<cAbsPosition>()->basePosY + 32)
-                    {
-                        map->setNeg(true);
-
-                        //map->spawnOnY(ptr);
-
-                        e.get_mut<cAbsPosition>()->basePosY += 32;
-                    }
-
-                    if (e.get<cAbsPosition>()->posX < e.get<cAbsPosition>()->basePosX - 32)
-                    {
-                        map->setNeg(false);
-
-                        //map->spawnOnX(ptr);
-
-                        e.get_mut<cAbsPosition>()->basePosX -= 32;
-                    }
-
-                    if (e.get<cAbsPosition>()->posY < e.get<cAbsPosition>()->basePosY - 32)
-                    {
-                        map->setNeg(false);
-
-                        //map->spawnOnY(ptr);
-
-                        e.get_mut<cAbsPosition>()->basePosY -= 32;
-                    }
-                }
-            }
-        );
+        BeginDrawing();
+        
+        if (et.get<cRenderFlags>()->value & cRenderFlags::Visible)
+        {
+            camera.target = {
+                (float)et.get<cPosition>()->posX,
+                (float)et.get<cPosition>()->posY
+            };
+        
+            BeginMode2D(camera);
+        }
 
         // Start drawing
-        BeginDrawing();
-
         ecs.system<cRenderFlags>("Render").each
         (
             [&](flecs::entity e, cRenderFlags s) 
             {
-                cRenderManager::getInstance()->cameraMove(e, &cam);
+                //cRenderManager::getInstance()->cameraMove(e, &cam);
 
                 cRenderManager::getInstance()->render(e);
             }
         );
 
-        DrawFPS(10, 10); // Display FPS in top-left corner
+        ecs.progress();
+
+        if (et.get<cRenderFlags>()->value & cRenderFlags::Visible)
+        {
+            EndMode2D();
+        }
+
+        DrawFPS(10, 10);
         EndDrawing();
+        ClearBackground(RAYWHITE);
     }
+
+    CloseWindow();
 
     return 0;
 }

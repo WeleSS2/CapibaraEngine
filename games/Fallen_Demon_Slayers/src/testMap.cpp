@@ -18,12 +18,6 @@ TestMap::TestMap(flecs::world* _world) : cScene(_world)
         _world->entity().child_of(getScene())
             .set<cID>({"player", 0})
             .set<cPosition>({cScreenScale::getScaleW() * 50, cScreenScale::getScaleH() * 50})
-            .set<cAbsPosition>({
-                (float)cScreenScale::getScaleW() * 50,
-                (float)cScreenScale::getScaleH() * 50,
-                (float)cScreenScale::getScaleW() * 50,
-                (float)cScreenScale::getScaleH() * 50
-            })
             .set<cSize>({50, 50})
             .set<cLayer>({0, 0, 1})
             .set<cRenderFlags>({4})

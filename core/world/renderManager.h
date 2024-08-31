@@ -18,8 +18,6 @@ public:
 
     void render(flecs::entity_view _entity) const;
 
-    void cameraMove(flecs::entity _entity, cCamera* _camera) const;
-
 private:
     void renderColorRectangle(flecs::entity_view _entity) const;
 
