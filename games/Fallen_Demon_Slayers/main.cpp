@@ -7,21 +7,30 @@
 #include "src/testMap.h"
 #include "renderManager.h"
 #include "sceneManager.h"
+#include "spdlog/spdlog.h"
 
 flecs::world *ptr = NULL;
 
 int main() 
 {
+    spdlog::set_level(spdlog::level::warn);
+    
+    spdlog::set_pattern("%v");
+
+    spdlog::debug("Starting game...");    
+    
     SetConfigFlags( FLAG_FULLSCREEN_MODE |
        FLAG_WINDOW_RESIZABLE);
 
     InitWindow(GetScreenWidth(), GetScreenHeight(), "Test");
     cScreenScale::setScale(GetScreenWidth() / 100, GetScreenHeight() / 100);
 
-    SetTargetFPS(120);
+    SetTargetFPS(1200);
     
     flecs::world ecs;
     ptr = &ecs;
+
+    spdlog::debug("Loading Textures...");
 
     TextureManager::getInstance()->loadTexture("bg2.png");
     //TextureManager::getInstance()->loadTexture("test.png");
@@ -37,6 +46,8 @@ int main()
     MainMenu* scene = new MainMenu(ptr);
 
     TestMap* map = new TestMap(ptr);
+
+    spdlog::debug("Creating scenes...");
 
     cSceneManager::getInstance()->addScene(static_cast<TestMap*>(map));
 
@@ -54,6 +65,8 @@ int main()
     camera.rotation = 0.0f;
     camera.zoom = 1.0f;
 
+    spdlog::debug("Starting game loop...");
+
     while (!WindowShouldClose()) 
     {
         int mouseX = GetMouseX();
@@ -64,6 +77,8 @@ int main()
             {
                 if (e.get<cRenderFlags>()->value & cRenderFlags::Visible)
                 {
+                    spdlog::debug("{}", e.get<cID>()->idStr);
+
                     if ( mouseX >= e.get<cPosition>()->posX 
                         && mouseY >= e.get<cPosition>()->posY
                         && mouseX <= e.get<cPosition>()->posX + e.get<cSize>()->width 
@@ -102,25 +117,12 @@ int main()
                         {
                             e.get_mut<cPosition>()->posY += speed;
                         }
-
-                        if (IsKeyDown(KEY_SPACE))
-                        {
-                            std::cout << (float)cSceneManager::getInstance()->getScene(cID{"map", 0})->
-                            getEntity(cID{"player", 0}).get<cPosition>()->posX << std::endl;
-
-                            std::cout << (float)cSceneManager::getInstance()->getScene(cID{"map", 0})->
-                            getEntity(cID{"player", 0}).get<cPosition>()->posY << std::endl;
-                        
-                            std::cout << camera.target.x << std::endl;
-
-                            std::cout << camera.target.y << std::endl;
-
-                            std::cout << "--------------------------" << std::endl;
-                        }
                     }
                 }
             });
         ecs.defer_end();
+
+        spdlog::debug("Rendering...");
 
         BeginDrawing();
         
@@ -139,8 +141,6 @@ int main()
         (
             [&](flecs::entity e, cRenderFlags s) 
             {
-                //cRenderManager::getInstance()->cameraMove(e, &cam);
-
                 cRenderManager::getInstance()->render(e);
             }
         );

@@ -17,6 +17,7 @@ add_executable(Fallen_Demon_Slayers
 target_link_libraries(Fallen_Demon_Slayers PRIVATE 
     gui
     flecs
+    spdlog
 )
 
 set_target_properties(Fallen_Demon_Slayers PROPERTIES

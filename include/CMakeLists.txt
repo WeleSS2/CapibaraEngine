@@ -1,42 +1,8 @@
-# SDL2 zlib license
+# TODO ADD ALL LICENSES!!!
 
-# This software is provided 'as-is', without any express or implied
-# warranty.  In no event will the authors be held liable for any damages
-# arising from the use of this software.
-
-# Permission is granted to anyone to use this software for any purpose,
-# including commercial applications, and to alter it and redistribute it
-# freely, subject to the following restrictions:
-
-# 1. The origin of this software must not be misrepresented; you must not
-#   claim that you wrote the original software. If you use this software
-#   in a product, an acknowledgment in the product documentation would be
-#   appreciated but is not required.
-# 2. Altered source versions must be plainly marked as such, and must not be
-#   misrepresented as being the original software.
-# 3. This notice may not be removed or altered from any source distribution.
+# Fetching 
 
 include(FetchContent)
-
-#FetchContent_Declare(SDL
-#    GIT_REPOSITORY https://github.com/libsdl-org/SDL
-#    GIT_TAG        release-2.28.5
-#)
-#
-#FetchContent_Declare(SDL_ttf
-#    GIT_REPOSITORY https://github.com/libsdl-org/SDL_ttf
-#    GIT_TAG        release-2.22.0
-#)
-#
-#FetchContent_Declare(SDL_image
-#    GIT_REPOSITORY https://github.com/libsdl-org/SDL_image
-#    GIT_TAG        release-2.8.2
-#)
-#
-#FetchContent_Declare(SDL_mixer
-#    GIT_REPOSITORY https://github.com/libsdl-org/SDL_mixer
-#    GIT_TAG        release-2.8.0
-#)
 
 FetchContent_Declare(spdlog
     GIT_REPOSITORY https://github.com/gabime/spdlog
@@ -45,12 +11,7 @@ FetchContent_Declare(spdlog
 
 FetchContent_Declare(flecs
     GIT_REPOSITORY https://github.com/SanderMertens/flecs
-    GIT_TAG        v3.2.11
-)
-
-FetchContent_Declare(raylib
-    GIT_REPOSITORY https://github.com/raysan5/raylib
-    GIT_TAG        5.0
+    GIT_TAG        v4.0.1
 )
 
 FetchContent_Declare(gtests
@@ -58,50 +19,47 @@ FetchContent_Declare(gtests
     GIT_TAG        v1.14.0
 )
 
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+FetchContent_Declare(imgui
+    GIT_REPOSITORY https://github.com/ocornut/imgui
+    GIT_TAG        v1.91.0
+)
 
-set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+FetchContent_Declare(box2D
+    GIT_REPOSITORY https://github.com/erincatto/box2d
+    GIT_TAG        v3.0.0
+)
 
 FetchContent_Declare(json
     GIT_REPOSITORY https://github.com/nlohmann/json
     GIT_TAG        v3.11.3
 )
 
-#
-#FetchContent_Declare(Nova_Physics
-#    GIT_REPOSITORY https://github.com/kadir014/nova-physics
-#    GIT_TAG        0.7.0
-#)
+set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
-#FetchContent_MakeAvailable(SDL SDL_image SDL_mixer SDL_ttf)
+set(BUILD_GMOCK OFF CACHE BOOL "" FORCE)
+
+# Fetch Declare 
 
 FetchContent_MakeAvailable(spdlog)
 FetchContent_MakeAvailable(flecs)
-FetchContent_MakeAvailable(raylib)
 FetchContent_MakeAvailable(gtests)
 FetchContent_MakeAvailable(json)
+FetchContent_MakeAvailable(imgui)
+FetchContent_MakeAvailable(box2D)
 
-#FetchContent_MakeAvailable(Nova_Physics)
-
-#add_library(SDLall INTERFACE)
+# Add libraries
 
 add_library(SPDLogs INTERFACE)
 
 add_library(Flecs INTERFACE)
 
-add_library(Raylib INTERFACE)
-
 add_library(Json INTERFACE)
 
-#add_library(NOVAPhys INTERFACE)
+add_library(Imgui INTERFACE)
 
-#target_link_libraries(SDLall INTERFACE
-#    SDL2
-#    SDL2main
-#    SDL2_image
-#    SDL2_mixer
-#    SDL2_ttf
-#)
+add_library(Box2D INTERFACE)
+
+# Link libraries
 
 target_link_libraries(SPDLogs INTERFACE
     spdlog
@@ -111,20 +69,19 @@ target_link_libraries(Flecs INTERFACE
     flecs::flecs_static
 )
 
-target_link_libraries(Raylib INTERFACE
-    raylib
-)
-
 target_link_libraries(Json INTERFACE
     nlohmann_json::nlohmann_json
 )
 
-#
-#target_link_libraries(NOVAPhys INTERFACE
-#    Nova_Physics
-#)
+target_link_libraries(Imgui INTERFACE
+    imgui
+)
 
-# Static linking for steam SDK
+target_link_libraries(Box2D INTERFACE
+    box2d
+)
+
+# Static linking
 
 set(LIB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/sdk")
 
