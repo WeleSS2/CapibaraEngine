@@ -64,14 +64,19 @@ void cSceneManager::removeScene(cID _id)
     }
 };
 
-void cSceneManager::setStatus(cID _id, bool _status)
+int cSceneManager::setStatus(cID _id, bool _status)
 {
     for (auto i : scenes_)
     {
         if (*i->getID() == _id)
         {
             std::cout << "Set Status: " << _status << std::endl;
+            
             i->setStatus(_status);
+
+            return 1;
         }
     }
+
+    return -1;
 };

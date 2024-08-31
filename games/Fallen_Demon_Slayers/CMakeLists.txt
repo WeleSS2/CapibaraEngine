@@ -7,6 +7,8 @@ set(CMAKE_CXX_STANDARD 23)
 add_subdirectory(src)
 add_subdirectory(gfx)
 
+file(GLOB SRC_cpp "src/*.cpp" "src/*/*.cpp")
+
 add_executable(Fallen_Demon_Slayers
     main.cpp
     ${SRC_cpp}

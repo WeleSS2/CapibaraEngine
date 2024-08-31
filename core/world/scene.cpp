@@ -53,13 +53,32 @@ void cScene::setStatus(bool _status)
     {
         if (i.has<cRenderFlags>())
         {
-            i.get_mut<cRenderFlags>()->visible = _status;
+            if (i.has<cSceneEntity>())
+            {
+                i.get_mut<cSceneEntity>()->scene->setStatus(_status);
+            }
+
+            if (_status)
+            {
+                i.get_mut<cRenderFlags>()->value |= _status;
+            }
+            else
+            {
+                i.get_mut<cRenderFlags>()->value &= _status;
+            }
         }
     }
 
     if (scene_.has<cRenderFlags>())
     {
-        scene_.get_mut<cRenderFlags>()->visible = _status;
+        if (_status)
+        {
+            scene_.get_mut<cRenderFlags>()->value |= _status;
+        }
+        else
+        {
+            scene_.get_mut<cRenderFlags>()->value &= _status;
+        }
     }
 }
 
@@ -67,10 +86,10 @@ bool cScene::getStatus() const
 {
     if (scene_.has<cRenderFlags>())
     {
-        return scene_.get<cRenderFlags>()->visible;
+        return scene_.get<cRenderFlags>()->Visible;
     }
 
-    // TODO throw error false is also corrent on return so we can use 
+    // TODO throw error false is also correct on return so we can use 
     // int sand convert or just throw error and terminate program or restart
     // scene
     // What i think should be better as if return isn't true or false

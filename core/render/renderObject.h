@@ -11,6 +11,14 @@ struct cPosition
     int posY;
 };
 
+struct cAbsPosition
+{
+    float basePosX;
+    float basePosY;
+    float posX;
+    float posY;
+};
+
 struct cSize
 {
     int width;
@@ -31,20 +39,56 @@ struct cRotation
 
 struct cRenderFlags
 {
-    bool visible = false;
-    bool modify = false;
+    enum Flags {
+        None         = 0,
+        Visible      = 1 << 0, // 1
+        Modify       = 1 << 1, // 2
+        UnMovable    = 1 << 2, // 4
+        RenderedArea = 1 << 3  // 8
+    };
+
+    int value;
+
+    cRenderFlags(int v = None) : value(v) {}
+
+    cRenderFlags operator|(Flags flag) const 
+    {
+        return cRenderFlags(value | flag);
+    }
+
+    cRenderFlags& operator|(cRenderFlags flag)
+    {
+        value |= flag.value;
+        return *this;
+    }
+
+    bool operator&(Flags flag) const
+    {
+        return (value & flag) == flag;
+    }
+
+    bool operator==(int v) const 
+    {
+        return value == v;
+    }
+
+    bool operator!=(int v) const
+    {
+        return value != v;
+    }
 };
 
-//struct cRenderFlags
-//{
-//    bool visible : 1;
-//    bool modify : 1;
-//
-//    cRenderFlags(uint32_t flags) 
-//        : visible(flags & 1),
-//        modify(flags & 2)
-//        {};
-//};
+struct cCamera {
+    float offsetX;
+    float offsetY;
+};
+
+class cScene;
+
+struct cSceneEntity
+{
+    cScene* scene = nullptr;
+};
 
 struct cColor
 {
