@@ -30,8 +30,23 @@ Logs* Logs::getInstance()
             
                 currentPath_ = std::string(APPDATA_DIR()) + "/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
             
+            #elif defined(__linux__)
+
+                if(HOME_DIR() == "")
+                {
+                    return -1;
+                }
+
+                currentPath_ = std::string(HOME_DIR()) + ".local/share/logs/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
+            #elif defined(__APPLE__)
+                if(HOME_DIR() == "")
+                {
+                    return -1;
+                }
+
+                currentPath_ = HOME_DIR() + "/Library/Logs/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
             #else
-                currentPath_ = "/var/log/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
+                currentPath_ = "/var/log/CapibaraEngine/Logs";
             #endif
             
             #ifdef DEBUGLOG

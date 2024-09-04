@@ -9,6 +9,12 @@
 #define APPDATA_DIR() ""
 #endif
 
+#ifdef _WIN32
+#define HOME_DIR() (std::getenv("USERPROFILE") ? std::getenv("USERPROFILE") : "")
+#else
+#define HOME_DIR() (std::getenv("HOME") ? std::getenv("HOME") : "")
+#endif
+
 /*
  * Logs Examples, you can use them but preffered solution is to use 
  * inside custom macros "LogInfo, LogWarn, LogError" with possibility to
