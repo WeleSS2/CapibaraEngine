@@ -3,3 +3,5 @@ a new folder in /games and using cmake create whole tree for app/game.
 
 This way every lib e.t.c can be easily linked, disadvantage? Rebuilding a whole 
 tree, need to find a way around
+
+Init by mm
