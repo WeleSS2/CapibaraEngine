@@ -1,5 +1,5 @@
 #include <iostream>
-#include <chrono>
+#include <chrono> //std::chrono, time measurement
 #include <functional>
 
 #include "TextureManager.h"
