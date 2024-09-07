@@ -48,7 +48,6 @@ cPosition* cScene::getPosition() const
 
 void cScene::setStatus(bool _status)
 {
-    // For entity which have own entites it will not set status
     for (const auto& i : toRender_)
     {
         if (i.has<cRenderFlags>())
