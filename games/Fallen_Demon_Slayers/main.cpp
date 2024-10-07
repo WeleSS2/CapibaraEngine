@@ -36,9 +36,9 @@ int main()
 
     tree.getOrigin().get<cNode>()->printNodes();
 
-    spdlog::set_level(spdlog::level::trace);
-
     Logs::getInstance()->createDefaultPath();
+
+    Logs::setLevel(SPDLOG_LEVEL_DEBUG);
 
     int value = 22;
 

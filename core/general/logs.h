@@ -61,6 +61,16 @@ public:
         consoleLogs_ = _consoleLogs;
     };
 
+    static void setLevel(int _level)
+    {
+        Logs::getInstance()->level_ = _level;
+    };
+
+    int getLevel()
+    {
+        return level_;
+    };
+
     template <typename... Args>
     void saveToFile(int type, const cString<Args...> str, Args&&... args);
 
@@ -91,6 +101,8 @@ protected:
     Logs& operator=(const Logs&) = delete;
 
 private:
+    int level_;
+
     bool consoleLogs_;
 
     std::filesystem::path* currentPath_ = nullptr;
@@ -190,65 +202,83 @@ void Logs::printLog(int type, const cString<Args...> str, Args&&... args)
 template <typename... Args>
 static constexpr void Logs::Trace(const cString<Args...> str, Args&&... args)
 {
-    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
-
-    if (Logs::getInstance()->getConsoleLogs())
+    if (Logs::getInstance()->getLevel() <= SPDLOG_LEVEL_TRACE)
     {
-        Logs::getInstance()->printLog(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
+        Logs::getInstance()->saveToFile(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
+
+        if (Logs::getInstance()->getConsoleLogs())
+        {
+            Logs::getInstance()->printLog(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
+        }
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Debug(const cString<Args...> str, Args&&... args)
 {
-    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_DEBUG, str, std::forward<Args>(args)...);
-
-    if (Logs::getInstance()->getConsoleLogs())
+    if (Logs::getInstance()->getLevel() <= SPDLOG_LEVEL_DEBUG)
     {
-        Logs::getInstance()->printLog(SPDLOG_LEVEL_DEBUG, str, std::forward<Args>(args)...);
+        Logs::getInstance()->saveToFile(SPDLOG_LEVEL_DEBUG, str, std::forward<Args>(args)...);
+
+        if (Logs::getInstance()->getConsoleLogs())
+        {
+            Logs::getInstance()->printLog(SPDLOG_LEVEL_DEBUG, str, std::forward<Args>(args)...);
+        }
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Info(const cString<Args...> str, Args&&... args)
 {
-    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
-
-    if (Logs::getInstance()->getConsoleLogs())
+    if (Logs::getInstance()->getLevel() <= SPDLOG_LEVEL_INFO)
     {
-        Logs::getInstance()->printLog(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
+        Logs::getInstance()->saveToFile(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
+
+        if (Logs::getInstance()->getConsoleLogs())
+        {
+            Logs::getInstance()->printLog(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
+        }
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Warn(const cString<Args...> str, Args&&... args)
 {
-    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
-
-    if (Logs::getInstance()->getConsoleLogs())
+    if (Logs::getInstance()->getLevel() <= SPDLOG_LEVEL_WARN)
     {
-        Logs::getInstance()->printLog(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
+        Logs::getInstance()->saveToFile(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
+
+        if (Logs::getInstance()->getConsoleLogs())
+        {
+            Logs::getInstance()->printLog(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
+        }
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Error(const cString<Args...> str, Args&&... args)
 {
-    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
-
-    if (Logs::getInstance()->getConsoleLogs())
+    if (Logs::getInstance()->getLevel() <= SPDLOG_LEVEL_ERROR)
     {
-        Logs::getInstance()->printLog(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
+        Logs::getInstance()->saveToFile(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
+
+        if (Logs::getInstance()->getConsoleLogs())
+        {
+            Logs::getInstance()->printLog(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
+        }
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Critical(const cString<Args...> str, Args&&... args)
 {
-    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
-
-    if (Logs::getInstance()->getConsoleLogs())
+    if (Logs::getInstance()->getLevel() <= SPDLOG_LEVEL_CRITICAL)
     {
-        Logs::getInstance()->printLog(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
+        Logs::getInstance()->saveToFile(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
+    
+        if (Logs::getInstance()->getConsoleLogs())
+        {
+            Logs::getInstance()->printLog(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
+        }
     }
 }
