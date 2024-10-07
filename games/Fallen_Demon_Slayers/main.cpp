@@ -40,7 +40,9 @@ int main()
 
     Logs::getInstance()->createDefaultPath();
 
-    Logs::Debug("Starting Engine...");
+    int value = 22;
+
+    Logs::Debug("Starting Engine... {} {}", value, " Does it work??!");
     
     
     SetConfigFlags( FLAG_FULLSCREEN_MODE |
@@ -51,7 +53,7 @@ int main()
 
     SetTargetFPS(1200);
 
-    spdlog::debug("Loading Textures...");
+    spdlog::debug("Loading Textures...", value);
 
     TextureManager::getInstance()->loadTexture("bg2.png");
     //TextureManager::getInstance()->loadTexture("test.png");

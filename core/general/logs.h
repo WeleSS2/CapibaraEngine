@@ -173,21 +173,21 @@ void Logs::printLog(int type, const cString<Args...> str, Args&&... args)
             tpStr = "LOG_CRITICAL";
             break;
     }
-    printf_s(tpStr);
-    println(" | File {} | Fn {} | Ln {} | Col {} | Log {}",
-        str.loc.file_name(), str.loc.function_name(),
-        str.loc.line(), str.loc.column(),
-        std::format(str, std::forward<Args>(args)...));
+
+    println("{} : File - {} : Fn - {} : Ln - {} : Col - {} : Log - {}",
+        tpStr, str.loc.file_name(), str.loc.function_name(),
+        str.loc.line(), str.loc.column(), std::format(str, std::forward<Args>(args)...)
+        );
 }
 
 template <typename... Args>
 static constexpr void Logs::Trace(const cString<Args...> str, Args&&... args)
 {
-    saveToFile(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
+    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
 
-    if (consoleLogs_)
+    if (Logs::getInstance()->getConsoleLogs())
     {
-        printLog(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
+        Logs::getInstance()->printLog(SPDLOG_LEVEL_TRACE, str, std::forward<Args>(args)...);
     }
 }
 
@@ -205,43 +205,43 @@ static constexpr void Logs::Debug(const cString<Args...> str, Args&&... args)
 template <typename... Args>
 static constexpr void Logs::Info(const cString<Args...> str, Args&&... args)
 {
-    saveToFile(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
+    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
 
-    if (consoleLogs_)
+    if (Logs::getInstance()->getConsoleLogs())
     {
-        printLog(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
+        Logs::getInstance()->printLog(SPDLOG_LEVEL_INFO, str, std::forward<Args>(args)...);
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Warn(const cString<Args...> str, Args&&... args)
 {
-    saveToFile(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
+    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
 
-    if (consoleLogs_)
+    if (Logs::getInstance()->getConsoleLogs())
     {
-        printLog(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
+        Logs::getInstance()->printLog(SPDLOG_LEVEL_WARN, str, std::forward<Args>(args)...);
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Error(const cString<Args...> str, Args&&... args)
 {
-    saveToFile(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
+    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
 
-    if (consoleLogs_)
+    if (Logs::getInstance()->getConsoleLogs())
     {
-        printLog(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
+        Logs::getInstance()->printLog(SPDLOG_LEVEL_ERROR, str, std::forward<Args>(args)...);
     }
 }
 
 template <typename... Args>
 static constexpr void Logs::Critical(const cString<Args...> str, Args&&... args)
 {
-    saveToFile(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
+    Logs::getInstance()->saveToFile(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
 
-    if (consoleLogs_)
+    if (Logs::getInstance()->getConsoleLogs())
     {
-        printLog(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
+        Logs::getInstance()->printLog(SPDLOG_LEVEL_CRITICAL, str, std::forward<Args>(args)...);
     }
 }
