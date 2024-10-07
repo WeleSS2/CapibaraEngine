@@ -1,7 +1,7 @@
 #include "testMap.h"
 #include <random>
 
-TestMap::TestMap(flecs::world* _world) : cScene(_world)
+TestMap::TestMap(flecs::world* _world) : cMap(_world)
 {
     getScene()
         .set<cID>({"map", 0})
@@ -10,20 +10,25 @@ TestMap::TestMap(flecs::world* _world) : cScene(_world)
         .set<cLayer>({0, 0, 0})
         .set<cRenderFlags>({0})
         .set<cRotation>({0.0f})
+        .set<cSceneEntity>({this})
     ;
 
-    spawnDefault(_world);
+    //spawnDefault(_world);
 
     addEntity(
         _world->entity().child_of(getScene())
             .set<cID>({"player", 0})
             .set<cPosition>({cScreenScale::getScaleW() * 50, cScreenScale::getScaleH() * 50})
-            .set<cSize>({50, 50})
-            .set<cLayer>({0, 0, 1})
+            .set<cRelPosition>({cScreenScale::getScaleW() * 50, cScreenScale::getScaleH() * 50,
+                cScreenScale::getScaleW() * 50, cScreenScale::getScaleH() * 50})
+            .set<cSize>({64, 64})
+            .set<cLayer>({0, 0, 1}) 
             .set<cRenderFlags>({4})
             .set<cRotation>({0.0f})
-            .emplace<cColor>(cColor{BLUE})
+            .emplace<cColor>(cColor{BLACK})
     );
+
+    spawnDefault(_world);
 }
 
 void TestMap::spawnTile(flecs::world* _world,
@@ -56,7 +61,7 @@ void TestMap::spawnDefault(flecs::world* _world)
     {
         Color color;
         color.r = dis(gen);
-        color.g = dis(gen);
+        color.g = 0;
         color.b = dis(gen);
     
         cColor c(color);

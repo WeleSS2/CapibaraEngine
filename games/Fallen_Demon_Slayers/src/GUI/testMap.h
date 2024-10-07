@@ -1,10 +1,10 @@
 #pragma once
 
 #include <iostream>
-#include "scene.h"
+#include "map.h"
 
 
-class TestMap : public cScene
+class TestMap : public cMap
 {
 public:
     TestMap(flecs::world* _world);

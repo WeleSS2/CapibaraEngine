@@ -10,7 +10,7 @@ cSceneManager::cSceneManager(flecs::world* _world)
 
     if (world_ == nullptr)
     {   // LOG001
-        std::cout << "World is null" << std::endl;
+        //std::cout << "World is null" << std::endl;
     };
 };
 
@@ -57,26 +57,11 @@ void cSceneManager::removeScene(cID _id)
     {
         if (*(*it)->getID() == _id) 
         {
+            (*it)->~cScene();
+
             scenes_.erase(it);
             
             break;
         }
     }
-};
-
-int cSceneManager::setStatus(cID _id, bool _status)
-{
-    for (auto i : scenes_)
-    {
-        if (*i->getID() == _id)
-        {
-            std::cout << "Set Status: " << _status << std::endl;
-            
-            i->setStatus(_status);
-
-            return 1;
-        }
-    }
-
-    return -1;
 };

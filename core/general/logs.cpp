@@ -5,49 +5,26 @@
 #include <stdio.h>
 #include <cstdlib>
 
-#define DEBUGLOG
+#undef DEBUGLOG
 
 Logs* Logs::singleton_ = nullptr;
 std::once_flag Logs::flag_;
-std::string Logs::currentPath_;
 
 Logs* Logs::getInstance()
 {
+    
     if (singleton_ == nullptr)
     {
         std::call_once(flag_, []() 
         { 
-            #ifdef _WIN32
-            
-                #ifdef DEBUGLOG
-                std::cout << "Appdata error \n";
-                #endif
-            
-                if(APPDATA_DIR() == "")
-                {
-                    return -1;
-                }
-            
-                currentPath_ = std::string(APPDATA_DIR()) + "/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
-            
-            #else
-                currentPath_ = "/var/log/CapibaraEngine/Logs";// + Engine::getEngine()->getTitle() + "/Logs";
-            #endif
-            
-            #ifdef DEBUGLOG
-            std::cout << "Test path: " << currentPath_ << "\n";
-            #endif
-            
             singleton_ = new Logs(); 
-
-            return 0;
         }
         );
     }
 
     return singleton_;
 }
-
+/*
 const int Logs::SaveLog(type _logType, 
                   const std::filesystem::path& _file,
                   const char* _function,
@@ -151,4 +128,70 @@ const int Logs::SaveLog(type _logType,
     out.close();
 
     return 0;
+}*/
+
+void Logs::setCurrentPath(std::string _path)
+{
+    if (currentPath_ != nullptr)
+    {
+        delete currentPath_;
+    }
+
+    currentPath_ = new std::filesystem::path(_path);
+}
+
+void Logs::createDefaultPath(bool setAsCurrent)
+{
+    if (currentPath_ != nullptr)
+    {
+        delete currentPath_;
+    }
+
+    if (std::string(OS) == "win")
+    {
+        if (setAsCurrent)
+        {
+            std::string appData = std::getenv("APPDATA");
+
+            currentPath_ = new std::filesystem::path(appData + "/CapibaraEngine/Logs");
+        }
+        else
+        {
+            std::string appData = std::getenv("APPDATA");
+
+            std::filesystem::path* path = new std::filesystem::path(appData + "/CapibaraEngine/Logs");
+        
+            paths_.push_back(std::make_pair("def", path));
+        }
+    }
+    else
+    {
+        if (setAsCurrent)
+        {
+            currentPath_ = new std::filesystem::path("/var/log/CapibaraEngine/Logs");
+        }
+        else
+        {
+            std::filesystem::path* path = new std::filesystem::path("/var/log/CapibaraEngine/Logs");
+        
+            paths_.push_back(std::make_pair("def", path));
+        }
+    }
+}
+
+void Logs::addPath(std::string _name, std::string _path)
+{
+    for (auto& path : paths_)
+    {
+        if (path.first == _name)
+        {
+            delete path.second;
+            
+            path.second = new std::filesystem::path(_path);
+
+            return;
+        }
+    }
+
+    paths_.push_back(std::make_pair(_name, new std::filesystem::path(_path)));
 }

@@ -3,7 +3,7 @@
 #include <iostream>
 #include "raylib.h"
 #include <unordered_map>
-
+#include "logs.h"
 /*
  * Load and store textures
  * Thread safe singleton 

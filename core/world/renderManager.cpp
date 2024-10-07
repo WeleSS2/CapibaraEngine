@@ -11,7 +11,7 @@ cRenderManager::cRenderManager(flecs::world* _world)
 
     if (world_ == nullptr) // LOG001  
     {   
-        std::cout << "World is null" << std::endl;
+        //std::cout << "World is null" << std::endl;
     };
 };
 

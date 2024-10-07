@@ -2,6 +2,10 @@ set(CE_world
     scene.cpp
     sceneManager.cpp
     renderManager.cpp
+    playerManager.cpp
+    map.cpp
+    node.cpp
+    quadTree.cpp
 )
 
 add_library(ceWorld SHARED ${CE_world})

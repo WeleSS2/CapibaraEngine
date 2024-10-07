@@ -5,15 +5,38 @@
 #include "structs.h"
 #include "raylib.h"
 
+struct cID2d
+{
+    std::string id;
+    int x;
+    int y;
+};
+
 struct cPosition
 {
     int posX;
     int posY;
 };
+
+struct cRelPosition
+{
+    int prevX;
+    int prevY;
+    int posX;
+    int posY;
+};
+
 struct cSize
 {
     int width;
     int height;
+};
+
+struct cDepth
+{
+    int depth;
+    
+    int maxDepth;
 };
 
 struct cLayer
@@ -28,14 +51,26 @@ struct cRotation
     float rot = 0.0f;
 };
 
+/*
+ * Define flags for entities
+ * None      - 0 - Empty flag, can be used for idk
+ * Visible   - 1 - Define did should be rendered or not
+ * Modify    - 2 - Define did should be resized automatically to fit declared size
+ * UnMovable - 4 - Define did should be movable dynamically
+ * Active    - 8 - Define did is currently active or not
+ * Node      - 16 - Define did is a node for quad tree (contain another nodes or entites)
+ * Iterate   - 32 - Define did node should be iterated (Aka should create nodes below it)
+ */
 struct cRenderFlags
 {
     enum Flags {
         None         = 0,
-        Visible      = 1 << 0, // 1
-        Modify       = 1 << 1, // 2
-        UnMovable    = 1 << 2, // 4
-        RenderedArea = 1 << 3  // 8
+        Visible      = 1 << 0, // 1 
+        Modify       = 1 << 1, // 2 
+        UnMovable    = 1 << 2, // 4 
+        Active       = 1 << 3, // 8
+        Node         = 1 << 4, // 16
+        Iterate      = 1 << 5  // 32
     };
 
     int value;
@@ -68,6 +103,9 @@ struct cRenderFlags
         return value != v;
     }
 };
+
+// Unique tags aka flags not direcly in cRenderFlags
+struct cActive {}; // Intercative entity
 
 class cScene;
 

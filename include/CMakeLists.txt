@@ -113,13 +113,15 @@ target_include_directories(RaylibStatic INTERFACE
     "${RAYLIB_DIR}/build/raylib/include"
 )
 
+# COPY is prebuild when file is genered in build so it need to be post-build
+# FIXME
 if(WIN32)
     target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS} winmm.lib)
-    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
+    #file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dll DESTINATION ${MAIN_OUTPUT_DIRECTORY}/Debug)
 elseif(UNIX OR ANDROID)
     target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS})
-    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.so DESTINATION ${MAIN_OUTPUT_DIRECTORY})
+    #file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.so DESTINATION ${MAIN_OUTPUT_DIRECTORY})
 elseif(APPLE)
     target_link_libraries(RaylibStatic INTERFACE ${RAYLIB_LIBS})
-    file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dylib DESTINATION ${MAIN_OUTPUT_DIRECTORY})
+    #file(COPY ${CMAKE_SOURCE_DIR}/build/_deps/flecs-build/Debug/flecs.dylib DESTINATION ${MAIN_OUTPUT_DIRECTORY})
 endif()

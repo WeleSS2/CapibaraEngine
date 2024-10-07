@@ -2,7 +2,7 @@
 #include "raylib.h"
 #include "textureManager.h"
 #include "sceneManager.h"
-#include "../testMap.h"
+#include "testMap.h"
 
 #include <memory>
 
@@ -13,11 +13,11 @@ MainMenu::MainMenu(flecs::world* _world)
         .set<cID>({"mm", 0})
         .set<cPosition>({0, 0})
         .set<cSize>({GetScreenWidth(), GetScreenHeight()})
-        .set<cLayer>({0, 0, 0})
         .set<cRenderFlags>({3})
         .set<cRotation>({0.0f})
         .set<Texture2D>(*(TextureManager::getInstance()->getTextureById("bg2.png")))
         .set<cSceneEntity>({this})
+        .add<cActive>()
     ;
 
     
@@ -30,9 +30,9 @@ MainMenu::MainMenu(flecs::world* _world)
         {"c", 0},
         [=]()
         { 
-            cSceneManager::getInstance()->setStatus({"mm", 0}, false);
+            cSceneManager::getInstance()->getScene({"mm", 0})->setStatus(false, true);
 
-            cSceneManager::getInstance()->setStatus({"map", 0}, true);
+            cSceneManager::getInstance()->getScene({"map", 0})->setStatus(true, true);
         }
     });
     getEntity({"bt", 4}).emplace<cInteraction>(cInteraction{
@@ -51,10 +51,10 @@ void MainMenu::addButton(flecs::world* _world, int _i, std::string _text)
         .set<cID>({"bt", _i})
         .set<cPosition>({cScreenScale::getScaleW() * 40, cScreenScale::getScaleH() * 15 * _i})
         .set<cSize>({cScreenScale::getScaleW() * 20, cScreenScale::getScaleH() * 5})
-        .set<cLayer>({0, 0, 0})
         .set<cRenderFlags>({1})
         .set<cRotation>({0.0f})
         .emplace<cColor>(cColor{PINK})
         .emplace<cText>(cText{_text, 18, {0, 0, 0, 255}})
+        .add<cActive>()
     );
 }

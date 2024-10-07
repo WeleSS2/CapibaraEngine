@@ -4,20 +4,44 @@
 
 #include "TextureManager.h"
 #include "MainMenu.h"
-#include "src/testMap.h"
+#include "testMap.h"
 #include "renderManager.h"
 #include "sceneManager.h"
+#include "playerManager.h"
 #include "spdlog/spdlog.h"
+#include "quadTree.h"
+#include "logs.h"
+
+#define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
 
 flecs::world *ptr = NULL;
 
 int main() 
 {
-    spdlog::set_level(spdlog::level::warn);
-    
-    spdlog::set_pattern("%v");
+    //TraceLog("Just a simple log", 1231231);
+    flecs::world ecs;
+    ptr = &ecs;
 
-    spdlog::debug("Starting game...");    
+    cQuadTree tree(ptr, 1000, 1000, 5);
+
+    if (!tree.generateDefault(0))
+    {
+        //std::cout << "Failed to generate default tree" << std::endl;
+    }
+
+    if (!tree.getOrigin().has<cNode>())
+    {
+        //std::cout << "Failed to get default tree" << std::endl;
+    }
+
+    tree.getOrigin().get<cNode>()->printNodes();
+
+    spdlog::set_level(spdlog::level::trace);
+
+    Logs::getInstance()->createDefaultPath();
+
+    Logs::Debug("Starting Engine...");
+    
     
     SetConfigFlags( FLAG_FULLSCREEN_MODE |
        FLAG_WINDOW_RESIZABLE);
@@ -26,9 +50,6 @@ int main()
     cScreenScale::setScale(GetScreenWidth() / 100, GetScreenHeight() / 100);
 
     SetTargetFPS(1200);
-    
-    flecs::world ecs;
-    ptr = &ecs;
 
     spdlog::debug("Loading Textures...");
 
@@ -41,7 +62,9 @@ int main()
 
     auto query = ecs.query<cRenderFlags>();
 
-    int speed = 10;
+    int speed = 2;
+
+    bool loaded = false;
 
     MainMenu* scene = new MainMenu(ptr);
 
@@ -53,17 +76,14 @@ int main()
 
     cSceneManager::getInstance()->addScene(static_cast<cScene*>(scene));
 
+    cPlayerManager::create(ptr);
+
     flecs::entity et = cSceneManager::getInstance()->getScene(cID{"map", 0})->
             getEntity(cID{"player", 0});
 
-    Camera2D camera = { 0 };
-    camera.target = {
-            (float)et.get<cPosition>()->posX,
-            (float)et.get<cPosition>()->posY
-        };
-    camera.offset = {(float)GetScreenWidth() / 2, (float)GetScreenHeight() / 2};
-    camera.rotation = 0.0f;
-    camera.zoom = 1.0f;
+    cPlayerManager::getInstance()->setLocalPlayer(et);
+
+    cPlayerManager::getInstance()->updateCamera();
 
     spdlog::debug("Starting game loop...");
 
@@ -73,12 +93,14 @@ int main()
         int mouseY = GetMouseY();
 
         ecs.defer_begin();
-            query.each([&](flecs::entity e, cRenderFlags& s) 
-            {
-                if (e.get<cRenderFlags>()->value & cRenderFlags::Visible)
-                {
-                    spdlog::debug("{}", e.get<cID>()->idStr);
 
+        query.each([&](flecs::entity e, cRenderFlags& s) 
+        {
+            if (e.get<cRenderFlags>()->value & cRenderFlags::Visible)
+            {
+                //spdlog::debug("{}", e.get<cID>()->idStr);
+                if (e.has<cActive>())
+                {
                     if ( mouseX >= e.get<cPosition>()->posX 
                         && mouseY >= e.get<cPosition>()->posY
                         && mouseX <= e.get<cPosition>()->posX + e.get<cSize>()->width 
@@ -88,60 +110,82 @@ int main()
                         {
                             if (e.has<cInteraction>())
                             {
-                                if (e.get<cInteraction>()->id == cID{"c", 0})
-                                {
-                                    e.get<cInteraction>()->func();
-                                }
+                                e.get<cInteraction>()->func();
                             }
                         }
                     }
 
                     if (e.get<cID>()->idStr == "player")
                     {
+                        //if (!loaded)
+                        //{
+                        //    loaded = true;
+                        //    e.get_mut<cRelPosition>()->prevX = e.get<cRelPosition>()->posX;
+                        //    e.get_mut<cRelPosition>()->prevY = e.get<cRelPosition>()->posY;
+                        //}
+                        
                         if (IsKeyDown(KEY_A))
                         {
                             e.get_mut<cPosition>()->posX -= speed;
                         }
-
                         if (IsKeyDown(KEY_D))
                         {
                             e.get_mut<cPosition>()->posX += speed;
                         }
-
                         if (IsKeyDown(KEY_W))
                         {   
                             e.get_mut<cPosition>()->posY -= speed;
                         }
-
                         if (IsKeyDown(KEY_S))
                         {
                             e.get_mut<cPosition>()->posY += speed;
                         }
+/*
+                        if (e.get<cRelPosition>()->posX >= e.get<cRelPosition>()->prevX + 64)
+                        {
+                            // Update map
+                            e.get_mut<cRelPosition>()->prevX = e.get<cRelPosition>()->posX;
+                        }
+
+                        if (e.get<cRelPosition>()->posY >= e.get<cRelPosition>()->prevY + 64)
+                        {
+                            // Update map
+                            e.get_mut<cRelPosition>()->prevY = e.get<cRelPosition>()->posY;
+                        }
+                        
+                        if (e.get<cRelPosition>()->posX <= e.get<cRelPosition>()->prevX - 64)
+                        {
+                            // Update map
+                            e.get_mut<cRelPosition>()->prevX = e.get<cRelPosition>()->posX;
+                        }
+
+                        if (e.get<cRelPosition>()->posY <= e.get<cRelPosition>()->prevY - 64)
+                        {
+                            // Update map
+                            e.get_mut<cRelPosition>()->prevY = e.get<cRelPosition>()->posY;
+                        }*/
                     }
                 }
-            });
-        ecs.defer_end();
+            }
+        });
 
-        spdlog::debug("Rendering...");
+        ecs.defer_end();
 
         BeginDrawing();
         
         if (et.get<cRenderFlags>()->value & cRenderFlags::Visible)
         {
-            camera.target = {
-                (float)et.get<cPosition>()->posX,
-                (float)et.get<cPosition>()->posY
-            };
-        
-            BeginMode2D(camera);
+            cPlayerManager::getInstance()->moveCamera();
+
+            BeginMode3D(cPlayerManager::getInstance()->getCamera());
         }
 
         // Start drawing
-        ecs.system<cRenderFlags>("Render").each
+        ecs.system<cSceneEntity>("Render").each
         (
-            [&](flecs::entity e, cRenderFlags s) 
+            [&](flecs::entity e, cSceneEntity s)
             {
-                cRenderManager::getInstance()->render(e);
+                e.get_mut<cSceneEntity>()->scene->renderScene();
             }
         );
 
@@ -149,7 +193,7 @@ int main()
 
         if (et.get<cRenderFlags>()->value & cRenderFlags::Visible)
         {
-            EndMode2D();
+            EndMode3D();
         }
 
         DrawFPS(10, 10);

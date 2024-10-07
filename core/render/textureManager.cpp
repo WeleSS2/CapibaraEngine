@@ -1,5 +1,4 @@
 #include "textureManager.h"
-#include "logs.h"
 #include <filesystem>
 
 TextureManager* TextureManager::manager = nullptr;
@@ -36,8 +35,6 @@ int TextureManager::loadTexture(std::string _id)
     
         if (std::filesystem::exists(gfxPath) == false)
         {
-            ERRORLOG("Critical error - Failed to load gfx path - ", gfxPath.c_str());
-
             return -1;
         }
     }
@@ -53,14 +50,10 @@ int TextureManager::loadTexture(std::string _id)
 
     *texture = LoadTexture(path2.c_str());
 
-    std::cout << path2.c_str() << std::endl;
-
     std::filesystem::path p(path2.c_str());
     
     if(!IsTextureReady(*texture))
     {
-        ERRORLOG("Critical error - Failed to load texture - ", path2.c_str());
-        
         return -1;
     }
 

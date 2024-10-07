@@ -12,7 +12,6 @@ public:
     virtual ~MainMenu() noexcept = default;
 
     MainMenu(MainMenu&&) noexcept = default;
-
     MainMenu& operator=(MainMenu&&) noexcept = default;
 
     void addButton(flecs::world* _world, int _i, std::string _text);

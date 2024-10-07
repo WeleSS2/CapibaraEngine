@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "textureManager.h"
 #include "raylib.h"
+#include "renderManager.h"
 
 cScene::cScene(flecs::world* _world)
     : world_(_world)
@@ -25,6 +26,16 @@ void cScene::removeEntity(flecs::entity _entity)
     toRender_.erase(std::remove(toRender_.begin(), toRender_.end(), _entity), toRender_.end());
 }
 
+void cScene::renderScene()
+{
+    cRenderManager::getInstance()->render(scene_);
+
+    for (const auto& i : toRender_)
+    {
+        cRenderManager::getInstance()->render(i);
+    }
+}
+
 void cScene::setPosition(cPosition _data)
 {
     if (scene_.has<cPosition>())
@@ -46,24 +57,31 @@ cPosition* cScene::getPosition() const
     }
 }
 
-void cScene::setStatus(bool _status)
+void cScene::setStatus(bool _status, bool _subscenes)
 {
     for (const auto& i : toRender_)
     {
         if (i.has<cRenderFlags>())
         {
-            if (i.has<cSceneEntity>())
+            if (_subscenes)
             {
-                i.get_mut<cSceneEntity>()->scene->setStatus(_status);
+                if (i.has<cSceneEntity>())
+                {
+                    i.get_mut<cSceneEntity>()->scene->setStatus(_status);
+                }
             }
 
             if (_status)
             {
-                i.get_mut<cRenderFlags>()->value |= _status;
+                i.get_mut<cRenderFlags>()->value |= cRenderFlags::Visible;
+            
+                i.add<cActive>();
             }
             else
             {
-                i.get_mut<cRenderFlags>()->value &= _status;
+                i.get_mut<cRenderFlags>()->value &= ~cRenderFlags::Visible;
+            
+                i.remove<cActive>();
             }
         }
     }
@@ -72,14 +90,89 @@ void cScene::setStatus(bool _status)
     {
         if (_status)
         {
-            scene_.get_mut<cRenderFlags>()->value |= _status;
+            scene_.get_mut<cRenderFlags>()->value |= cRenderFlags::Visible;
+        
+            scene_.add<cActive>();
         }
         else
         {
-            scene_.get_mut<cRenderFlags>()->value &= _status;
+            scene_.get_mut<cRenderFlags>()->value &= ~cRenderFlags::Visible;
+        
+            scene_.remove<cActive>();
         }
     }
 }
+
+void cScene::setActive(bool _status, bool _subscenes)
+{
+    for (const auto& i : toRender_)
+    {
+        if (_subscenes)
+        {
+            if (i.has<cSceneEntity>())
+            {
+                i.get_mut<cSceneEntity>()->scene->setActive(_status);
+            }
+        }
+
+        if (_status)
+        {
+            i.add<cActive>();
+        }
+        else
+        {
+            i.remove<cActive>();
+        }
+    }
+
+    if (_status)
+    {
+        scene_.add<cActive>();
+    }
+    else
+    {
+        scene_.remove<cActive>();
+    }
+}
+
+void cScene::setRender(bool _status, bool _subscenes)
+{
+    for (const auto& i : toRender_)
+    {
+        if (i.has<cRenderFlags>())
+        {
+            if (_subscenes)
+            {
+                if (i.has<cSceneEntity>())
+                {
+                    i.get_mut<cSceneEntity>()->scene->setRender(_status);
+                }
+            }
+
+            if (_status)
+            {
+                i.get_mut<cRenderFlags>()->value |= cRenderFlags::Visible;
+            }
+            else
+            {
+                i.get_mut<cRenderFlags>()->value &= ~cRenderFlags::Visible;
+            }
+        }
+    }
+
+    if (scene_.has<cRenderFlags>())
+    {
+        if (_status)
+        {
+            scene_.get_mut<cRenderFlags>()->value |= cRenderFlags::Visible;
+        }
+        else
+        {
+            scene_.get_mut<cRenderFlags>()->value &= ~cRenderFlags::Visible;
+        }
+    }
+}
+
 
 bool cScene::getStatus() const
 {

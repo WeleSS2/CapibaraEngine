@@ -2,9 +2,8 @@ file(GLOB_RECURSE FILES "*.cpp")
 
 set(CE_DP
     logs.cpp
-    json.cpp
-    structs.cpp
     
+    structs.cpp
 )
 
 add_library(ceGeneral SHARED ${CE_DP})
@@ -16,10 +15,12 @@ target_include_directories(ceGenerals PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
 target_link_libraries(ceGeneral PUBLIC
     Json
+    spdlog
 )
 
 target_link_libraries(ceGenerals PUBLIC
     Json
+    spdlog
 )
 
 set_target_properties(ceGeneral PROPERTIES

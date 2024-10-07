@@ -22,7 +22,6 @@
 int main(void)
 {
     std::string dede = "dede";
-    INFOLOG("Test is   ", dede);
     // Initialization
     //--------------------------------------------------------------------------------------
     const int screenWidth = 800;

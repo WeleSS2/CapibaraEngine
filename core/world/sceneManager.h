@@ -3,7 +3,11 @@
 #include "scene.h"
 #include "flecs.h"
 
-
+/*
+ * cSceneManager
+ * Singleton which manage all scenes in application
+ * Each scene has its own flecs entity
+ */
 class cSceneManager
 {
 public:
@@ -15,13 +19,17 @@ public:
 
     static cSceneManager* getInstance();
 
+    /* Add scene to manager */
     void addScene(cScene* _scene);
 
+    /* Get scene by id */
     cScene* getScene(cID _id) const;
 
+    /* Remove scene from manager (Also call destructor) */
     void removeScene(cID _id);
 
-    int setStatus(cID _id, bool _status);
+    /* Get scenes*/
+    std::vector<cScene*>* getScenes() { return &scenes_; }
 private:
 
     static cSceneManager* instance_;
