@@ -130,20 +130,27 @@ void Logs::saveToFile(int type, const cString<Args...> str, Args&&... args)
     }
 
     if (currentPath_ != nullptr)
-    {
-        std::fstream file(*currentPath_, std::ios_base::out | std::ios_base::app);
-
+    {      
+        std::fstream file(currentPath_->string() + "\\" 
+            + std::filesystem::path(str.loc.file_name()).stem().string() 
+            + ".log"
+            , std::ios_base::out | std::ios_base::app);
+            
         if (file.is_open()) 
         {
             file << tpStr 
-                << " | File " << str.loc.file_name() 
-                << " | Fn " << str.loc.function_name() 
-                << " | Ln " << str.loc.line() 
-                << " | Col " << str.loc.column() 
-                << " | Log " << std::format(str, std::forward<Args>(args)...)
+                << " : File " << str.loc.file_name() 
+                << " : Fn " << str.loc.function_name() 
+                << " : Ln " << str.loc.line() 
+                << " : Col " << str.loc.column() 
+                << " : Log " << std::format(str, std::forward<Args>(args)...)
                 << std::endl;
             
             file.close();
+        }
+        else
+        {
+            std::cout << "Unable to open file" << std::endl;
         }
     }
 }
